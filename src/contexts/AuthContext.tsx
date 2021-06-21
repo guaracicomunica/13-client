@@ -1,17 +1,8 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import Router from 'next/router';
-import { setCookie } from 'nookies';
+import { setCookie, parseCookies } from 'nookies';
 
 import { api } from '../services/api';
-
-type AuthContextType = {
-  isAuthenticated: boolean;
-}
-
-type SignInData = {
-  email: string;
-  password: string;
-}
 
 type User = {
   id: number;
@@ -20,8 +11,19 @@ type User = {
   cpf: string;
 }
 
+type SignInData = {
+  email: string;
+  password: string;
+}
+
+type AuthContextType = {
+  user: User;
+  isAuthenticated: boolean;
+  signIn: (data: SignInData) => void;
+}
+
 type DataAuth = {
-  token: string;
+  access_token: string;
   user: User;
 }
 
@@ -30,17 +32,32 @@ export const AuthContext = createContext({} as AuthContextType);
 export function AuthProvider({ children }) {
   const [user, setUser] = useState<User | null>(null);
 
-  const isAuthenticated = false;
+  const isAuthenticated = !!user;
+
+  useEffect(() => {
+    const { 'ecommerce.token': token } = parseCookies();
+
+    if (token) {
+      setUser({
+        id: 11,
+        name: "Beltrano",
+        email: "beltrano@email.com",
+        cpf: "001.001.001-01"
+      })
+    }
+  }, []);
 
   async function signIn({ email, password }: SignInData) {
-    const response = await api.post<DataAuth>('auth', {
+    const response = await api.post<DataAuth>('auth/login', {
       email,
       password
     });
 
-    setCookie(undefined, 'ecommerce.token', response.data.token, {
-      maxAge: 60 * 60 * 24, // 24 hours
+    setCookie(undefined, 'ecommerce.token', response.data.access_token, {
+      maxAge: 60 * 60, // 1 hour
     });
+
+    api.defaults.headers['Authorization'] = `Bearer ${response.data.access_token}`;
 
     setUser(response.data.user);
 
@@ -48,7 +65,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, signIn }}>
       { children }
     </AuthContext.Provider>
   )
