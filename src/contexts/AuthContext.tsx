@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import Router from 'next/router';
-import { setCookie, parseCookies } from 'nookies';
+import { setCookie, parseCookies, destroyCookie } from 'nookies';
 
 import { api } from '../services/api';
 
@@ -20,6 +20,7 @@ type AuthContextType = {
   user: User;
   isAuthenticated: boolean;
   signIn: (data: SignInData) => void;
+  logoff: () => void;
 }
 
 type DataAuth = {
@@ -64,8 +65,14 @@ export function AuthProvider({ children }) {
     Router.push('/dashboard');
   }
 
+  function logoff() {
+    destroyCookie(null, 'ecommerce.token');
+
+    Router.push('/login');
+  }
+
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, signIn }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, signIn, logoff }}>
       { children }
     </AuthContext.Provider>
   )

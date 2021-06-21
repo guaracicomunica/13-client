@@ -5,12 +5,13 @@ import { AuthContext } from "../contexts/AuthContext"
 import { getAPIClient } from "../services/apiClient";
 
 export default function Dashboard() {
-  const { user } = useContext(AuthContext);
+  const { user, logoff } = useContext(AuthContext);
 
   return (
     <>
       <h1>usuário autenticado</h1>
       <p>user: {user?.name} - {user?.email}</p>
+      <button onClick={logoff}>sair da conta</button>
     </>
   )
 }
