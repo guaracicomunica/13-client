@@ -1,14 +1,13 @@
 import { createContext, useState } from 'react';
 import { CartType, CartContextType } from '../types/cart';
-import { ProductType } from '../types/products';
 
-const initialState = {products: [], amount: 0, subtotal: 0, discount: 0} as Cart
+const initialState = {products: [], amount: 0, subtotal: 0, discount: 0} as CartType
 
 export const CartContext = createContext({} as CartContextType);
 
 export const CartProvider = ({ children }) =>
 {
-    const [cart, setCart] = useState<Cart>(initialState);
+    const [cart, setCart] = useState<CartType>(initialState);
 
     function addToCart(item)
     {

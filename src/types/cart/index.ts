@@ -1,5 +1,7 @@
+import { ProductType } from '../products';
+
 export type CartType = {
-    products: Array<Product>
+    products: Array<ProductType>
     amount: number;
     discount: number;
     subtotal: number;

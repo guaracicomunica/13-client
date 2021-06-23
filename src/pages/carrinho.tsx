@@ -2,7 +2,7 @@ import Head from 'next/head'
 import { useContext } from 'react';
 import { CartContext } from '../contexts/CartContext';
 import { Navbar } from '../components/Navbar'
-import { CartType } from '../types/cart';
+import { ProductType } from '../types/products';
 
 export default function Carrinho() {
   const { cart, addToCart, removeFromCart, clearCart } = useContext(CartContext);
