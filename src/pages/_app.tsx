@@ -1,6 +1,7 @@
 import Head from 'next/head';
 
 import { AuthProvider } from '../contexts/AuthContext';
+import { CartProvider } from '../contexts/CartContext';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import '../styles/global.css';
@@ -13,7 +14,9 @@ function MyApp({ Component, pageProps }) {
       </Head>
 
       <AuthProvider>
-        <Component {...pageProps} />
+        <CartProvider>
+          <Component {...pageProps} />
+        </CartProvider>
       </AuthProvider>
     </>
   )
