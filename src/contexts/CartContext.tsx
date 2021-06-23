@@ -1,7 +1,7 @@
 import { createContext, useState } from 'react';
 import { CartType, CartContextType } from '../types/cart';
 
-const initialState = {products: [], amount: 0, subtotal: 0, discount: 0} as CartType
+const initialState = {products: [{id: 1, name: 'produto 01', price: 50.5}], amount: 0, subtotal: 0, discount: 0} as CartType
 
 export const CartContext = createContext({} as CartContextType);
 
@@ -11,8 +11,8 @@ export const CartProvider = ({ children }) =>
 
     function addToCart(item)
     {
-        cart.products = [...cart.products, item]
-        setCart(cart);
+        const filteredItems = [...cart.products, item]
+        setCart({products:  [...filteredItems], amount: 0, subtotal: 0, discount: 0});
         console.log('add to cart:', cart);
     }
 
@@ -22,14 +22,13 @@ export const CartProvider = ({ children }) =>
             product => product.id !== item.id
         );
 
-        cart.products = [...filteredItems];
-        setCart(cart);
+        setCart({products:  [...filteredItems], amount: 0, subtotal: 0, discount: 0});
         console.log('remove from cart:', cart);
     }
 
     function clearCart()
     {
-        setCart(initialState);
+        setCart({products: [], amount: 0, subtotal: 0, discount: 0});
         console.log('clear cart:', cart);
     }
 
