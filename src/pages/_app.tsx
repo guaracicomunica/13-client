@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { AuthProvider } from '../contexts/AuthContext';
 
 import 'bootstrap/dist/css/bootstrap.css';
+import '../styles/global.css';
 
 function MyApp({ Component, pageProps }) {
   return (
