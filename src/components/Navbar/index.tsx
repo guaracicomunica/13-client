@@ -25,7 +25,7 @@ export function Navbar() {
       </button>
 
       <div
-        className="collapse navbar-collapse"
+        className="ml-sm-5 collapse navbar-collapse"
         id="navbarTogglerDemo02"
       >
         <ul className={`nav w-100 ${styles["justify-me"]}`}>

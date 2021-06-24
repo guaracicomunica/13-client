@@ -94,10 +94,3 @@
 .justify-me {
   justify-content: space-between;
 }
-
-@media (min-width: 576px) and (max-width: 768px)
-{
-  .mt-md-extra {
-    padding-top: 1.4rem !important;
-  }
-}
