@@ -12,28 +12,15 @@ export default function Carrinho() {
   return (
     <>
       <Head>
-        <title>Carrinho de Compras</title>
+        <title>Geral.com</title>
       </Head>
 
-      <main className="ml-5">
+      <header>
+        <Navbar />
+      </header>
 
-        <section>
-          {cart.amount}
-          {cart.discount}
-          {cart.subtotal}
-          <ul>
-            {cart.products
-              ?
-              cart.products.map((product, index) =>
-                <li key={index}>{product.name}</li>)
-              :
-              <div>Carrinho vazio</div>
-            }
-          </ul>
-          <button onClick={() => addToCart(item)}>Adicionar</button>
-          <button onClick={() => removeFromCart(item)}>Remover</button>
-          <button onClick={() => clearCart()}>Limpar</button>
-        </section>
+      <main>
+        
       </main>
     </>
   )
