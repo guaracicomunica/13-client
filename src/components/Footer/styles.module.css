@@ -5,8 +5,15 @@
     color: white;
 }
 
-.background-white {
+.hr {
     background: rgba(251, 251, 251, 1);
+}
+
+@media(min-width: 576px) {
+    .hr-container {
+        display: flex;
+        justify-content: center;
+    }
 }
 
 .ul {
