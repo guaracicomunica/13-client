@@ -25,11 +25,11 @@ export function Navbar() {
       </button>
 
       <div
-        className="ml-sm-5 collapse navbar-collapse"
+        className="ml-lg-5 pt-5 pb-3 py-lg-0 collapse navbar-collapse"
         id="navbarTogglerDemo02"
       >
-        <ul className={`nav w-100 ${styles["justify-me"]}`}>
-          <li className="nav-item">
+        <ul className={`nav w-100 ${styles["nav-column"]} ${styles["justify-me"]}`}>
+          <li className="nav-item mb-3 mb-lg-0">
             <form className={styles["search-bar"]}>
               <input
                 type="text"
