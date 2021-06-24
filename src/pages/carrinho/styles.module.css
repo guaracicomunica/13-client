@@ -32,12 +32,40 @@
     top: 0;
 }
 
+.base-card{
+    border-radius: 25px;
+    padding: 10px 0 50px 0;
+}
+
+.color-gray
+{
+    color: rgba(117, 117, 117, 1);
+}
+
+.smooth-text {
+    font-weight: 500;
+}
+
+.bg-gray
+{
+    background-color: rgba(243, 243, 243, 1);
+}
+.height-400
+{
+    height: 400px;
+}
+
 @media (max-width: 576px){    
     .absoluteRigthTop{
         position: relative;
         right: 0;
         top: 0;
     }
+}
+
+.resume-title
+{
+    font-size: 1.05rem;
 }
 
 .mb-restart-3

@@ -24,7 +24,7 @@ export default function Carrinho() {
 
       <main className="container py-5">
         <div className="row">
-          <div className="col-lg-7 col-sm-12 mb-4">
+          <div className="col-lg-7 col-sm-12 mb-4 mr-5">
             <h1 className={`${styles.mediumTitle} mb-4`}>Meu Carrinho</h1>
             <div className={`"card mr-sm-5" ${styles['my-shadow']}`}>
               <div className="card-body border-none">
@@ -73,8 +73,53 @@ export default function Carrinho() {
               </div>
             </div>
           </div>
-          <div className="col-lg-5 col-sm-12">
-            <h1 className={styles.mediumTitle}>Resumo da Compra</h1>
+          <div className="col-lg-4 col-sm-12">
+            <h1 className={`${styles.mediumTitle} mb-4`}>Resumo da Compra</h1>
+            <div className={`"card mr-sm-5" ${styles['base-card']} ${styles['bg-gray']} ${styles['height-400']}`}>
+              <div className="card-body border-none">
+                <div className="row">
+                  <div className="col-sm-12">
+                    <div className="d-flex justify-content-between align-items-center mt-2">
+                      <span className={`card-text ${styles['color-gray']} ${styles['smooth-text']} ${styles['resume-title']}`}>Subtotal (1 item)</span>
+                      <span className={`card-text ${styles['resume-title']}`}><b>R$ 99,99</b></span>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-sm-12">
+                    <hr className="justify-content-center w-100" />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-sm-12">
+                    <div className="d-flex justify-content-between align-items-center mt-2">
+                      <span className={`card-text ${styles['color-gray']} ${styles['smooth-text']} ${styles['resume-title']}`}>Descontos</span>
+                      <span className={`card-text ${styles['resume-title']}`}><b>R$ 00,00</b></span>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-sm-12">
+                    <hr className="justify-content-center w-100" />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-sm-12">
+                    <div className="d-flex justify-content-between align-items-center mt-2">
+                      <span className={`card-text ${styles['color-gray']} ${styles['smooth-text']} ${styles['resume-title']}`}>Valor Total</span>
+                      <span className={`card-text ${styles['resume-title']}`}><b>R$ 99,99</b></span>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-sm-12">
+                    <div className="d-flex justify-content-end">
+                      <span className={`${styles['smallText']} ${styles['color-gray']}  mt-2`}>Em até 5x de 19,98 sem juros</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </main>
