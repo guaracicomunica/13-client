@@ -21,6 +21,18 @@
   --background-input: #F9F7F7;
 }
 
+html, body, #__next {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+}
+
+body, #__next {
+  max-width: 100vw;
+  min-height: 100vh;
+}
+
 @media (max-width: 1080px) {
   html {
     font-size: 93.75%; /* 15px */

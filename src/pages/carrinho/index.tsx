@@ -1,7 +1,8 @@
 import Head from 'next/head'
 import { useContext } from 'react';
 import { CartContext } from '../../contexts/CartContext';
-import { Navbar } from '../../components/Navbar'
+import { Navbar } from '../../components/Navbar';
+import { Footer } from '../../components/Footer';
 import { ProductType } from '../../types/products';
 import Image from 'next/image'
 
@@ -141,6 +142,7 @@ export default function Carrinho() {
           </div>
         </div>
       </main>
+      <Footer />
     </>
   )
 }
