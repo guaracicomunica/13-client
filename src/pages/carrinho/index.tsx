@@ -61,6 +61,14 @@ export default function Carrinho() {
                       <hr className="justify-content-center w-100" />
                     </div>
                   </div>
+                  <div className="d-flex justify-content-between">
+                    <div className="">
+                      <p className={`${styles.mediumText} ${styles['mb-restart-3']}`}><b>Quantidade:</b>: 1</p>
+                    </div>
+                    <div className="">
+                      <span><b>R$99,99</b></span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
