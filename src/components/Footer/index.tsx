@@ -8,7 +8,7 @@ export function Footer() {
                     <div className="col-sm-12 col-md-4">
                         <div className="d-flex align-item-center mb-3">
                             <img src="/icons/wallet.svg" className="mr-2" alt="até" />
-                            <span className="align-middle">Até <b>3x vezes sem juros</b> no cartão</span>
+                            <span className="align-middle">Até <b>3x sem juros</b> no cartão</span>
                         </div>
                     </div>
                     <div className="col-sm-12 col-md-4">
