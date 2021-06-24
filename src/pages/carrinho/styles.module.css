@@ -72,3 +72,28 @@
 {
     margin-bottom: 3px !important;
 }
+
+.btn-green
+{
+    border-radius: 20px;
+    background-color: rgba(122, 229, 130, 1);
+    padding: .5rem 3rem;
+    max-width: 200px;
+    color: white;
+}
+
+.btn-green:hover
+{
+    color: white;
+}
+
+.btn-white
+{
+    border-radius: 20px;
+    background-color: white;
+    padding: .5rem 2rem;
+    max-width: 200px;
+    color: black;
+    border: 1px solid black;
+    font-weight: 600;
+}

@@ -24,7 +24,7 @@ export default function Carrinho() {
 
       <main className="container py-5">
         <div className="row">
-          <div className="col-lg-7 col-sm-12 mb-4 mr-5">
+          <div className="col-lg-7 col-sm-12 mb-4 mr-sm-5">
             <h1 className={`${styles.mediumTitle} mb-4`}>Meu Carrinho</h1>
             <div className={`"card mr-sm-5" ${styles['my-shadow']}`}>
               <div className="card-body border-none">
@@ -115,6 +115,24 @@ export default function Carrinho() {
                   <div className="col-sm-12">
                     <div className="d-flex justify-content-end">
                       <span className={`${styles['smallText']} ${styles['color-gray']}  mt-2`}>Em até 5x de 19,98 sem juros</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="row mt-3">
+                  <div className="col-sm-12">
+                    <div className="d-flex justify-content-center">
+                      <a href="#" className={`btn ${styles['btn-green']} mt-3`}>Continuar</a>
+                    </div>
+                  </div>
+                </div>
+                <div className="row mt-3">
+                  <div className="col-sm-12">
+                    <div className="d-flex justify-content-center">
+                      <a href="#" className={`btn ${styles['btn-white']} mt-3`}>
+                        <span className={`${styles.smallText}`}>
+                          Escolher Mais Produtos
+                        </span>
+                      </a>
                     </div>
                   </div>
                 </div>
