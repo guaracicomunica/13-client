@@ -2,7 +2,7 @@ import styles from "./styles.module.css";
 
 export function Navbar() {
   return (
-    <nav className={`navbar navbar-expand-lg py-4 ${styles["navbar-padding"]}`}>
+    <nav className={`navbar navbar-expand-lg py-4 border-bottom ${styles["navbar-padding"]}`}>
       <a className="mr-xl-5" href="/">
         <img
           className={styles["logo-icon"]}
