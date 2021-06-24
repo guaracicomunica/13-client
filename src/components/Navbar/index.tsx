@@ -25,10 +25,10 @@ export function Navbar() {
       </button>
 
       <div
-        className="ml-5 collapse navbar-collapse"
+        className="collapse navbar-collapse"
         id="navbarTogglerDemo02"
       >
-        <ul className="nav w-100 justify-content-between">
+        <ul className={`nav w-100 ${styles["justify-me"]}`}>
           <li className="nav-item">
             <form className={styles["search-bar"]}>
               <input

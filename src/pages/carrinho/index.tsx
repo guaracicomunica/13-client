@@ -1,8 +1,10 @@
 import Head from 'next/head'
 import { useContext } from 'react';
-import { CartContext } from '../contexts/CartContext';
-import { Navbar } from '../components/Navbar'
-import { ProductType } from '../types/products';
+import { CartContext } from '../../contexts/CartContext';
+import { Navbar } from '../../components/Navbar'
+import { ProductType } from '../../types/products';
+
+import styles from './styles.module.css';
 
 export default function Carrinho() {
   const { cart, addToCart, removeFromCart, clearCart } = useContext(CartContext);
@@ -19,8 +21,8 @@ export default function Carrinho() {
         <Navbar />
       </header>
 
-      <main>
-        
+      <main className="container py-5">
+      <h1 className={styles.mediumTitle}>Meu Carrinho</h1>
       </main>
     </>
   )

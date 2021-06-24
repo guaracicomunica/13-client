@@ -73,3 +73,31 @@
     margin-left: 2rem !important;
   }
 }
+
+@media (max-width: 576px)
+{
+  .search-bar
+  {
+    margin-top: 1.2rem;
+  }
+  .nav-group-items:first-of-type
+  {
+    flex-direction: column;
+    text-align: center;
+  }
+  .justify-me {
+    justify-content: center !important;
+    align-items: center;
+  }
+}
+
+.justify-me {
+  justify-content: space-between;
+}
+
+@media (min-width: 576px) and (max-width: 768px)
+{
+  .mt-md-extra {
+    padding-top: 1.4rem !important;
+  }
+}
