@@ -70,6 +70,7 @@ button {
 }
 
 .form-control:focus {
+  border: none !important;
   box-shadow: none !important;
 }
 
