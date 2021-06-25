@@ -57,8 +57,25 @@ button {
 }
 
 .form-control:focus {
-  border: none !important;
   box-shadow: none !important;
+}
+
+.custom-control-label::before {
+  border-width: 2px !important;
+}
+
+.custom-control-input:focus ~ .custom-control-label::before {
+  box-shadow: none !important;
+}
+
+.custom-control-input:active ~ .custom-control-label::before,
+.custom-control-input:checked ~ .custom-control-label::before {
+  border-color: var(--gray) !important;
+  background-color: var(--gray) !important;
+}
+
+.custom-control-input:focus ~ .custom-control-label::before {
+  border-color: var(--gray) !important;
 }
 
 .title-section {
