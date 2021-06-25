@@ -24,6 +24,7 @@ export function Footer() {
                         </div>
                     </div>
                 </div>
+
                 <div className="row">
                     <div className={`${styles['hr-container']}  col-sm-12`}>
                         <hr className={`${styles['hr']}  w-75`} />
@@ -39,13 +40,13 @@ export function Footer() {
                         <ul className={`${styles['ul']}`}>
                             <li className={`${styles['li']} mb-1`}><b>MENU</b></li>
                             <li className={`${styles['li']} mb-1`}>
-                                <span className={styles['smoothText']}>Masculino</span>
+                                <a href="#" className={styles['smoothText']}>Masculino</a>
                             </li>
                             <li className={`${styles['li']} mb-1`}>
-                                <span className={styles['smoothText']}>Feminino</span>
+                                <a href="#" className={styles['smoothText']}>Feminino</a>
                             </li>
                             <li className={`${styles['li']} mb-1`}>
-                                <span className={styles['smoothText']}>Infantil</span>
+                                <a href="#" className={styles['smoothText']}>Infantil</a>
                             </li>
                         </ul>
                     </div>
@@ -65,31 +66,31 @@ export function Footer() {
                     </div>
                     <div className="col-md-4 col-sm-12 pb-5">
                         <div className="d-flex align-items-center">
-                            <div className={`${styles['social-media-box']} d-flex justify-content-center align-items-center mr-3`}>
-                                <a href="#">
+                            <a href="#">
+                                <div className={`${styles['social-media-box']} d-flex justify-content-center align-items-center mr-3`}>
                                     <img src="/icons/twitter.svg" alt="twitter" />
-                                </a>
-                            </div>
-                            <div className={`${styles['social-media-box']} d-flex justify-content-center align-items-center mr-3`}>
-                                <a href="#">
+                                </div>
+                            </a>
+                            <a href="#">
+                                <div className={`${styles['social-media-box']} d-flex justify-content-center align-items-center mr-3`}>
                                     <img src="/icons/facebook.svg" alt="facebook" />
-                                </a>
-                            </div>
-                            <div className={`${styles['social-media-box']} d-flex justify-content-center align-items-center mr-3`}>
-                                <a href="#">
+                                </div>
+                            </a>
+                            <a href="#">
+                                <div className={`${styles['social-media-box']} d-flex justify-content-center align-items-center mr-3`}>
                                     <img src="/icons/pinterest.svg" alt="pinterest" />
-                                </a>
-                            </div>
-                            <div className={`${styles['social-media-box']} d-flex justify-content-center align-items-center mr-3`}>
-                                <a href="#">
+                                </div>
+                            </a>
+                            <a href="#">
+                                <div className={`${styles['social-media-box']} d-flex justify-content-center align-items-center mr-3`}>
                                     <img src="/icons/snapchat.svg" alt="snapchat" />
-                                </a>
-                            </div>
-                            <div className={`${styles['social-media-box']} d-flex justify-content-center align-items-center`}>
-                                <a href="#">
+                                </div>
+                            </a>
+                            <a href="#">
+                                <div className={`${styles['social-media-box']} d-flex justify-content-center align-items-center`}>
                                     <img src="/icons/instagram.svg" alt="instagram" />
-                                </a>
-                            </div>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>
