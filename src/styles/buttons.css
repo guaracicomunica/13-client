@@ -1,5 +1,6 @@
 .button {
   border-radius: 10px;
+  width: fit-content;
 
   text-decoration: none;
   text-transform: uppercase;
