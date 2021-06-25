@@ -116,6 +116,74 @@ export default function Home() {
             className="img-fluid"
           />
         </section>
+
+        <section className={`${styles["home-section"]}`}>
+          <h1 className="mb-5 title-section">Mais popular</h1>
+
+          <div className={styles["products-list"]}>
+            <ProductCard
+              title="Camisa Barcelona 20/21 S/Nº Torcedor Nike Masculina"
+              price={78.98}
+              favorite={true}
+              img="camisa-barcelona"
+            />
+            
+            <ProductCard
+              title="Camisa do Palmeiras | 21 Puma - Masculina"
+              price={99.99}
+              favorite={false}
+              img="camisa-2"
+            />
+
+            <ProductCard
+              title="Camisa Adidas México Home 2021-22"
+              price={107.95}
+              favorite={true}
+              img="camisa-3"
+            />
+
+            <ProductCard
+              title="Camisa Seleção da Itália 2020, Uniforme 3, Dry Cell"
+              price={99.99}
+              favorite={false}
+              img="camisa-4"
+            />
+          </div>
+        </section>
+
+        <section className={`${styles["home-section"]}`}>
+          <h1 className="mb-5 title-section">Vistos por você</h1>
+
+          <div className={styles["products-list"]}>
+            <ProductCard
+              title="Camisa Barcelona 20/21 S/Nº Torcedor Nike Masculina"
+              price={78.98}
+              favorite={true}
+              img="camisa-barcelona"
+            />
+            
+            <ProductCard
+              title="Camisa do Palmeiras | 21 Puma - Masculina"
+              price={99.99}
+              favorite={false}
+              img="camisa-2"
+            />
+
+            <ProductCard
+              title="Camisa Adidas México Home 2021-22"
+              price={107.95}
+              favorite={true}
+              img="camisa-3"
+            />
+
+            <ProductCard
+              title="Camisa Seleção da Itália 2020, Uniforme 3, Dry Cell"
+              price={99.99}
+              favorite={false}
+              img="camisa-4"
+            />
+          </div>
+        </section>
       </main>
 
       <Footer />
