@@ -220,6 +220,39 @@ export default function Home() {
             </form>
           </div>
         </section>
+
+        <section className={`${styles["home-section"]}`}>
+          <h1 className="mb-5 title-section">Categorias</h1>
+
+          <div className={styles["category-list"]}>
+            <a href="#" className={styles["img-category"]}>
+              <img
+                src="./images/selecoes-brasileiras.svg"
+                alt="Seleções brasileiras"
+                aria-label="Categoria: seleções brasileiras"
+                className="img-fluid"
+              />
+            </a>
+
+            <a href="#" className={styles["img-category"]}>
+              <img
+                src="./images/selecoes-europeias.svg"
+                alt="Seleções europeias"
+                aria-label="Categoria: seleções europeias"
+                className="img-fluid"
+              />
+            </a>
+
+            <a href="#" className={styles["img-category"]}>
+              <img
+                src="./images/selecoes-tailandesas.svg"
+                alt="Seleções tailandesas"
+                aria-label="Categoria: seleções tailandesas"
+                className="img-fluid"
+              />
+            </a>
+          </div>
+        </section>
       </main>
 
       <Footer />
