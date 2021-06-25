@@ -107,6 +107,15 @@ export default function Home() {
             img="camisa-4"
           />
         </section>
+
+        <section className="mx-3 mx-md-5 my-3">
+          <img
+            src="./images/banner-promocao.svg"
+            alt="Banner - Promoção 50% off"
+            aria-label="Promoção 50% off"
+            className="img-fluid"
+          />
+        </section>
       </main>
 
       <Footer />
