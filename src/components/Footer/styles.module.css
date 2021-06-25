@@ -36,3 +36,13 @@
     border-radius: 3px;
     background: #EBEBEB;
 }
+
+.icons-payment {
+    width: 50%;
+}
+
+@media (max-width: 800px) {
+    .icons-payment {
+        width: 100%;
+    }
+}
