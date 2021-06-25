@@ -5,6 +5,7 @@ import { CartProvider } from '../contexts/CartContext';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import '../styles/global.css';
+import '../styles/buttons.css';
 
 function MyApp({ Component, pageProps }) {
   return (
