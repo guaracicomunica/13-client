@@ -32,7 +32,7 @@ export default function Home() {
             <div className="col-12 col-md-6 col-lg-4 mb-3 mb-lg-0">
               <div className="d-flex align-item-center">
                 <img src="/icons/wallet-green.svg" className={`mr-2 ${styles["icon-section"]}`} alt="Icon" />
-                <span className="align-middle">Até <b>3x vezes sem juros</b> no cartão</span>
+                <span className="align-middle">Aceitamos <b>cartão, PIX e boleto</b></span>
               </div>
             </div>
             <div className="col-12 col-md-6 col-lg-4 mb-3 mb-lg-0">
