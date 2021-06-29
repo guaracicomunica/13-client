@@ -30,19 +30,19 @@ export default function Home() {
         <section className={`${styles["home-section"]}`}>
           <div className="row justify-content-between">
             <div className="col-12 col-md-6 col-lg-4 mb-3 mb-lg-0">
-              <div className="d-flex align-item-center">
+              <div className="d-flex justify-content-md-center align-item-center">
                 <img src="/icons/wallet-green.svg" className={`mr-2 ${styles["icon-section"]}`} alt="Icon" />
                 <span className="align-middle">Aceitamos <b>cartão, PIX e boleto</b></span>
               </div>
             </div>
             <div className="col-12 col-md-6 col-lg-4 mb-3 mb-lg-0">
-              <div className="d-flex align-item-center">
+              <div className="d-flex justify-content-md-center align-item-center">
                 <img src="/icons/truck-green.svg" className={`mr-2 ${styles["icon-section"]}`} alt="Icon" />
                 <span className="align-middle">Entregamos para <b>todo o Brasil</b></span>
               </div>
             </div>
             <div className="col-12 col-md-6 col-lg-4">
-              <div className="d-flex align-item-center">
+              <div className="d-flex justify-content-md-center align-item-center">
                 <img src="/icons/security-green.svg" className={`mr-2 ${styles["icon-section"]}`} alt="Icon" />
                 <span className="align-middle">Compre com <b> segurança</b> no cartão</span>
               </div>

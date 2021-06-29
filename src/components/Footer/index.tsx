@@ -6,19 +6,19 @@ export function Footer() {
             <div className="container">
                 <div className="row mt-5">
                     <div className="col-sm-12 col-md-4">
-                        <div className="d-flex align-item-center mb-3">
+                        <div className="d-flex justify-content-md-center align-item-center mb-3">
                             <img src="/icons/wallet.svg" className="mr-2" alt="até" />
                             <span className="align-middle">Aceitamos <b>cartão, PIX e boleto</b></span>
                         </div>
                     </div>
                     <div className="col-sm-12 col-md-4">
-                        <div className="d-flex align-item-center mb-3">
+                        <div className="d-flex justify-content-md-center align-item-center mb-3">
                             <img src="/icons/truck.svg" className="mr-2" alt="até" />
                             <span className="align-middle">Entregamos para <b>todo o Brasil</b></span>
                         </div>
                     </div>
                     <div className="col-sm-12 col-md-4">
-                        <div className="d-flex align-item-center mb-3">
+                        <div className="d-flex justify-content-md-center align-item-center mb-3">
                             <img src="/icons/security.svg" className="mr-2" alt="até" />
                             <span className="align-middle">Compre com <b> segurança</b> no cartão</span>
                         </div>
