@@ -17,7 +17,7 @@ export default function Home() {
         <Navbar />
       </header>
 
-      <main className={styles.homepage}>
+      <main className="background-gray">
         <section>
           <img
             src="./images/banner-home.svg"

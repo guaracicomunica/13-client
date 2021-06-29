@@ -69,6 +69,10 @@ button {
   cursor: pointer;
 }
 
+.background-gray {
+  background-color: var(--background);
+}
+
 .form-control:focus {
   border: none !important;
   box-shadow: none !important;
