@@ -19,7 +19,7 @@ export default function Cadastro() {
     return (
         <>
             <Head>
-                <title>Login</title>
+                <title>Cadastro</title>
             </Head>
 
             <Navbar />
