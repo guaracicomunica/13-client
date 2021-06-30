@@ -8,7 +8,7 @@ import Image from 'next/image'
 
 import styles from './styles.module.css';
 
-export default function Parabens() {
+export default function PreparandoProduto() {
     const { cart, addToCart, removeFromCart, clearCart } = useContext(CartContext);
 
     const item = { id: 2, name: 'produto 02', price: 50.5 } as ProductType;
@@ -16,7 +16,7 @@ export default function Parabens() {
     return (
         <>
             <Head>
-                <title>Parabéns!</title>
+                <title>Obrigado! Preparando produto...</title>
             </Head>
 
             <header>
