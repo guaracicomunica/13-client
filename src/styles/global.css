@@ -130,3 +130,18 @@ select:focus {
 .text-gray {
   color: var(--gray);
 }
+.mediumTitle {
+  font-size: 1.7rem;
+}
+
+.smallTitle {
+  font-size: 14px;
+}
+
+.smallText {
+  font-size: 11px;
+}
+
+.mediumText {
+  font-size: 14px;
+}

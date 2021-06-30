@@ -1,0 +1,10 @@
+.greenColor {
+    color: #7AE582;
+}
+
+@media (min-width: 768px)
+{
+    .max-width-md-478 {
+        width: 478px !important;
+    }
+}

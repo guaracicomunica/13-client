@@ -13,17 +13,16 @@
     font-size: 14px;
 }
 
-
 @media (max-width: 576px)
 {
-    .w-sm-100 {
-        width: 100% !important;
+    .w-sm-85 {
+        width: 85%;
     }
 }
 
 @media (min-width: 768px)
 {
-    .w-md-75 {
-        width: 75%;
+    .w-md-50 {
+        width: 50%;
     }
 }
