@@ -9,13 +9,6 @@ import { Footer } from '../../components/Footer';
 import styles from './styles.module.css';
 
 export default function Cadastro() {
-    const { register, handleSubmit } = useForm();
-    const { signIn } = useContext(AuthContext);
-
-    async function handleSignIn(data) {
-        await signIn(data)
-    }
-
     return (
         <>
             <Head>

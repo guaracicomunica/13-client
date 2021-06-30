@@ -1,0 +1,29 @@
+.bg-input, .bg-input:active {
+    background: rgba(249, 247, 247, 1) !important;
+    border: none;
+    border-radius: 12px;
+}
+
+.bg-input::placeholder {
+    color: rgba(205, 205, 210, 1);
+}
+
+.label {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+
+@media (max-width: 576px)
+{
+    .w-sm-100 {
+        width: 100% !important;
+    }
+}
+
+@media (min-width: 768px)
+{
+    .w-md-75 {
+        width: 75%;
+    }
+}
