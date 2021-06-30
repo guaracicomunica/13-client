@@ -69,8 +69,32 @@ button {
   cursor: pointer;
 }
 
+select {
+  font-size: 1rem !important;
+  background-color: var(--background-input) !important;
+  border-radius: 10px !important;
+  border: none !important;
+}
+
+select:focus {
+  box-shadow: none !important;
+}
+
 .background-gray {
   background-color: var(--background);
+}
+
+.section {
+  width: 100%;
+  padding: 3rem 5rem;
+}
+
+.icon-section {
+  height: 1.5rem;
+}
+
+.breadcrumb {
+  background-color: transparent !important;
 }
 
 .form-control:focus {
@@ -100,5 +124,9 @@ button {
   text-transform: uppercase;
   font-size: 2rem;
 
+  color: var(--gray);
+}
+
+.text-gray {
   color: var(--gray);
 }

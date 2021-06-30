@@ -27,30 +27,30 @@ export default function Home() {
           />
         </section>
 
-        <section className={`${styles["home-section"]}`}>
+        <section className="section">
           <div className="row justify-content-between">
             <div className="col-12 col-md-6 col-lg-4 mb-3 mb-lg-0">
               <div className="d-flex justify-content-md-center align-item-center">
-                <img src="/icons/wallet-green.svg" className={`mr-2 ${styles["icon-section"]}`} alt="Icon" />
+                <img src="/icons/wallet-green.svg" className="mr-2 icon-section" alt="Icon" />
                 <span className="align-middle">Aceitamos <b>cartão, PIX e boleto</b></span>
               </div>
             </div>
             <div className="col-12 col-md-6 col-lg-4 mb-3 mb-lg-0">
               <div className="d-flex justify-content-md-center align-item-center">
-                <img src="/icons/truck-green.svg" className={`mr-2 ${styles["icon-section"]}`} alt="Icon" />
+                <img src="/icons/truck-green.svg" className="mr-2 icon-section" alt="Icon" />
                 <span className="align-middle">Entregamos para <b>todo o Brasil</b></span>
               </div>
             </div>
             <div className="col-12 col-md-6 col-lg-4">
               <div className="d-flex justify-content-md-center align-item-center">
-                <img src="/icons/security-green.svg" className={`mr-2 ${styles["icon-section"]}`} alt="Icon" />
+                <img src="/icons/security-green.svg" className="mr-2 icon-section" alt="Icon" />
                 <span className="align-middle">Compre com <b> segurança</b> no cartão</span>
               </div>
             </div>
           </div>
         </section>
 
-        <section className={`${styles["home-section"]} ${styles["products-list"]}`}>
+        <section className={`section ${styles["products-list"]}`}>
           <ProductCard
             title="Camisa Barcelona 20/21 S/Nº Torcedor Nike Masculina"
             price={78.98}
@@ -117,7 +117,7 @@ export default function Home() {
           />
         </section>
 
-        <section className={`${styles["home-section"]}`}>
+        <section className="section">
           <h1 className="mb-5 title-section">Mais popular</h1>
 
           <div className={styles["products-list"]}>
@@ -151,7 +151,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className={`${styles["home-section"]}`}>
+        <section className="section">
           <h1 className="mb-5 title-section">Vistos por você</h1>
 
           <div className={styles["products-list"]}>
@@ -185,7 +185,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className={`${styles["home-section"]} ${styles["newsletter-section"]}`}>
+        <section className={`section ${styles["newsletter-section"]}`}>
           <div className={`py-5 ${styles.newsletter}`}>
             <form>
               <div className="d-flex flex-column flex-lg-row align-items-center justify-content-around">
@@ -221,7 +221,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className={`${styles["home-section"]}`}>
+        <section className="section">
           <h1 className="mb-5 title-section">Categorias</h1>
 
           <div className={styles["category-list"]}>
