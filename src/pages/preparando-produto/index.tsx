@@ -28,7 +28,7 @@ export default function PreparandoProduto() {
                     <div className="col-sm-12 d-flex flex-column justify-content-center align-items-center">
                         <h1>Obrigado!</h1>
                         <h6 className={styles.greenColor}>Estamos preparando o seu produto</h6>
-                        <img src="/images/congrats.svg" alt="parabéns" />
+                        <img src="/images/congrats.svg" alt="parabéns" className={`w-100 ${styles['max-width-md-478']}`}/>
                     </div>
                 </div>
             </main>
