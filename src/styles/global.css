@@ -145,3 +145,11 @@ select:focus {
 .mediumText {
   font-size: 14px;
 }
+
+.whatsapp-icon {
+  height: 1.5rem;
+
+  position: fixed;
+  bottom: 3.5rem;
+  right: 2rem;
+}

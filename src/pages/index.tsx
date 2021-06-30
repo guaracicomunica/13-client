@@ -253,6 +253,12 @@ export default function Home() {
             </a>
           </div>
         </section>
+
+        <div className="whatsapp-icon">
+          <a href="#">
+            <img src="/icons/whatsapp-icon.svg" alt="Whatsapp-icon" />
+          </a>
+        </div>
       </main>
 
       <Footer />
