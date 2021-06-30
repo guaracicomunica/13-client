@@ -32,7 +32,7 @@ export default function Cadastro() {
                 </div>
                 <div className="row">
                     <div className="col-sm-12 d-flex justify-content-center">
-                        <form action="javascript:void(0)" className={`${styles['w-sm-75']} ${styles['w-md-50']}`}>
+                        <form action="javascript:void(0)" className={`${styles['w-sm-85']} ${styles['w-md-50']}`}>
                             <div className="form-group">
                                 <label htmlFor="email" className={`${styles['label']}`}>E-mail</label>
                                 <input type="email" className={`${styles['bg-input']} form-control`} name="email" placeholder="usuario@email.com" />
