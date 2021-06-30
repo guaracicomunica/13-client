@@ -1,5 +1,5 @@
 .bg-input, .bg-input:active {
-    background: rgba(249, 247, 247, 1);
+    background: rgba(249, 247, 247, 1) !important;
     border: none;
     border-radius: 12px;
 }
