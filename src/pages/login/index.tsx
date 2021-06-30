@@ -27,7 +27,7 @@ export default function Login() {
 
       <main className="container my-5">
         <div className="row d-flex justify-content-center">
-          <div className="col-md-6 col-sm-12 mb-5 mb-md-3">
+          <div className="col-md-6 col-sm-12 mb-5 mb-md-3 border-right">
             <div className="col-sm-12">
               <h1 className="text-md-left text-center mediumTitle">Já sou cliente</h1>
             </div>
