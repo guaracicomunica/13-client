@@ -402,11 +402,11 @@ export default function Produtos() {
         <section className="section">
           <nav aria-label="Navegação de página exemplo">
             <ul className="pagination justify-content-center">
-              <li className="page-item"><a className="page-link" href="#">1</a></li>
-              <li className="page-item"><a className="page-link" href="#">2</a></li>
-              <li className="page-item"><a className="page-link" href="#">3</a></li>
+              <li className="page-item mr-3"><a className={`${styles["link-pagination"]} ${styles["active-link-pagination"]} page-link`} href="#">1</a></li>
+              <li className="page-item mr-3"><a className={`${styles["link-pagination"]} page-link`} href="#">2</a></li>
+              <li className="page-item mr-3"><a className={`${styles["link-pagination"]} page-link`} href="#">3</a></li>
               <li className="page-item">
-                <a className="page-link" href="#">Próximo</a>
+                <a className={`${styles["next-link-pagination"]} page-link`} href="#">Próximo</a>
               </li>
             </ul>
           </nav>

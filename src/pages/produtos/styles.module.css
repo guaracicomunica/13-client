@@ -120,3 +120,35 @@
 .color:nth-child(9) {
   background-color: #9C6644;
 }
+
+.link-pagination {
+  border-radius: 50% !important;
+  border: 1px solid var(-gray) !important;
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+
+  font-size: 1.25rem !important;
+  line-height: 1.5rem !important;
+  font-weight: 700 !important;
+  text-align: center !important;
+
+  background-color: transparent !important;
+  color: var(--gray) !important;
+}
+
+.active-link-pagination {
+  border-color: var(--green-primary) !important;
+  background-color: var(--green-primary) !important;
+  color: var(--white) !important;
+}
+
+.next-link-pagination {
+  text-transform: uppercase !important;
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+
+  border-radius: 0 !important;
+  border: none !important;
+  color: var(--blue-dark);
+  background-color: transparent !important;
+}
