@@ -240,7 +240,7 @@ export default function Produtos() {
               <option value="poliester">Poliéster</option>
             </select>
 
-            <select name="rating" id="rating" className="form-control mb-5">
+            <select name="rating" id="rating" className="form-control mb-3">
               <option selected={true} unselectable="off">Avaliações</option>
               <option value="five">Cinco estrelas</option>
               <option value="four">Quatro estrelas</option>
@@ -249,9 +249,39 @@ export default function Produtos() {
               <option value="one">Uma estrela</option>
             </select>
 
+            <div className={`${styles["filter-checkbox"]} mb-3`}>
+              <input
+                type="checkbox"
+                name="selecao-tailandesa"
+                id="selecao-tailandesa"
+              />
+              <label htmlFor="selecao-tailandesa">Seleções tailandesas</label>
+              <div className={`${styles["icon-checkbox"]}`} />
+            </div>
+
+            <div className={`${styles["filter-checkbox"]} mb-3`}>
+              <input
+                type="checkbox"
+                name="selecao-europeia"
+                id="selecao-europeia"
+              />
+              <label htmlFor="selecao-europeia">Seleções europeias</label>
+              <div className={`${styles["icon-checkbox"]}`} />
+            </div>
+
+            <div className={`${styles["filter-checkbox"]} mb-4`}>
+              <input
+                type="checkbox"
+                name="selecao-brasileira"
+                id="selecao-brasileira"
+              />
+              <label htmlFor="selecao-brasileira">Seleções brasileiras</label>
+              <div className={`${styles["icon-checkbox"]}`} />
+            </div>
+            
             <hr />
 
-            <h5 className="mt-5 mb-4">Preço</h5>
+            <h5 className="my-4">Preço</h5>
             <div
               style={{
                 display: 'flex',
@@ -317,8 +347,8 @@ export default function Produtos() {
 
             <hr />
 
-            <h5 className="mb-4 mt-5">Cores</h5>
-            <div className={`mb-5 ${styles.colors}`}>
+            <h5 className="my-4">Cores</h5>
+            <div className={`mb-4 ${styles.colors}`}>
               <div className={styles.color}></div>
               <div className={styles.color}></div>
               <div className={styles.color}></div>
