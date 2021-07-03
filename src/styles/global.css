@@ -71,7 +71,11 @@ button {
 
 select {
   font-size: 1rem !important;
+  font-weight: 500 !important;
+
+  color: var(--black) !important;
   background-color: var(--background-input) !important;
+  
   border-radius: 10px !important;
   border: none !important;
 }
