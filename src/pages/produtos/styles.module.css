@@ -225,3 +225,7 @@
   color: var(--blue-dark);
   background-color: transparent !important;
 }
+
+.next-link-pagination:hover {
+  color: var(--blue-dark) !important;
+}
