@@ -1,0 +1,11 @@
+.carousel-item-indicator {
+  width: 1rem !important;
+  height: 1rem !important;
+
+  border-radius: 50%;
+  background-color: var(--gray) !important;
+}
+
+.carousel-item-indicator:not(.carousel-item-indicator:last-of-type) {
+  margin-right: 0.5rem !important;
+}

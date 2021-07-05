@@ -1,6 +1,7 @@
 import Head from 'next/head'
 
 import { Navbar } from '../components/Navbar'
+import Carousel from '../components/Carousel';
 import { ProductCard } from '../components/ProductCard';
 import { Footer } from '../components/Footer';
 
@@ -18,14 +19,7 @@ export default function Home() {
       </header>
 
       <main className="background-gray">
-        <section>
-          <img
-            src="./images/banner-home.svg"
-            alt="Banner"
-            aria-label="Banner do site"
-            className="img-fluid"
-          />
-        </section>
+        <Carousel />
 
         <section className="section">
           <div className="row justify-content-between">

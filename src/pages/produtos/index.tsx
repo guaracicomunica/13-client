@@ -2,11 +2,13 @@ import Head from 'next/head';
 import { Range, getTrackBackground } from 'react-range';
 
 import { Navbar } from '../../components/Navbar';
+import Carousel from '../../components/Carousel';
 import { Footer } from '../../components/Footer';
 import { ProductCard } from '../../components/ProductCard';
 
 import styles from './styles.module.css';
 import { useState } from 'react';
+
 
 export default function Produtos() {
   const [initialPosition, setInitialPosition] = useState([25,200]);
@@ -22,14 +24,7 @@ export default function Produtos() {
       </header>
       
       <main className="background-gray">
-        <section>
-          <img
-            src="./images/banner-home.svg"
-            alt="Banner"
-            aria-label="Banner do site"
-            className="img-fluid"
-          />
-        </section>
+        <Carousel />
 
         <section className="section d-none d-md-flex flex-column">
           <div className="row justify-content-between">
