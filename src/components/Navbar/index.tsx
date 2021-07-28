@@ -60,9 +60,9 @@ export function Navbar() {
                 aria-expanded="true"
               >Todas as categorias</a>
               <div className="dropdown-menu">
-                <a className="dropdown-item" href="#">Seção masculina</a>
-                <a className="dropdown-item" href="#">Seção feminina</a>
-                <a className="dropdown-item" href="#">Seção infantil</a>
+                <a className="dropdown-item" href="#">Seleções tailandesas</a>
+                <a className="dropdown-item" href="#">Seleções europeias</a>
+                <a className="dropdown-item" href="#">Seleções brasileiras</a>
               </div>
             </li>
           </div>
