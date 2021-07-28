@@ -40,13 +40,13 @@ export function Footer() {
                         <ul className={`${styles['ul']}`}>
                             <li className={`${styles['li']} mb-1`}><b>MENU</b></li>
                             <li className={`${styles['li']} mb-1`}>
-                                <a href="#" className={styles['smoothText']}>Masculino</a>
+                                <a href="#" className={styles['smoothText']}>Seleções brasileiras</a>
                             </li>
                             <li className={`${styles['li']} mb-1`}>
-                                <a href="#" className={styles['smoothText']}>Feminino</a>
+                                <a href="#" className={styles['smoothText']}>Seleções europeias</a>
                             </li>
                             <li className={`${styles['li']} mb-1`}>
-                                <a href="#" className={styles['smoothText']}>Infantil</a>
+                                <a href="#" className={styles['smoothText']}>Seleções tailandesas</a>
                             </li>
                         </ul>
                     </div>
