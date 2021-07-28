@@ -1,17 +1,21 @@
+import Link from 'next/link';
+
 import styles from "./styles.module.css";
 
 export function Navbar() {
   return (
     <header>
       <nav className={`navbar navbar-expand-lg py-4 border-bottom ${styles["navbar-padding"]}`}>
-        <a className="mr-xl-5" href="/">
-          <img
-            className={styles["logo-icon"]}
-            src="/logo.svg"
-            alt="Logo"
-            aria-label="Logo Geral.com"
-          />
-        </a>
+        <Link href="/">
+          <a className="mr-xl-5" >
+            <img
+              className={styles["logo-icon"]}
+              src="/logo.svg"
+              alt="Logo"
+              aria-label="Logo Geral.com"
+            />
+          </a>
+        </Link>  
 
         <button
           className="navbar-toggler"
@@ -48,7 +52,9 @@ export function Navbar() {
 
             <div className={`${styles["nav-group-items"]}`}>
               <li className={`nav-item ${styles["navbar-link"]}`}>
-                <a className="nav-link" href="/produtos">Camisas</a>
+                <Link href="/produtos">
+                  <a className="nav-link">Camisas</a>
+                </Link>
               </li>
 
               <li className={`nav-item ${styles["navbar-link"]} dropdown`}>

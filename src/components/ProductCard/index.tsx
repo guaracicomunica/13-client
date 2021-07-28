@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import styles from "./styles.module.css";
 
 type ProductType = {
@@ -60,10 +62,11 @@ export function ProductCard(props: ProductType) {
           href="#"
           className="button button-primary-outline"
         >Conferir</a>
-        <a
-          href="/carrinho"
-          className="button button-secondary"
-        >Comprar agora</a>
+        <Link href="/carrinho">
+          <a className="button button-secondary">
+            Comprar agora
+          </a>
+        </Link>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
+import Link from 'next/link';
 import { Range, getTrackBackground } from 'react-range';
 import ReactPaginate from 'react-paginate';
 
@@ -116,7 +117,11 @@ export default function Produtos(props: ProdutosPageProps) {
         <section className="section align-items-center py-0">
           <nav aria-label="breadcrumb" className="d-none d-md-flex">
             <ol className="breadcrumb px-0">
-              <li className="breadcrumb-item"><a href="/">Home</a></li>
+              <li className="breadcrumb-item">
+                <Link href="/">
+                  <a>Home</a>
+                </Link>
+              </li>
               <li className="breadcrumb-item active" aria-current="page">Masculino</li>
             </ol>
           </nav>
