@@ -3,8 +3,6 @@ import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { AuthContext } from '../../contexts/AuthContext';
-import { Navbar } from '../../components/Navbar';
-import { Footer } from '../../components/Footer';
 
 import styles from './styles.module.css';
 
@@ -14,8 +12,6 @@ export default function Cadastro() {
             <Head>
                 <title>Cadastro</title>
             </Head>
-
-            <Navbar />
 
             <main className="container my-5">
                 <div className="row">
@@ -63,8 +59,6 @@ export default function Cadastro() {
                     </div>
                 </div>
             </main>
-
-            <Footer />
         </>
     );
 }

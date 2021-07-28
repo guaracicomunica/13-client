@@ -6,9 +6,7 @@ import ReactPaginate from 'react-paginate';
 
 import { getAPIClient } from '../../services/apiClient';
 
-import { Navbar } from '../../components/Navbar';
 import Carousel from '../../components/Carousel';
-import { Footer } from '../../components/Footer';
 import { ProductCard } from '../../components/ProductCard';
 
 import styles from './styles.module.css';
@@ -80,10 +78,6 @@ export default function Produtos(props: ProdutosPageProps) {
       <Head>
         <title>Geral.com | Produtos por departamento</title>
       </Head>
-
-      <header>
-        <Navbar />
-      </header>
       
       <main className="background-gray">
         <Carousel />
@@ -377,8 +371,6 @@ export default function Produtos(props: ProdutosPageProps) {
           </a>
         </div>
       </main>
-
-      <Footer />
     </>
   );
 }

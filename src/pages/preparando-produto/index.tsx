@@ -1,10 +1,9 @@
 import Head from 'next/head'
 import { useContext } from 'react';
-import { CartContext } from '../../contexts/CartContext';
-import { Navbar } from '../../components/Navbar';
-import { Footer } from '../../components/Footer';
-import { ProductType } from '../../types/products';
 import Image from 'next/image'
+
+import { CartContext } from '../../contexts/CartContext';
+import { ProductType } from '../../types/products';
 
 import styles from './styles.module.css';
 
@@ -19,10 +18,6 @@ export default function PreparandoProduto() {
                 <title>Obrigado! Preparando produto...</title>
             </Head>
 
-            <header>
-                <Navbar />
-            </header>
-
             <main className="container py-5">
                 <div className="row">
                     <div className="col-sm-12 d-flex flex-column justify-content-center align-items-center">
@@ -32,7 +27,6 @@ export default function PreparandoProduto() {
                     </div>
                 </div>
             </main>
-            <Footer />
         </>
     )
 }

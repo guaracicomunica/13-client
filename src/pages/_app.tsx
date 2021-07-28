@@ -2,6 +2,8 @@ import Head from 'next/head';
 
 import { AuthProvider } from '../contexts/AuthContext';
 import { CartProvider } from '../contexts/CartContext';
+import { Navbar } from '../components/Navbar';
+import { Footer } from '../components/Footer';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import '../styles/global.css';
@@ -16,7 +18,11 @@ function MyApp({ Component, pageProps }) {
 
       <AuthProvider>
         <CartProvider>
+          <Navbar />
+
           <Component {...pageProps} />
+          
+          <Footer />
         </CartProvider>
       </AuthProvider>
     </>

@@ -1,9 +1,7 @@
 import Head from 'next/head'
 
-import { Navbar } from '../components/Navbar'
 import Carousel from '../components/Carousel';
 import { ProductCard } from '../components/ProductCard';
-import { Footer } from '../components/Footer';
 
 import styles from "./home.module.css";
 
@@ -13,10 +11,6 @@ export default function Home() {
       <Head>
         <title>Geral.com</title>
       </Head>
-
-      <header>
-        <Navbar />
-      </header>
 
       <main className="background-gray">
         <Carousel />
@@ -254,8 +248,6 @@ export default function Home() {
           </a>
         </div>
       </main>
-
-      <Footer />
     </>
   )
 }
