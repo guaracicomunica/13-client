@@ -195,13 +195,13 @@
 }
 
 .link-pagination {
-  border-radius: 50% !important;
-  border: 1px solid var(-gray) !important;
-  width: 2.5rem !important;
-  height: 2.5rem !important;
+  border-radius: 10px !important;
+  border: 1px solid var(--gray) !important;
+  min-width: 2.75rem !important;
+  height: 2.75rem !important;
 
-  font-size: 1.25rem !important;
-  line-height: 1.5rem !important;
+  font-size: 1rem !important;
+  line-height: 1.75rem !important;
   font-weight: 700 !important;
   text-align: center !important;
 
@@ -217,7 +217,7 @@
 
 .next-link-pagination {
   text-transform: uppercase !important;
-  font-size: 1.25rem !important;
+  font-size: 1rem !important;
   font-weight: 700 !important;
 
   border-radius: 0 !important;
@@ -228,4 +228,10 @@
 
 .next-link-pagination:hover {
   color: var(--blue-dark) !important;
+}
+
+.break-link-pagination {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  color: var(--gray-dark);
 }

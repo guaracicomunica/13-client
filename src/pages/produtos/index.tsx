@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { Range, getTrackBackground } from 'react-range';
+import ReactPaginate from 'react-paginate';
 
 import { getAPIClient } from '../../services/apiClient';
 
@@ -20,10 +21,59 @@ type Product = {
 
 type ProdutosPageProps = {
   products: Product[];
+  queryProps: {
+    totalProducts: number;
+    totalPages: number;
+    currentPage: number;
+    firstProductOnPage: number;
+    lastProductOnPage: number;
+  }
 }
 
-export default function Produtos({ products }: ProdutosPageProps) {
+export default function Produtos(props: ProdutosPageProps) {
+  const api = getAPIClient();
+
   const [initialPosition, setInitialPosition] = useState([25,200]);
+
+  const [products, setProducts] = useState<Product[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [firstProductOnPage, setFirstProductOnPage] = useState(0);
+  const [lastProductOnPage, setLastProductOnPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalProducts, setTotalProducts] = useState(0);
+
+  useEffect(() => {
+    if (props) {
+      setProducts(props.products);
+      setCurrentPage(props.queryProps.currentPage);
+      setFirstProductOnPage(props.queryProps.firstProductOnPage);
+      setLastProductOnPage(props.queryProps.lastProductOnPage);
+      setTotalPages(props.queryProps.totalPages);
+      setTotalProducts(props.queryProps.totalProducts);
+    }
+  }, []);
+
+  async function changePage(page) {
+    const { data } = await api.get('products', {
+      params: {
+        per_page: 9,
+        page: page.selected + 1
+      }
+    });
+
+    const products: Product[] = data.data.map(product => {
+      return {
+        id: product.id,
+        title: product.name,
+        price: product.price
+      }
+    });
+
+    setProducts(products);
+    setCurrentPage(data.current_page);
+    setFirstProductOnPage(data.from);
+    setLastProductOnPage(data.to);
+  }
 
   return (
     <>
@@ -82,7 +132,9 @@ export default function Produtos({ products }: ProdutosPageProps) {
           </nav>
 
           <div className="d-none d-md-flex justify-content-between">
-            <span className="text-gray">Exibindo 1 - 9 de 300 resultados</span>
+            <span className="text-gray">
+              Exibindo {firstProductOnPage} - {lastProductOnPage} de {totalProducts} resultados
+            </span>
 
             <div className={`d-flex align-items-center ${styles["order-filter"]}`}>
               <label htmlFor="order">Ordenar por</label>
@@ -283,7 +335,7 @@ export default function Produtos({ products }: ProdutosPageProps) {
           </div>
 
           <div className={styles["products-list"]}>
-            { products.map(product => {
+            {products.map(product => {
               return (
                 <ProductCard
                   key={product.id}
@@ -293,21 +345,30 @@ export default function Produtos({ products }: ProdutosPageProps) {
                   img="camisa-barcelona"
                 />
               );
-            }) }
+            })}
           </div>
         </section>
 
         <section className="section">
-          <nav aria-label="Navegação de página exemplo">
-            <ul className="pagination justify-content-center">
-              <li className="page-item mr-3"><a className={`${styles["link-pagination"]} ${styles["active-link-pagination"]} page-link`} href="#">1</a></li>
-              <li className="page-item mr-3"><a className={`${styles["link-pagination"]} page-link`} href="#">2</a></li>
-              <li className="page-item mr-3"><a className={`${styles["link-pagination"]} page-link`} href="#">3</a></li>
-              <li className="page-item">
-                <a className={`${styles["next-link-pagination"]} page-link`} href="#">Próximo</a>
-              </li>
-            </ul>
-          </nav>
+          <ReactPaginate
+            onPageChange={changePage}
+            pageCount={totalPages}
+            pageRangeDisplayed={2}
+            marginPagesDisplayed={2}
+            previousLabel="Anterior"
+            nextLabel="Próximo"
+            breakLabel="..."
+
+            containerClassName="pagination justify-content-center align-items-center"
+            pageClassName="page-item mr-3"
+            pageLinkClassName={`${styles["link-pagination"]} page-link`}
+            activeLinkClassName={`${styles["active-link-pagination"]}`}
+            previousClassName="page-item"
+            previousLinkClassName={`${styles["next-link-pagination"]} mr-3 page-link`}
+            nextClassName="page-item"
+            nextLinkClassName={`${styles["next-link-pagination"]} page-link`}
+            breakLinkClassName={`${styles["break-link-pagination"]} mr-3`}
+          />
         </section>
       
         <div className="whatsapp-icon">
@@ -341,8 +402,14 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: {
-      products
-    },
-    revalidate: 60 * 60 * 24
+      products,
+      queryProps: {
+        totalProducts: data.total,
+        totalPages: data.last_page,
+        currentPage: data.current_page,
+        firstProductOnPage: data.from,
+        lastProductOnPage: data.to
+      }
+    }
   }
 }
