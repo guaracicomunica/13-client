@@ -22,7 +22,6 @@ type ProdutosPageProps = {
   queryProps: {
     totalProducts: number;
     totalPages: number;
-    currentPage: number;
     firstProductOnPage: number;
     lastProductOnPage: number;
   }
@@ -34,7 +33,6 @@ export default function Produtos(props: ProdutosPageProps) {
   const [initialPosition, setInitialPosition] = useState([25,200]);
 
   const [products, setProducts] = useState<Product[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [firstProductOnPage, setFirstProductOnPage] = useState(0);
   const [lastProductOnPage, setLastProductOnPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -43,7 +41,6 @@ export default function Produtos(props: ProdutosPageProps) {
   useEffect(() => {
     if (props) {
       setProducts(props.products);
-      setCurrentPage(props.queryProps.currentPage);
       setFirstProductOnPage(props.queryProps.firstProductOnPage);
       setLastProductOnPage(props.queryProps.lastProductOnPage);
       setTotalPages(props.queryProps.totalPages);
@@ -68,7 +65,6 @@ export default function Produtos(props: ProdutosPageProps) {
     });
 
     setProducts(products);
-    setCurrentPage(data.current_page);
     setFirstProductOnPage(data.from);
     setLastProductOnPage(data.to);
   }
@@ -398,7 +394,6 @@ export const getStaticProps: GetStaticProps = async () => {
       queryProps: {
         totalProducts: data.total,
         totalPages: data.last_page,
-        currentPage: data.current_page,
         firstProductOnPage: data.from,
         lastProductOnPage: data.to
       }
