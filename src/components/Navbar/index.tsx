@@ -47,7 +47,7 @@ export function Navbar() {
 
           <div className={`${styles["nav-group-items"]}`}>
             <li className={`nav-item ${styles["navbar-link"]}`}>
-              <a className="nav-link" href="#">Camisas</a>
+              <a className="nav-link" href="/produtos">Camisas</a>
             </li>
 
             <li className={`nav-item ${styles["navbar-link"]} dropdown`}>
