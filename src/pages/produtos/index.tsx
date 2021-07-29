@@ -8,6 +8,7 @@ import ReactPaginate from 'react-paginate';
 import { getAPIClient } from '../../services/apiClient';
 
 import Carousel from '../../components/Carousel';
+import { Loader } from '../../components/Loader';
 import { ProductCard } from '../../components/ProductCard';
 
 import styles from './styles.module.css';
@@ -33,6 +34,8 @@ export default function Produtos(props: ProdutosPageProps) {
 
   const [initialPosition, setInitialPosition] = useState([25,200]);
 
+  const [loading, setLoading] = useState(false);
+
   const [products, setProducts] = useState<Product[]>([]);
   const [firstProductOnPage, setFirstProductOnPage] = useState(0);
   const [lastProductOnPage, setLastProductOnPage] = useState(0);
@@ -50,6 +53,8 @@ export default function Produtos(props: ProdutosPageProps) {
   }, []);
 
   async function changePage(page) {
+    setLoading(true);
+
     const { data } = await api.get('products', {
       params: {
         per_page: 9,
@@ -68,6 +73,8 @@ export default function Produtos(props: ProdutosPageProps) {
     setProducts(products);
     setFirstProductOnPage(data.from);
     setLastProductOnPage(data.to);
+
+    setLoading(false);
   }
 
   return (
@@ -330,21 +337,25 @@ export default function Produtos(props: ProdutosPageProps) {
           </div>
 
           <div className={styles["products-list"]}>
-            {products.map(product => {
-              return (
-                <ProductCard
-                  key={product.id}
-                  title={product.title}
-                  price={product.price}
-                  favorite={true}
-                  img="camisa-barcelona"
-                />
-              );
-            })}
+            {loading ? (
+              <Loader />
+            ) : (
+              products.map(product => {
+                return (
+                  <ProductCard
+                    key={product.id}
+                    title={product.title}
+                    price={product.price}
+                    favorite={true}
+                    img="camisa-barcelona"
+                  />
+                );
+              })
+            )}
           </div>
         </section>
 
-        <section className="section">
+        <section className="section mt-5 mt-md-0">
           <ReactPaginate
             onPageChange={changePage}
             pageCount={totalPages}
