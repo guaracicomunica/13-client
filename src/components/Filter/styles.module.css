@@ -13,6 +13,8 @@
 @media (max-width: 768px) {
   .filter {
     display: none;
+
+    margin-bottom: 3rem;
   }
 }
 
