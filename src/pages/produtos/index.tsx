@@ -413,6 +413,7 @@ export const getStaticProps: GetStaticProps = async () => {
         firstProductOnPage: data.from,
         lastProductOnPage: data.to
       }
-    }
+    },
+    revalidate: 60 * 60 * 24
   }
 }
