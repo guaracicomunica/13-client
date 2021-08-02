@@ -13,6 +13,7 @@ export function Filter() {
     >
       <select defaultValue="" name="size" id="size" className="form-control mb-3">
         <option value="" disabled={true}>Tamanho</option>
+        <option value="all">Todos os tamanhos</option>
         <option value="pp">PP</option>
         <option value="p">P</option>
         <option value="m">M</option>
@@ -22,23 +23,27 @@ export function Filter() {
 
       <select defaultValue="" name="brand" id="brand" className="form-control mb-3">
         <option value="" disabled={true}>Marca</option>
+        <option value="all">Todas as marcas</option>
         <option value="nike">Nike</option>
         <option value="adidas">Adidas</option>
       </select>
 
       <select defaultValue="" name="type-product" id="type-product" className="form-control mb-3">
         <option value="" disabled={true}>Tipo de produto</option>
+        <option value="all">Todos os tipos de produto</option>
         <option value="camisa">Camisa</option>
       </select>
 
       <select defaultValue="" name="material" id="material" className="form-control mb-3">
         <option value="" disabled={true}>Material</option>
+        <option value="all">Todos os materiais</option>
         <option value="algodao">Algodão</option>
         <option value="poliester">Poliéster</option>
       </select>
 
       <select defaultValue="" name="rating" id="rating" className="form-control mb-3">
         <option value="" disabled={true}>Avaliações</option>
+        <option value="all">Todas as avaliações</option>
         <option value="five">Cinco estrelas</option>
         <option value="four">Quatro estrelas</option>
         <option value="three">Três estrelas</option>
