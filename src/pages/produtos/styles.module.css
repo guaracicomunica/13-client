@@ -38,12 +38,20 @@
 }
 
 @media (max-width: 1280px) {
+  .products-filter {
+    grid-template-columns: 1fr 2fr;
+  }
+
   .products-list {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 900px) {
+  .products-filter {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .products-list {
     grid-template-columns: 1fr;
   }
