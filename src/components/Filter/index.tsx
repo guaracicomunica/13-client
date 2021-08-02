@@ -11,8 +11,8 @@ export function Filter() {
       className={`${styles.filter}`}
       id="filter"
     >
-      <select name="size" id="size" className="form-control mb-3">
-        <option selected={true} unselectable="off">Tamanho</option>
+      <select defaultValue="" name="size" id="size" className="form-control mb-3">
+        <option value="" disabled={true}>Tamanho</option>
         <option value="pp">PP</option>
         <option value="p">P</option>
         <option value="m">M</option>
@@ -20,25 +20,25 @@ export function Filter() {
         <option value="gg">GG</option>
       </select>
 
-      <select name="brand" id="brand" className="form-control mb-3">
-        <option selected={true} unselectable="off">Marca</option>
+      <select defaultValue="" name="brand" id="brand" className="form-control mb-3">
+        <option value="" disabled={true}>Marca</option>
         <option value="nike">Nike</option>
         <option value="adidas">Adidas</option>
       </select>
 
-      <select name="type-product" id="type-product" className="form-control mb-3">
-        <option selected={true} unselectable="off">Tipo de produto</option>
+      <select defaultValue="" name="type-product" id="type-product" className="form-control mb-3">
+        <option value="" disabled={true}>Tipo de produto</option>
         <option value="camisa">Camisa</option>
       </select>
 
-      <select name="material" id="material" className="form-control mb-3">
-        <option selected={true} unselectable="off">Material</option>
+      <select defaultValue="" name="material" id="material" className="form-control mb-3">
+        <option value="" disabled={true}>Material</option>
         <option value="algodao">Algodão</option>
         <option value="poliester">Poliéster</option>
       </select>
 
-      <select name="rating" id="rating" className="form-control mb-3">
-        <option selected={true} unselectable="off">Avaliações</option>
+      <select defaultValue="" name="rating" id="rating" className="form-control mb-3">
+        <option value="" disabled={true}>Avaliações</option>
         <option value="five">Cinco estrelas</option>
         <option value="four">Quatro estrelas</option>
         <option value="three">Três estrelas</option>
