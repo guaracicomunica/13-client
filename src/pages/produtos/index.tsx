@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -7,9 +7,10 @@ import ReactPaginate from 'react-paginate';
 import { getAPIClient } from '../../services/apiClient';
 
 import Carousel from '../../components/Carousel';
-import { Loader } from '../../components/Loader';
 import { Filter } from '../../components/Filter';
 import { ProductCard } from '../../components/ProductCard';
+
+import { LoadingContext } from '../../contexts/LoadingContext';
 
 import styles from './styles.module.css';
 
@@ -26,19 +27,24 @@ type ProdutosPageProps = {
     totalPages: number;
     firstProductOnPage: number;
     lastProductOnPage: number;
-  }
+  };
+  isLoading: boolean;
 }
 
 export default function Produtos(props: ProdutosPageProps) {
   const api = getAPIClient();
-
-  const [loading, setLoading] = useState(false);
 
   const [products, setProducts] = useState<Product[]>([]);
   const [firstProductOnPage, setFirstProductOnPage] = useState(0);
   const [lastProductOnPage, setLastProductOnPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [totalProducts, setTotalProducts] = useState(0);
+
+  const { loading, setLoading } = useContext(LoadingContext);
+
+  useEffect(() => {
+    setTimeout(() => setLoading(props.isLoading), 4500);
+  }, [loading]);
 
   useEffect(() => {
     if (props) {
@@ -86,7 +92,7 @@ export default function Produtos(props: ProdutosPageProps) {
       </Head>
       
       <main className="background-gray">
-        <Carousel />
+        <Carousel isLoading={loading} />
 
         <section className="section d-none d-md-flex flex-column">
           <div className="row justify-content-between">
@@ -150,21 +156,18 @@ export default function Produtos(props: ProdutosPageProps) {
           <Filter />          
 
           <div className={styles["products-list"]}>
-            {loading ? (
-              <Loader />
-            ) : (
-              products.map(product => {
-                return (
-                  <ProductCard
-                    key={product.id}
-                    title={product.title}
-                    price={product.price}
-                    favorite={true}
-                    img="camisa-barcelona"
-                  />
-                );
-              })
-            )}
+            {products.map(product => {
+              return (
+                <ProductCard
+                  key={product.id}
+                  title={product.title}
+                  price={product.price}
+                  favorite={true}
+                  img="camisa-barcelona"
+                  isLoading={loading}
+                />
+              )})
+            }
           </div>
         </section>
 
@@ -225,7 +228,8 @@ export const getStaticProps: GetStaticProps = async () => {
         totalPages: data.last_page,
         firstProductOnPage: data.from,
         lastProductOnPage: data.to
-      }
+      },
+      isLoading: false
     },
     revalidate: 60 * 60 * 24
   }
