@@ -1,8 +1,8 @@
 import Head from 'next/head'
 
 import { useState, useEffect, useContext } from 'react';
+
 import { GetStaticProps } from 'next';
-import Link from 'next/link';
 
 import Carousel from '../components/Carousel';
 import { ProductCard } from '../components/ProductCard';
@@ -28,7 +28,9 @@ export default function Home(props: ProdutosPageProps) {
 
   const { loading, setLoading } = useContext(LoadingContext);
 
-  setTimeout(() => setLoading(props.isLoading), 2500);
+  useEffect(() => {
+    setTimeout(() => setLoading(props.isLoading), 4500);
+  }, [loading]);
 
   return (
     <>
@@ -127,6 +129,7 @@ export default function Home(props: ProdutosPageProps) {
               price={78.98}
               favorite={true}
               img="camisa-barcelona"
+              isLoading={false}
             />
 
             <ProductCard
@@ -134,6 +137,7 @@ export default function Home(props: ProdutosPageProps) {
               price={99.99}
               favorite={false}
               img="camisa-2"
+              isLoading={false}
             />
 
             <ProductCard
@@ -141,6 +145,7 @@ export default function Home(props: ProdutosPageProps) {
               price={107.95}
               favorite={true}
               img="camisa-3"
+              isLoading={false}
             />
 
             <ProductCard
@@ -148,6 +153,7 @@ export default function Home(props: ProdutosPageProps) {
               price={99.99}
               favorite={false}
               img="camisa-4"
+              isLoading={false}
             />
           </div>
         </section>
