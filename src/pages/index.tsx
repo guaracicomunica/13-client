@@ -1,11 +1,35 @@
 import Head from 'next/head'
 
+import { useState, useEffect, useContext } from 'react';
+import { GetStaticProps } from 'next';
+import Link from 'next/link';
+
 import Carousel from '../components/Carousel';
 import { ProductCard } from '../components/ProductCard';
 
-import styles from "./home.module.css";
+import { getAPIClient } from '../services/apiClient';
 
-export default function Home() {
+import styles from "./home.module.css";
+import { LoadingContext } from '../contexts/LoadingContext';
+
+type Product = {
+  id: number;
+  title: string;
+  price: number;
+}
+
+
+type ProdutosPageProps = {
+  products: Product[];
+  isLoading: boolean;
+}
+
+export default function Home(props: ProdutosPageProps) {
+
+  const { loading, setLoading } = useContext(LoadingContext);
+
+  setTimeout(() => setLoading(props.isLoading), 2500);
+
   return (
     <>
       <Head>
@@ -13,7 +37,7 @@ export default function Home() {
       </Head>
 
       <main className="background-gray">
-        <Carousel />
+        <Carousel isLoading={loading} />
 
         <section className="section">
           <div className="row justify-content-between">
@@ -39,61 +63,16 @@ export default function Home() {
         </section>
 
         <section className={`section ${styles["products-list"]}`}>
-          <ProductCard
-            title="Camisa Barcelona 20/21 S/Nº Torcedor Nike Masculina"
-            price={78.98}
-            favorite={true}
-            img="camisa-barcelona"
-          />
-          
-          <ProductCard
-            title="Camisa do Palmeiras | 21 Puma - Masculina"
-            price={99.99}
-            favorite={false}
-            img="camisa-2"
-          />
-
-          <ProductCard
-            title="Camisa Adidas México Home 2021-22"
-            price={107.95}
-            favorite={true}
-            img="camisa-3"
-          />
-
-          <ProductCard
-            title="Camisa Seleção da Itália 2020, Uniforme 3, Dry Cell"
-            price={99.99}
-            favorite={false}
-            img="camisa-4"
-          />
-
-          <ProductCard
-            title="Camisa Barcelona 20/21 S/Nº Torcedor Nike Masculina"
-            price={78.98}
-            favorite={true}
-            img="camisa-barcelona"
-          />
-
-          <ProductCard
-            title="Camisa do Palmeiras | 21 Puma - Masculina"
-            price={99.99}
-            favorite={false}
-            img="camisa-2"
-          />
-
-          <ProductCard
-            title="Camisa Adidas México Home 2021-22"
-            price={107.95}
-            favorite={true}
-            img="camisa-3"
-          />
-
-          <ProductCard
-            title="Camisa Seleção da Itália 2020, Uniforme 3, Dry Cell"
-            price={99.99}
-            favorite={false}
-            img="camisa-4"
-          />
+          {props.products.map(product => (
+            <ProductCard
+              key={product.id}
+              title={product.title}
+              price={product.price}
+              favorite={true}
+              isLoading={loading}
+              img="camisa-barcelona"
+            />
+          ))}
         </section>
 
         <section className="mx-3 mx-md-5 my-3">
@@ -115,7 +94,7 @@ export default function Home() {
               favorite={true}
               img="camisa-barcelona"
             />
-            
+
             <ProductCard
               title="Camisa do Palmeiras | 21 Puma - Masculina"
               price={99.99}
@@ -149,7 +128,7 @@ export default function Home() {
               favorite={true}
               img="camisa-barcelona"
             />
-            
+
             <ProductCard
               title="Camisa do Palmeiras | 21 Puma - Masculina"
               price={99.99}
@@ -187,7 +166,7 @@ export default function Home() {
                   <a href="#" className={`mb-3 button ${styles["newsletter-btn"]}`}>
                     Receber
                   </a>
-                </div> 
+                </div>
               </div>
 
               <div className="mt-4 d-flex justify-content-center">
@@ -250,4 +229,31 @@ export default function Home() {
       </main>
     </>
   )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+
+  const api = getAPIClient();
+
+  const { data } = await api.get('products', {
+    params: {
+      per_page: 8
+    }
+  });
+
+  const products: Product[] = data.data.map(product => {
+    return {
+      id: product.id,
+      title: product.name,
+      price: product.price
+    }
+  });
+
+  return {
+    props: {
+      products,
+      isLoading: false,
+    }
+  }
+
 }

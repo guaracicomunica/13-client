@@ -1,3 +1,8 @@
+.carousel-dimensions {
+  height: 100vh;
+  width: 100%;
+}
+
 .carousel-item-indicator {
   width: 1rem !important;
   height: 1rem !important;
@@ -8,4 +13,8 @@
 
 .carousel-item-indicator:not(.carousel-item-indicator:last-of-type) {
   margin-right: 0.5rem !important;
+}
+
+.blur {
+  -webkit-filter: blur(8px);
 }

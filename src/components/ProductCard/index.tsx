@@ -7,6 +7,7 @@ type ProductType = {
   price: number;
   img: string;
   favorite: boolean;
+  isLoading: boolean;
 }
 
 export function ProductCard(props: ProductType) {
