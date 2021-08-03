@@ -95,6 +95,7 @@ export default function Home(props: ProdutosPageProps) {
               price={78.98}
               favorite={true}
               img="camisa-barcelona"
+              isLoading={loading}
             />
 
             <ProductCard
@@ -102,6 +103,7 @@ export default function Home(props: ProdutosPageProps) {
               price={99.99}
               favorite={false}
               img="camisa-2"
+              isLoading={loading}
             />
 
             <ProductCard
@@ -109,6 +111,7 @@ export default function Home(props: ProdutosPageProps) {
               price={107.95}
               favorite={true}
               img="camisa-3"
+              isLoading={loading}
             />
 
             <ProductCard
@@ -116,6 +119,7 @@ export default function Home(props: ProdutosPageProps) {
               price={99.99}
               favorite={false}
               img="camisa-4"
+              isLoading={loading}
             />
           </div>
         </section>
