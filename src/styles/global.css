@@ -157,3 +157,7 @@ select:focus {
   bottom: 3.5rem;
   right: 2rem;
 }
+
+.show-filter {
+  display: flex !important;
+}
