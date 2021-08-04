@@ -7,6 +7,7 @@ type ProductType = {
     img: string;
     favorite: boolean;
     isLoading: boolean;
+    id: number;
 }
 
 type DefaultProductType = {
@@ -64,10 +65,9 @@ export function DefaultProductCard(props: DefaultProductType) {
             </div>
 
             <div className={`mt-3 ${styles.buttons}`}>
-                <a
-                    href="#"
-                    className="button button-primary-outline"
-                >Conferir</a>
+                <Link href={`/produtos/${item.id}`}>
+                    <a className="button button-primary-outline">Conferir</a>
+                </Link>
                 <Link href="/carrinho">
                     <a className="button button-secondary">
                         Comprar agora
