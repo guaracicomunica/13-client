@@ -13,3 +13,8 @@ export type SizeType = {
     id: number;
     name: string;
 }
+
+export type CategoryType = {
+    id: number;
+    name: string;
+}

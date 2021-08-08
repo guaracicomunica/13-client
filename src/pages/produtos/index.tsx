@@ -12,7 +12,7 @@ import { ProductCard } from '../../components/ProductCard';
 
 import { LoadingContext } from '../../contexts/LoadingContext';
 
-import { BrandType, ProductType, SizeType } from '../../types/products/index';
+import { BrandType, ProductType, SizeType, CategoryType } from '../../types/products/index';
 
 import styles from './styles.module.css';
 
@@ -20,6 +20,7 @@ type ProdutosPageProps = {
   products: ProductType[];
   brands: BrandType[];
   sizes: SizeType[];
+  categories: CategoryType[];
   queryProps: {
     totalProducts: number;
     totalPages: number;
@@ -35,6 +36,7 @@ export default function Produtos(props: ProdutosPageProps) {
   const [products, setProducts] = useState<ProductType[]>([]);
   const [brands, setBrands] = useState<BrandType[]>([]);
   const [sizes, setSizes] = useState<SizeType[]>([]);
+  const [categories, setCategories] = useState<CategoryType[]>([]);
   const [firstProductOnPage, setFirstProductOnPage] = useState(0);
   const [lastProductOnPage, setLastProductOnPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -51,6 +53,7 @@ export default function Produtos(props: ProdutosPageProps) {
       setProducts(props.products);
       setBrands(props.brands);
       setSizes(props.sizes);
+      setCategories(props.categories);
       setFirstProductOnPage(props.queryProps.firstProductOnPage);
       setLastProductOnPage(props.queryProps.lastProductOnPage);
       setTotalPages(props.queryProps.totalPages);
@@ -158,6 +161,7 @@ export default function Produtos(props: ProdutosPageProps) {
           <Filter
             brands={brands}
             sizes={sizes}
+            categories={categories}
           />          
 
           <div className={styles["products-list"]}>
@@ -244,11 +248,21 @@ export const getStaticProps: GetStaticProps = async () => {
     }
   });
 
+  const dataCategories = await api.get('categories');
+
+  const categories: SizeType[] = dataCategories.data.map(category => {
+    return {
+      id: category.id,
+      name: category.name
+    }
+  });
+
   return {
     props: {
       products,
       brands,
       sizes,
+      categories,
       queryProps: {
         totalProducts: data.total,
         totalPages: data.last_page,

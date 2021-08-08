@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { Range, getTrackBackground } from 'react-range';
 
-import { BrandType, SizeType } from '../../types/products/index';
+import { BrandType, CategoryType, SizeType } from '../../types/products/index';
+
+import { formatString } from '../../utils/formatString';
 
 import styles from './styles.module.css';
 
 type FilterProps = {
   brands: BrandType[];
   sizes: SizeType[];
+  categories: CategoryType[];
 }
 
 export function Filter(props: FilterProps) {
@@ -83,35 +86,19 @@ export function Filter(props: FilterProps) {
         <option value="one">Uma estrela</option>
       </select>
 
-      <div className={`${styles["filter-checkbox"]} mb-3`}>
-        <input
-          type="checkbox"
-          name="selecao-tailandesa"
-          id="selecao-tailandesa"
-        />
-        <label htmlFor="selecao-tailandesa">Seleções tailandesas</label>
-        <div className={`${styles["icon-checkbox"]}`} />
-      </div>
-
-      <div className={`${styles["filter-checkbox"]} mb-3`}>
-        <input
-          type="checkbox"
-          name="selecao-europeia"
-          id="selecao-europeia"
-        />
-        <label htmlFor="selecao-europeia">Seleções europeias</label>
-        <div className={`${styles["icon-checkbox"]}`} />
-      </div>
-
-      <div className={`${styles["filter-checkbox"]} mb-4`}>
-        <input
-          type="checkbox"
-          name="selecao-brasileira"
-          id="selecao-brasileira"
-        />
-        <label htmlFor="selecao-brasileira">Seleções brasileiras</label>
-        <div className={`${styles["icon-checkbox"]}`} />
-      </div>
+      {props.categories.map(category => {
+        return (
+          <div className={`${styles["filter-checkbox"]} mb-3`} key={category.id}>
+            <input
+              type="checkbox"
+              name={formatString(category.name)}
+              id={formatString(category.name)}
+            />
+            <label htmlFor={formatString(category.name)}>{category.name}</label>
+            <div className={`${styles["icon-checkbox"]}`} />
+          </div>
+        )
+      })}
       
       <hr />
 
