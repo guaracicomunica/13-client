@@ -12,13 +12,14 @@ import { ProductCard } from '../../components/ProductCard';
 
 import { LoadingContext } from '../../contexts/LoadingContext';
 
-import { BrandType, ProductType } from '../../types/products/index';
+import { BrandType, ProductType, SizeType } from '../../types/products/index';
 
 import styles from './styles.module.css';
 
 type ProdutosPageProps = {
   products: ProductType[];
   brands: BrandType[];
+  sizes: SizeType[];
   queryProps: {
     totalProducts: number;
     totalPages: number;
@@ -33,6 +34,7 @@ export default function Produtos(props: ProdutosPageProps) {
 
   const [products, setProducts] = useState<ProductType[]>([]);
   const [brands, setBrands] = useState<BrandType[]>([]);
+  const [sizes, setSizes] = useState<SizeType[]>([]);
   const [firstProductOnPage, setFirstProductOnPage] = useState(0);
   const [lastProductOnPage, setLastProductOnPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -48,6 +50,7 @@ export default function Produtos(props: ProdutosPageProps) {
     if (props) {
       setProducts(props.products);
       setBrands(props.brands);
+      setSizes(props.sizes);
       setFirstProductOnPage(props.queryProps.firstProductOnPage);
       setLastProductOnPage(props.queryProps.lastProductOnPage);
       setTotalPages(props.queryProps.totalPages);
@@ -154,6 +157,7 @@ export default function Produtos(props: ProdutosPageProps) {
         <section className={`section ${styles["products-filter"]}`}>
           <Filter
             brands={brands}
+            sizes={sizes}
           />          
 
           <div className={styles["products-list"]}>
@@ -230,10 +234,20 @@ export const getStaticProps: GetStaticProps = async () => {
     }
   });
 
+  const dataSizes = await api.get('sizes');
+
+  const sizes: SizeType[] = dataSizes.data.map(size => {
+    return {
+      id: size.id,
+      name: size.name
+    }
+  });
+
   return {
     props: {
       products,
       brands,
+      sizes,
       queryProps: {
         totalProducts: data.total,
         totalPages: data.last_page,

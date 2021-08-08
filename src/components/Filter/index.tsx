@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { Range, getTrackBackground } from 'react-range';
 
-import { BrandType } from '../../types/products/index';
+import { BrandType, SizeType } from '../../types/products/index';
 
 import styles from './styles.module.css';
 
 type FilterProps = {
-  brands: BrandType[]
+  brands: BrandType[];
+  sizes: SizeType[];
 }
 
 export function Filter(props: FilterProps) {
@@ -22,11 +23,11 @@ export function Filter(props: FilterProps) {
       >
         <option value="" disabled={true}>Tamanho</option>
         <option value="all">Todos os tamanhos</option>
-        <option value="pp">PP</option>
-        <option value="p">P</option>
-        <option value="m">M</option>
-        <option value="g">G</option>
-        <option value="gg">GG</option>
+        {props.sizes.map(size => {
+          return (
+            <option key={size.id} value={size.id}>{size.name}</option>
+          )
+        })}
       </select>
 
       <select
