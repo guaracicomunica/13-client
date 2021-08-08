@@ -16,7 +16,7 @@ export default function Carousel(props: LoadingPropsType) {
                   <img
                     className={`${styles['blur']} d-block w-100`}
                     src="/images/banner-home.svg"
-                    alt="Segundo Slide"
+                    alt="Imagem de fundo"
                   />            
           </div>
           :

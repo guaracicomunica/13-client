@@ -12,15 +12,10 @@ import { getAPIClient } from '../services/apiClient';
 import styles from "./home.module.css";
 import { LoadingContext } from '../contexts/LoadingContext';
 
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-}
-
+import {ProductType} from "../types/products/index";
 
 type ProdutosPageProps = {
-  products: Product[];
+  products: ProductType[];
   isLoading: boolean;
 }
 
@@ -67,7 +62,7 @@ export default function Home(props: ProdutosPageProps) {
         <section className={`section ${styles["products-list"]}`}>
           {props.products.map(product => (
             <ProductCard
-              key={product.id}
+              id={product.id}
               title={product.title}
               price={product.price}
               favorite={true}

@@ -10,7 +10,7 @@ import styles from './styles.module.css';
 export default function PreparandoProduto() {
     const { cart, addToCart, removeFromCart, clearCart } = useContext(CartContext);
 
-    const item = { id: 2, name: 'produto 02', price: 50.5 } as ProductType;
+    const item = { id: 2, title: 'produto 02', price: 50.5 } as ProductType;
 
     return (
         <>
