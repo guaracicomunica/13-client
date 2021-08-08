@@ -3,6 +3,7 @@ import Router from 'next/router';
 import { setCookie, parseCookies, destroyCookie } from 'nookies';
 
 import { api } from '../services/api';
+import { getAPIClient } from '../services/apiClient';
 
 type User = {
   id: number;
@@ -16,14 +17,27 @@ type SignInData = {
   password: string;
 }
 
+type RegisterData = {
+  email: string;
+  telefone: string;
+  password: string;
+}
+
 type AuthContextType = {
   user: User;
   isAuthenticated: boolean;
   signIn: (data: SignInData) => void;
   logoff: () => void;
+  register: (data: RegisterData) => void;
 }
 
 type DataAuth = {
+  access_token: string;
+  user: User;
+}
+
+type DataRegisterData = {
+  message: string;
   access_token: string;
   user: User;
 }
@@ -71,8 +85,33 @@ export function AuthProvider({ children }) {
     Router.push('/login');
   }
 
+  async function register({email, telefone, password}: RegisterData){
+    const api = getAPIClient()
+    const response = await api.post<DataRegisterData>('/auth/register', {
+      email,
+      telefone,
+      password
+    }
+    /*, 
+
+    {
+       headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Authorization", 
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, PATCH, DELETE" ,
+        "Content-Type": "application/json;charset=UTF-8" 
+       }
+    }
+    */
+    ).then((response) => {
+      console.log(response)
+    });
+
+    
+  }
+
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, signIn, logoff }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, signIn, logoff, register }}>
       { children }
     </AuthContext.Provider>
   )
