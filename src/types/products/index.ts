@@ -1,5 +1,10 @@
 export type ProductType = {
     id: number;
-    name: string;
+    title: string;
     price: number;
 }
+
+export type BrandType = {
+    id: number;
+    name: string;
+  }

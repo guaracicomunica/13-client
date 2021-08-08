@@ -12,16 +12,13 @@ import { ProductCard } from '../../components/ProductCard';
 
 import { LoadingContext } from '../../contexts/LoadingContext';
 
+import { BrandType, ProductType } from '../../types/products/index';
+
 import styles from './styles.module.css';
 
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-}
-
 type ProdutosPageProps = {
-  products: Product[];
+  products: ProductType[];
+  brands: BrandType[];
   queryProps: {
     totalProducts: number;
     totalPages: number;
@@ -34,7 +31,8 @@ type ProdutosPageProps = {
 export default function Produtos(props: ProdutosPageProps) {
   const api = getAPIClient();
 
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductType[]>([]);
+  const [brands, setBrands] = useState<BrandType[]>([]);
   const [firstProductOnPage, setFirstProductOnPage] = useState(0);
   const [lastProductOnPage, setLastProductOnPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -49,6 +47,7 @@ export default function Produtos(props: ProdutosPageProps) {
   useEffect(() => {
     if (props) {
       setProducts(props.products);
+      setBrands(props.brands);
       setFirstProductOnPage(props.queryProps.firstProductOnPage);
       setLastProductOnPage(props.queryProps.lastProductOnPage);
       setTotalPages(props.queryProps.totalPages);
@@ -66,7 +65,7 @@ export default function Produtos(props: ProdutosPageProps) {
       }
     });
 
-    const products: Product[] = data.data.map(product => {
+    const products: ProductType[] = data.data.map(product => {
       return {
         id: product.id,
         title: product.name,
@@ -153,7 +152,9 @@ export default function Produtos(props: ProdutosPageProps) {
         </section>
         
         <section className={`section ${styles["products-filter"]}`}>
-          <Filter />          
+          <Filter
+            brands={brands}
+          />          
 
           <div className={styles["products-list"]}>
             {products.map(product => {
@@ -212,7 +213,7 @@ export const getStaticProps: GetStaticProps = async () => {
     }
   });
 
-  const products: Product[] = data.data.map(product => {
+  const products: ProductType[] = data.data.map(product => {
     return {
       id: product.id,
       title: product.name,
@@ -220,9 +221,19 @@ export const getStaticProps: GetStaticProps = async () => {
     }
   });
 
+  const dataBrands = await api.get('brands');
+
+  const brands: BrandType[] = dataBrands.data.map(brand => {
+    return {
+      id: brand.id,
+      name: brand.name
+    }
+  });
+
   return {
     props: {
       products,
+      brands,
       queryProps: {
         totalProducts: data.total,
         totalPages: data.last_page,
