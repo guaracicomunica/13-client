@@ -165,6 +165,7 @@ export default function Produtos(props: ProdutosPageProps) {
               return (
                 <ProductCard
                   key={product.id}
+                  id={product.id}
                   title={product.title}
                   price={product.price}
                   favorite={true}
