@@ -4,17 +4,7 @@ export type ProductType = {
     price: number;
 }
 
-export type BrandType = {
-    id: number;
-    name: string;
-}
-
-export type SizeType = {
-    id: number;
-    name: string;
-}
-
-export type CategoryType = {
+export type FilterItemType = {
     id: number;
     name: string;
 }

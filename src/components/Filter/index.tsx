@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import { Range, getTrackBackground } from 'react-range';
 
-import { BrandType, CategoryType, SizeType } from '../../types/products/index';
+import { FilterItemType } from '../../types/products/index';
 
 import { formatString } from '../../utils/formatString';
 
 import styles from './styles.module.css';
 
 type FilterProps = {
-  brands: BrandType[];
-  sizes: SizeType[];
-  categories: CategoryType[];
+  brands: FilterItemType[];
+  sizes: FilterItemType[];
+  categories: FilterItemType[];
 }
 
 export function Filter(props: FilterProps) {
