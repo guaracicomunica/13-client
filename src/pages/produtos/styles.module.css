@@ -33,6 +33,19 @@
   gap: 2rem;
 }
 
+.products-not-found {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  width: fit-content;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: var(--blue-dark);
+}
+
 @media (max-width: 1280px) {
   .products-filter {
     grid-template-columns: 1fr 2fr;
