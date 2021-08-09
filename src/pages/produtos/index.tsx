@@ -12,7 +12,7 @@ import { ProductCard } from '../../components/ProductCard';
 
 import { LoadingContext } from '../../contexts/LoadingContext';
 
-import { FilterItemType, ProductType } from '../../types/products/index';
+import { FilterItemType, FilterType, ProductType } from '../../types/products/index';
 
 import styles from './styles.module.css';
 
@@ -44,6 +44,12 @@ export default function Produtos(props: ProdutosPageProps) {
 
   const { loading, setLoading } = useContext(LoadingContext);
 
+  const [ filter, setFilter ] = useState<FilterType>({
+    brandId: "0",
+    sizeId: "0",
+    categoryId: "0"
+  });
+
   useEffect(() => {
     setTimeout(() => setLoading(props.isLoading), 4500);
   }, [loading]);
@@ -60,6 +66,10 @@ export default function Produtos(props: ProdutosPageProps) {
       setTotalProducts(props.queryProps.totalProducts);
     }
   }, []);
+
+  useEffect(() => {
+    filterProducts();
+  }, [filter]);
 
   async function changePage(page) {
     setLoading(true);
@@ -88,6 +98,50 @@ export default function Produtos(props: ProdutosPageProps) {
 
   function openFilter() {
     document.querySelector('#filter')?.classList.toggle("show-filter");
+  }
+
+  function handleFilter(nameFilter: string, valueFilter: string) {
+    if (nameFilter == "category" && valueFilter != "") {
+      setFilter({
+        ...filter,
+        categoryId: `${filter.categoryId}, ${valueFilter}`
+      })
+
+      console.log(filter.categoryId)
+    }
+    else {
+      setFilter({
+        ...filter,
+        [`${nameFilter}Id`]: valueFilter
+      });
+    }
+
+    setLoading(true);
+  }
+
+  async function filterProducts() {
+    const { data } = await api.get('products', {
+      params: {
+        per_page: 9,
+        ...filter
+      }
+    });
+
+    const products: ProductType[] = data.data.map(product => {
+      return {
+        id: product.id,
+        title: product.name,
+        price: product.price
+      }
+    });
+
+    setProducts(products);
+    setFirstProductOnPage(data.from);
+    setLastProductOnPage(data.to);
+    setTotalPages(data.last_page);
+    setTotalProducts(data.total);
+
+    setLoading(false);
   }
 
   return (
@@ -162,22 +216,29 @@ export default function Produtos(props: ProdutosPageProps) {
             brands={brands}
             sizes={sizes}
             categories={categories}
+            handleFilter={handleFilter}
           />          
 
           <div className={styles["products-list"]}>
-            {products.map(product => {
-              return (
-                <ProductCard
-                  key={product.id}
-                  id={product.id}
-                  title={product.title}
-                  price={product.price}
-                  favorite={true}
-                  img="camisa-barcelona"
-                  isLoading={loading}
-                />
-              )})
-            }
+            {loading === false && products.length === 0 ? (
+              <div className={styles["products-not-found"]}>
+                Nenhum produto encontrado.
+              </div>
+            ) : (
+              products.map(product => {
+                return (
+                  <ProductCard
+                    key={product.id}
+                    id={product.id}
+                    title={product.title}
+                    price={product.price}
+                    favorite={true}
+                    img="camisa-barcelona"
+                    isLoading={loading}
+                  />
+                )
+              })
+            )}
           </div>
         </section>
 

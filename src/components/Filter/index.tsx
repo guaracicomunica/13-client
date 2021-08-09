@@ -11,6 +11,7 @@ type FilterProps = {
   brands: FilterItemType[];
   sizes: FilterItemType[];
   categories: FilterItemType[];
+  handleFilter: (nameFilter: string, valueFilter: string) => void;
 }
 
 export function Filter(props: FilterProps) {
@@ -23,9 +24,10 @@ export function Filter(props: FilterProps) {
         name="size"
         id="size"
         className="form-control mb-3"
+        onChange={(event) => props.handleFilter("size", event.target.value)}
       >
         <option value="" disabled={true}>Tamanho</option>
-        <option value="all">Todos os tamanhos</option>
+        <option value="0">Todos os tamanhos</option>
         {props.sizes.map(size => {
           return (
             <option key={size.id} value={size.id}>{size.name}</option>
@@ -38,9 +40,10 @@ export function Filter(props: FilterProps) {
         name="brand"
         id="brand"
         className="form-control mb-3"
+        onChange={(event) => props.handleFilter("brand", event.target.value)}
       >
         <option value="" disabled={true}>Marca</option>
-        <option value="all">Todas as marcas</option>
+        <option value="0">Todas as marcas</option>
         {props.brands.map(brand => {
           return (
             <option key={brand.id} value={brand.id}>{brand.name}</option>
@@ -93,6 +96,14 @@ export function Filter(props: FilterProps) {
               type="checkbox"
               name={formatString(category.name)}
               id={formatString(category.name)}
+              onChange={(event) => {
+                if (event.currentTarget.checked) {
+                  props.handleFilter("category", category.id.toString())
+                }
+                else {
+                  props.handleFilter("category", "")
+                }
+              }}
             />
             <label htmlFor={formatString(category.name)}>{category.name}</label>
             <div className={`${styles["icon-checkbox"]}`} />

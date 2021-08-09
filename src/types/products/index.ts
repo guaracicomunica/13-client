@@ -8,3 +8,9 @@ export type FilterItemType = {
     id: number;
     name: string;
 }
+
+export type FilterType = {
+    sizeId: string;
+    brandId: string;
+    categoryId: string;
+}
