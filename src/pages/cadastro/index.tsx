@@ -14,8 +14,9 @@ export default function Cadastro() {
 
    const handleParam = setValue => e => setValue(e.target.value)
 
-    async function handleRegister() {
-        
+    async function handleRegister(event: any) {
+        event.preventDefault();
+
         let data = {
             email: email,
             telefone: telefone,
@@ -53,7 +54,7 @@ export default function Cadastro() {
                 <div className="row">
 
                     <div className="col-sm-12 d-flex justify-content-center">
-                        <form action="javascript:void(0)" onSubmit={handleRegister}  className={`${styles['w-sm-85']} ${styles['w-md-50']}`}>
+                        <form onSubmit={handleRegister} className={`${styles['w-sm-85']} ${styles['w-md-50']}`}>
                             <div className="form-group">
                                 <label htmlFor="email" className={`${styles['label']}`}>E-mail</label>
                                 <input type="email" className={`${styles['bg-input']} form-control`} 
@@ -77,7 +78,7 @@ export default function Cadastro() {
                                     </div>
                                 </div>
                                 */}
-                                <div className="col-md-6 col-sm-12">
+                                <div className="col-sm-12">
                                     <div className="form-group">
                                         <label htmlFor="phone" className={`${styles['label']}`}>Telefone</label>
                                         <input type="text" className={`${styles['bg-input']} form-control`} 
