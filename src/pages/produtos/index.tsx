@@ -12,16 +12,15 @@ import { ProductCard } from '../../components/ProductCard';
 
 import { LoadingContext } from '../../contexts/LoadingContext';
 
+import { FilterItemType, FilterType, ProductType } from '../../types/products/index';
+
 import styles from './styles.module.css';
 
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-}
-
 type ProdutosPageProps = {
-  products: Product[];
+  products: ProductType[];
+  brands: FilterItemType[];
+  sizes: FilterItemType[];
+  categories: FilterItemType[];
   queryProps: {
     totalProducts: number;
     totalPages: number;
@@ -34,13 +33,22 @@ type ProdutosPageProps = {
 export default function Produtos(props: ProdutosPageProps) {
   const api = getAPIClient();
 
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductType[]>([]);
+  const [brands, setBrands] = useState<FilterItemType[]>([]);
+  const [sizes, setSizes] = useState<FilterItemType[]>([]);
+  const [categories, setCategories] = useState<FilterItemType[]>([]);
   const [firstProductOnPage, setFirstProductOnPage] = useState(0);
   const [lastProductOnPage, setLastProductOnPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [totalProducts, setTotalProducts] = useState(0);
 
   const { loading, setLoading } = useContext(LoadingContext);
+
+  const [ filter, setFilter ] = useState<FilterType>({
+    brandId: "0",
+    sizeId: "0",
+    categoryId: "0"
+  });
 
   useEffect(() => {
     setTimeout(() => setLoading(props.isLoading), 4500);
@@ -49,12 +57,19 @@ export default function Produtos(props: ProdutosPageProps) {
   useEffect(() => {
     if (props) {
       setProducts(props.products);
+      setBrands(props.brands);
+      setSizes(props.sizes);
+      setCategories(props.categories);
       setFirstProductOnPage(props.queryProps.firstProductOnPage);
       setLastProductOnPage(props.queryProps.lastProductOnPage);
       setTotalPages(props.queryProps.totalPages);
       setTotalProducts(props.queryProps.totalProducts);
     }
   }, []);
+
+  useEffect(() => {
+    filterProducts();
+  }, [filter]);
 
   async function changePage(page) {
     setLoading(true);
@@ -66,7 +81,7 @@ export default function Produtos(props: ProdutosPageProps) {
       }
     });
 
-    const products: Product[] = data.data.map(product => {
+    const products: ProductType[] = data.data.map(product => {
       return {
         id: product.id,
         title: product.name,
@@ -83,6 +98,50 @@ export default function Produtos(props: ProdutosPageProps) {
 
   function openFilter() {
     document.querySelector('#filter')?.classList.toggle("show-filter");
+  }
+
+  function handleFilter(nameFilter: string, valueFilter: string) {
+    if (nameFilter == "category" && valueFilter != "") {
+      setFilter({
+        ...filter,
+        categoryId: `${filter.categoryId}, ${valueFilter}`
+      })
+
+      console.log(filter.categoryId)
+    }
+    else {
+      setFilter({
+        ...filter,
+        [`${nameFilter}Id`]: valueFilter
+      });
+    }
+
+    setLoading(true);
+  }
+
+  async function filterProducts() {
+    const { data } = await api.get('products', {
+      params: {
+        per_page: 9,
+        ...filter
+      }
+    });
+
+    const products: ProductType[] = data.data.map(product => {
+      return {
+        id: product.id,
+        title: product.name,
+        price: product.price
+      }
+    });
+
+    setProducts(products);
+    setFirstProductOnPage(data.from);
+    setLastProductOnPage(data.to);
+    setTotalPages(data.last_page);
+    setTotalProducts(data.total);
+
+    setLoading(false);
   }
 
   return (
@@ -153,21 +212,33 @@ export default function Produtos(props: ProdutosPageProps) {
         </section>
         
         <section className={`section ${styles["products-filter"]}`}>
-          <Filter />          
+          <Filter
+            brands={brands}
+            sizes={sizes}
+            categories={categories}
+            handleFilter={handleFilter}
+          />          
 
           <div className={styles["products-list"]}>
-            {products.map(product => {
-              return (
-                <ProductCard
-                  key={product.id}
-                  title={product.title}
-                  price={product.price}
-                  favorite={true}
-                  img="camisa-barcelona"
-                  isLoading={loading}
-                />
-              )})
-            }
+            {loading === false && products.length === 0 ? (
+              <div className={styles["products-not-found"]}>
+                Nenhum produto encontrado.
+              </div>
+            ) : (
+              products.map(product => {
+                return (
+                  <ProductCard
+                    key={product.id}
+                    id={product.id}
+                    title={product.title}
+                    price={product.price}
+                    favorite={true}
+                    img="camisa-barcelona"
+                    isLoading={loading}
+                  />
+                )
+              })
+            )}
           </div>
         </section>
 
@@ -212,7 +283,7 @@ export const getStaticProps: GetStaticProps = async () => {
     }
   });
 
-  const products: Product[] = data.data.map(product => {
+  const products: ProductType[] = data.data.map(product => {
     return {
       id: product.id,
       title: product.name,
@@ -220,9 +291,39 @@ export const getStaticProps: GetStaticProps = async () => {
     }
   });
 
+  const dataBrands = await api.get('brands');
+
+  const brands: FilterItemType[] = dataBrands.data.map(brand => {
+    return {
+      id: brand.id,
+      name: brand.name
+    }
+  });
+
+  const dataSizes = await api.get('sizes');
+
+  const sizes: FilterItemType[] = dataSizes.data.map(size => {
+    return {
+      id: size.id,
+      name: size.name
+    }
+  });
+
+  const dataCategories = await api.get('categories');
+
+  const categories: FilterItemType[] = dataCategories.data.map(category => {
+    return {
+      id: category.id,
+      name: category.name
+    }
+  });
+
   return {
     props: {
       products,
+      brands,
+      sizes,
+      categories,
       queryProps: {
         totalProducts: data.total,
         totalPages: data.last_page,

@@ -1,47 +1,85 @@
 import { useState } from 'react';
 import { Range, getTrackBackground } from 'react-range';
 
-import styles from './styles.module.css'
+import { FilterItemType } from '../../types/products/index';
 
-export function Filter() {
+import { formatString } from '../../utils/formatString';
+
+import styles from './styles.module.css';
+
+type FilterProps = {
+  brands: FilterItemType[];
+  sizes: FilterItemType[];
+  categories: FilterItemType[];
+  handleFilter: (nameFilter: string, valueFilter: string) => void;
+}
+
+export function Filter(props: FilterProps) {
   const [initialPosition, setInitialPosition] = useState([25,200]);
 
   return (
-    <div
-      className={`${styles.filter}`}
-      id="filter"
-    >
-      <select defaultValue="" name="size" id="size" className="form-control mb-3">
+    <div className={`${styles.filter}`} id="filter">
+      <select
+        defaultValue=""
+        name="size"
+        id="size"
+        className="form-control mb-3"
+        onChange={(event) => props.handleFilter("size", event.target.value)}
+      >
         <option value="" disabled={true}>Tamanho</option>
-        <option value="all">Todos os tamanhos</option>
-        <option value="pp">PP</option>
-        <option value="p">P</option>
-        <option value="m">M</option>
-        <option value="g">G</option>
-        <option value="gg">GG</option>
+        <option value="0">Todos os tamanhos</option>
+        {props.sizes.map(size => {
+          return (
+            <option key={size.id} value={size.id}>{size.name}</option>
+          )
+        })}
       </select>
 
-      <select defaultValue="" name="brand" id="brand" className="form-control mb-3">
+      <select
+        defaultValue=""
+        name="brand"
+        id="brand"
+        className="form-control mb-3"
+        onChange={(event) => props.handleFilter("brand", event.target.value)}
+      >
         <option value="" disabled={true}>Marca</option>
-        <option value="all">Todas as marcas</option>
-        <option value="nike">Nike</option>
-        <option value="adidas">Adidas</option>
+        <option value="0">Todas as marcas</option>
+        {props.brands.map(brand => {
+          return (
+            <option key={brand.id} value={brand.id}>{brand.name}</option>
+          )
+        })}
       </select>
 
-      <select defaultValue="" name="type-product" id="type-product" className="form-control mb-3">
+      <select
+        defaultValue=""
+        name="type-product"
+        id="type-product"
+        className="form-control mb-3"
+      >
         <option value="" disabled={true}>Tipo de produto</option>
         <option value="all">Todos os tipos de produto</option>
         <option value="camisa">Camisa</option>
       </select>
 
-      <select defaultValue="" name="material" id="material" className="form-control mb-3">
+      <select
+        defaultValue=""
+        name="material"
+        id="material"
+        className="form-control mb-3"
+      >
         <option value="" disabled={true}>Material</option>
         <option value="all">Todos os materiais</option>
         <option value="algodao">Algodão</option>
         <option value="poliester">Poliéster</option>
       </select>
 
-      <select defaultValue="" name="rating" id="rating" className="form-control mb-3">
+      <select
+        defaultValue=""
+        name="rating"
+        id="rating"
+        className="form-control mb-3"
+      >
         <option value="" disabled={true}>Avaliações</option>
         <option value="all">Todas as avaliações</option>
         <option value="five">Cinco estrelas</option>
@@ -51,35 +89,27 @@ export function Filter() {
         <option value="one">Uma estrela</option>
       </select>
 
-      <div className={`${styles["filter-checkbox"]} mb-3`}>
-        <input
-          type="checkbox"
-          name="selecao-tailandesa"
-          id="selecao-tailandesa"
-        />
-        <label htmlFor="selecao-tailandesa">Seleções tailandesas</label>
-        <div className={`${styles["icon-checkbox"]}`} />
-      </div>
-
-      <div className={`${styles["filter-checkbox"]} mb-3`}>
-        <input
-          type="checkbox"
-          name="selecao-europeia"
-          id="selecao-europeia"
-        />
-        <label htmlFor="selecao-europeia">Seleções europeias</label>
-        <div className={`${styles["icon-checkbox"]}`} />
-      </div>
-
-      <div className={`${styles["filter-checkbox"]} mb-4`}>
-        <input
-          type="checkbox"
-          name="selecao-brasileira"
-          id="selecao-brasileira"
-        />
-        <label htmlFor="selecao-brasileira">Seleções brasileiras</label>
-        <div className={`${styles["icon-checkbox"]}`} />
-      </div>
+      {props.categories.map(category => {
+        return (
+          <div className={`${styles["filter-checkbox"]} mb-3`} key={category.id}>
+            <input
+              type="checkbox"
+              name={formatString(category.name)}
+              id={formatString(category.name)}
+              onChange={(event) => {
+                if (event.currentTarget.checked) {
+                  props.handleFilter("category", category.id.toString())
+                }
+                else {
+                  props.handleFilter("category", "")
+                }
+              }}
+            />
+            <label htmlFor={formatString(category.name)}>{category.name}</label>
+            <div className={`${styles["icon-checkbox"]}`} />
+          </div>
+        )
+      })}
       
       <hr />
 

@@ -3,3 +3,14 @@ export type ProductType = {
     title: string;
     price: number;
 }
+
+export type FilterItemType = {
+    id: number;
+    name: string;
+}
+
+export type FilterType = {
+    sizeId: string;
+    brandId: string;
+    categoryId: string;
+}
