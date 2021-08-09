@@ -12,6 +12,14 @@ type ProductProps = {
 export default function Product({ product }: ProductProps) {
     return (
         <div>
+            <div className="align-self-center">
+                <img
+                    src={`/images/camisa-barcelona.svg`}
+                    alt="Camisa"
+                    aria-label="Camisa do Barcelona"
+                    className="img-fluid"
+                />
+            </div>
         </div>
     );
 }
