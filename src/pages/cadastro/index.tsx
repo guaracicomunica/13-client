@@ -3,13 +3,14 @@ import { useContext, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { useForm } from 'react-hook-form';
 import styles from './styles.module.css';
+import { getAPIClient } from '../../services/apiClient';
 
 export default function Cadastro() {
     //const { register, handleSubmit } = useForm();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [telefone, setTelefone] = useState('');
-    const { register } = useContext(AuthContext);
+   //const { register } = useContext(AuthContext);
 
    const handleParam = setValue => e => setValue(e.target.value)
 
@@ -22,7 +23,20 @@ export default function Cadastro() {
         }
         await register(data)
     }
-  
+
+
+    async function register({email, telefone, password}){
+        const api = getAPIClient()
+        const response = await api.post('/auth/register', {
+          email,
+          telefone,
+          password
+        }        
+        ).then((response) => {
+            
+          console.log(response)
+        });
+    }
 
     return (
         <>
