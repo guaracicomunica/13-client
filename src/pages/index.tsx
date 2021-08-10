@@ -1,6 +1,6 @@
 import Head from 'next/head'
 
-import { useState, useEffect, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 
 import { GetStaticProps } from 'next';
 
@@ -12,14 +12,15 @@ import { getAPIClient } from '../services/apiClient';
 import styles from "./home.module.css";
 import { LoadingContext } from '../contexts/LoadingContext';
 
-import {ProductType} from "../types/products/index";
+import { ProductType } from "../types/products/index";
 
-type ProdutosPageProps = {
-  products: ProductType[];
+type HomePageProps = {
+  lastProducts: ProductType[];
+  popularProducts: ProductType[];
   isLoading: boolean;
 }
 
-export default function Home(props: ProdutosPageProps) {
+export default function Home(props: HomePageProps) {
 
   const { loading, setLoading } = useContext(LoadingContext);
 
@@ -60,7 +61,7 @@ export default function Home(props: ProdutosPageProps) {
         </section>
 
         <section className={`section ${styles["products-list"]}`}>
-          {props.products.map(product => (
+          {props.lastProducts?.map(product => (
             <ProductCard
               key={product.id}
               id={product.id}
@@ -86,75 +87,17 @@ export default function Home(props: ProdutosPageProps) {
           <h1 className="mb-5 title-section">Mais popular</h1>
 
           <div className={styles["products-list"]}>
-            <ProductCard
-              title="Camisa Barcelona 20/21 S/Nº Torcedor Nike Masculina"
-              price={78.98}
-              favorite={true}
-              img="camisa-barcelona"
-              isLoading={loading}
-            />
-
-            <ProductCard
-              title="Camisa do Palmeiras | 21 Puma - Masculina"
-              price={99.99}
-              favorite={false}
-              img="camisa-2"
-              isLoading={loading}
-            />
-
-            <ProductCard
-              title="Camisa Adidas México Home 2021-22"
-              price={107.95}
-              favorite={true}
-              img="camisa-3"
-              isLoading={loading}
-            />
-
-            <ProductCard
-              title="Camisa Seleção da Itália 2020, Uniforme 3, Dry Cell"
-              price={99.99}
-              favorite={false}
-              img="camisa-4"
-              isLoading={loading}
-            />
-          </div>
-        </section>
-
-        <section className="section">
-          <h1 className="mb-5 title-section">Vistos por você</h1>
-
-          <div className={styles["products-list"]}>
-            <ProductCard
-              title="Camisa Barcelona 20/21 S/Nº Torcedor Nike Masculina"
-              price={78.98}
-              favorite={true}
-              img="camisa-barcelona"
-              isLoading={false}
-            />
-
-            <ProductCard
-              title="Camisa do Palmeiras | 21 Puma - Masculina"
-              price={99.99}
-              favorite={false}
-              img="camisa-2"
-              isLoading={false}
-            />
-
-            <ProductCard
-              title="Camisa Adidas México Home 2021-22"
-              price={107.95}
-              favorite={true}
-              img="camisa-3"
-              isLoading={false}
-            />
-
-            <ProductCard
-              title="Camisa Seleção da Itália 2020, Uniforme 3, Dry Cell"
-              price={99.99}
-              favorite={false}
-              img="camisa-4"
-              isLoading={false}
-            />
+            {props.popularProducts?.map(product => (
+              <ProductCard
+                key={product.id}
+                id={product.id}
+                title={product.title}
+                price={product.price}
+                favorite={true}
+                isLoading={loading}
+                img="camisa-barcelona"
+              />
+            ))}
           </div>
         </section>
 
@@ -237,29 +180,41 @@ export default function Home(props: ProdutosPageProps) {
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-
-  const api = getAPIClient();
-
-  const { data } = await api.get('products', {
-    params: {
-      per_page: 8
-    }
-  });
-
-  const products: Product[] = data.data.map(product => {
+function mapResponse(response: any) {
+  return response.data?.map(product => {
     return {
       id: product.id,
       title: product.name,
       price: product.price
     }
   });
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+
+  const api = getAPIClient();
+
+  const { data: lastProductsResponse } = await api.get('products', {
+    params: {
+      per_page: 8
+    }
+  });
+
+  const { data: popularProductsResponse } = await api.get('products', {
+    params: {
+      per_page: 8
+    }
+  });
+
+  const lastProducts: ProductType[] = mapResponse(lastProductsResponse);
+
+  const popularProducts: ProductType[] = mapResponse(popularProductsResponse);
 
   return {
     props: {
-      products,
+      lastProducts,
+      popularProducts: popularProducts,
       isLoading: false,
     }
   }
-
 }
