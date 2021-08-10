@@ -50,6 +50,8 @@ export default function Produtos(props: ProdutosPageProps) {
     categoryId: "0"
   });
 
+  const [ categoryFilter, setCategoryFilter ] = useState<number[]>([])
+
   useEffect(() => {
     setTimeout(() => setLoading(props.isLoading), 4500);
   }, [loading]);
@@ -100,26 +102,42 @@ export default function Produtos(props: ProdutosPageProps) {
     document.querySelector('#filter')?.classList.toggle("show-filter");
   }
 
+  function addCategoryInFilter(item: number) {
+    const categoriesFiltered = [...categoryFilter, item];
+
+    setCategoryFilter(categoriesFiltered);
+    
+    setFilter({
+      ...filter,
+      categoryId: categoriesFiltered.toString()
+    });
+  }
+
+  function removeCategoryInFilter(item: number) {
+    const categoriesFiltered = categoryFilter.filter(
+      category => category !== item
+    );
+
+    setCategoryFilter(categoriesFiltered);
+
+    const categoryFilterIsEmpty = categoriesFiltered.length === 0;
+
+    setFilter({
+      ...filter,
+      categoryId: categoryFilterIsEmpty ? "0" : categoriesFiltered.toString()
+    });
+  }
+
   function handleFilter(nameFilter: string, valueFilter: string) {
-    if (nameFilter == "category" && valueFilter != "") {
-      setFilter({
-        ...filter,
-        categoryId: `${filter.categoryId}, ${valueFilter}`
-      })
-
-      console.log(filter.categoryId)
-    }
-    else {
-      setFilter({
-        ...filter,
-        [`${nameFilter}Id`]: valueFilter
-      });
-    }
-
-    setLoading(true);
+    setFilter({
+      ...filter,
+      [nameFilter]: valueFilter
+    });
   }
 
   async function filterProducts() {
+    setLoading(true);
+
     const { data } = await api.get('products', {
       params: {
         per_page: 9,
@@ -217,6 +235,8 @@ export default function Produtos(props: ProdutosPageProps) {
             sizes={sizes}
             categories={categories}
             handleFilter={handleFilter}
+            addCategoryInFilter={addCategoryInFilter}
+            removeCategoryInFilter={removeCategoryInFilter}
           />          
 
           <div className={styles["products-list"]}>
