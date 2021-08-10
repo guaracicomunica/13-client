@@ -21,6 +21,7 @@ export default function Cadastro() {
             email: email,
             telefone: telefone,
             password: password,
+            role: "2",
         }
         await register(data)
     }
