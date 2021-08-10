@@ -6,11 +6,13 @@ import styles from './styles.module.css';
 import { getAPIClient } from '../../services/apiClient';
 
 export default function Cadastro() {
-    //const { register, handleSubmit } = useForm();
+    const [name, setName] = useState('');
+    const [cpf, setCpf] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [telefone, setTelefone] = useState('');
-   //const { register } = useContext(AuthContext);
+    const [password_confirmation, setPassword_confirmation] = useState('');
+   
 
    const handleParam = setValue => e => setValue(e.target.value)
 
@@ -21,6 +23,7 @@ export default function Cadastro() {
             email: email,
             telefone: telefone,
             password: password,
+            password_confirmation: password_confirmation,
             role: "2",
         }
         await register(data)
@@ -32,10 +35,14 @@ export default function Cadastro() {
         const response = await api.post('/auth/register', {
           email,
           telefone,
-          password
+          name,
+          cpf,
+          password,
+          password_confirmation,
+          role:2,
         }        
         ).then((response) => {
-            
+          history.back()
           console.log(response)
         });
     }
@@ -57,31 +64,37 @@ export default function Cadastro() {
                     <div className="col-sm-12 d-flex justify-content-center">
                         <form onSubmit={handleRegister} className={`${styles['w-sm-85']} ${styles['w-md-50']}`}>
                             <div className="form-group">
-                                <label htmlFor="email" className={`${styles['label']}`}>E-mail</label>
+                                <label htmlFor="email" className={`${styles['label']}`}>E-mail*</label>
                                 <input type="email" className={`${styles['bg-input']} form-control`} 
                                 name="email" 
                                 value={email}
                                 onChange={handleParam(setEmail)}
                                 placeholder="usuario@email.com" />
                             </div>
-                         {/* comment here 
+                         
                             <div className="form-group">
-                                <label htmlFor="name" className={`${styles['label']}`}>Nome</label>
-                                <input type="text" className={`${styles['bg-input']} form-control`} name="name" placeholder="Fulano da Silva Lima" />
-                            </div>*/}
+                                <label htmlFor="name" className={`${styles['label']}`}>Nome*</label>
+                                <input type="text" className={`${styles['bg-input']} form-control`} 
+                                value={name}
+                                onChange={handleParam(setName)}
+                                name="name" placeholder="Fulano da Silva Lima" />
+                            </div>
                          
                             <div className="row">
-                                {/*
-                                <div className="col-md-6 col-sm-12">
+                                
+                                <div className="col-sm-6">
                                     <div className="form-group">
                                         <label htmlFor="cpf" className={`${styles['label']}`}>CPF</label>
-                                        <input type="cpf" className={`${styles['bg-input']} form-control`} name="text" placeholder="000.000.000-00" />
+                                        <input type="cpf" className={`${styles['bg-input']} form-control`} 
+                                        value={cpf}
+                                        onChange={handleParam(setCpf)}
+                                        name="text" placeholder="000.000.000-00" />
                                     </div>
                                 </div>
-                                */}
-                                <div className="col-sm-12">
+                                
+                                <div className="col-sm-6">
                                     <div className="form-group">
-                                        <label htmlFor="phone" className={`${styles['label']}`}>Telefone</label>
+                                        <label htmlFor="phone" className={`${styles['label']}`}>Telefone*</label>
                                         <input type="text" className={`${styles['bg-input']} form-control`} 
                                         name="phone"
                                         value={telefone}
@@ -91,15 +104,18 @@ export default function Cadastro() {
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="password" className={`${styles['label']}`}>Criar sua senha</label>
+                                <label htmlFor="password" className={`${styles['label']}`}>Criar sua senha*</label>
                                 <input type="password" className={`${styles['bg-input']} form-control`} name="password" 
                                 value={password}
                                 onChange={handleParam(setPassword)}
                                 placeholder="Digite sua senha" />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="password_confirmation" className={`${styles['label']}`}>Confirmar sua senha</label>
-                                <input type="password" className={`${styles['bg-input']} form-control`} name="password_confirmation" placeholder="Digite sua senha novamente" />
+                                <label htmlFor="password_confirmation" className={`${styles['label']}`}>Confirmar sua senha*</label>
+                                <input type="password" className={`${styles['bg-input']} form-control`} 
+                                value={password_confirmation}
+                                onChange={handleParam(setPassword_confirmation)}
+                                name="password_confirmation" placeholder="Digite sua senha novamente" />
                             </div>
 
                             <div className="row">

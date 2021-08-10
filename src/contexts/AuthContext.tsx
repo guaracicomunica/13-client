@@ -28,7 +28,6 @@ type AuthContextType = {
   isAuthenticated: boolean;
   signIn: (data: SignInData) => void;
   logoff: () => void;
-  register: (data: RegisterData) => void;
 }
 
 type DataAuth = {
