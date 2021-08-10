@@ -62,6 +62,7 @@ export default function Home(props: ProdutosPageProps) {
         <section className={`section ${styles["products-list"]}`}>
           {props.products.map(product => (
             <ProductCard
+              key={product.id}
               id={product.id}
               title={product.title}
               price={product.price}

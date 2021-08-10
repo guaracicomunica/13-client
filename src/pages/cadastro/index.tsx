@@ -3,18 +3,20 @@ import { useContext, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { useForm } from 'react-hook-form';
 import styles from './styles.module.css';
+import { getAPIClient } from '../../services/apiClient';
 
 export default function Cadastro() {
     //const { register, handleSubmit } = useForm();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [telefone, setTelefone] = useState('');
-    const { register } = useContext(AuthContext);
+   //const { register } = useContext(AuthContext);
 
    const handleParam = setValue => e => setValue(e.target.value)
 
-    async function handleRegister() {
-        
+    async function handleRegister(event: any) {
+        event.preventDefault();
+
         let data = {
             email: email,
             telefone: telefone,
@@ -22,7 +24,20 @@ export default function Cadastro() {
         }
         await register(data)
     }
-  
+
+
+    async function register({email, telefone, password}){
+        const api = getAPIClient()
+        const response = await api.post('/auth/register', {
+          email,
+          telefone,
+          password
+        }        
+        ).then((response) => {
+            
+          console.log(response)
+        });
+    }
 
     return (
         <>
@@ -39,7 +54,7 @@ export default function Cadastro() {
                 <div className="row">
 
                     <div className="col-sm-12 d-flex justify-content-center">
-                        <form action="javascript:void(0)" onSubmit={handleRegister}  className={`${styles['w-sm-85']} ${styles['w-md-50']}`}>
+                        <form onSubmit={handleRegister} className={`${styles['w-sm-85']} ${styles['w-md-50']}`}>
                             <div className="form-group">
                                 <label htmlFor="email" className={`${styles['label']}`}>E-mail</label>
                                 <input type="email" className={`${styles['bg-input']} form-control`} 
@@ -63,7 +78,7 @@ export default function Cadastro() {
                                     </div>
                                 </div>
                                 */}
-                                <div className="col-md-6 col-sm-12">
+                                <div className="col-sm-12">
                                     <div className="form-group">
                                         <label htmlFor="phone" className={`${styles['label']}`}>Telefone</label>
                                         <input type="text" className={`${styles['bg-input']} form-control`} 
