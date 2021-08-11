@@ -12,10 +12,13 @@ type FilterProps = {
   sizes: FilterItemType[];
   categories: FilterItemType[];
   handleFilter: (nameFilter: string, valueFilter: string) => void;
+  handlePriceRange: (values: number[]) => void;
+  addCategoryInFilter: (item: number) => void;
+  removeCategoryInFilter: (item: number) => void;
 }
 
 export function Filter(props: FilterProps) {
-  const [initialPosition, setInitialPosition] = useState([25,200]);
+  const [initialPosition, setInitialPosition] = useState([0, 299.99]);
 
   return (
     <div className={`${styles.filter}`} id="filter">
@@ -24,15 +27,13 @@ export function Filter(props: FilterProps) {
         name="size"
         id="size"
         className="form-control mb-3"
-        onChange={(event) => props.handleFilter("size", event.target.value)}
+        onChange={(event) => props.handleFilter("sizeId", event.target.value)}
       >
         <option value="" disabled={true}>Tamanho</option>
         <option value="0">Todos os tamanhos</option>
-        {props.sizes.map(size => {
-          return (
-            <option key={size.id} value={size.id}>{size.name}</option>
-          )
-        })}
+        {props.sizes.map(
+          size => <option key={size.id} value={size.id}>{size.name}</option>
+        )}
       </select>
 
       <select
@@ -40,15 +41,13 @@ export function Filter(props: FilterProps) {
         name="brand"
         id="brand"
         className="form-control mb-3"
-        onChange={(event) => props.handleFilter("brand", event.target.value)}
+        onChange={(event) => props.handleFilter("brandId", event.target.value)}
       >
         <option value="" disabled={true}>Marca</option>
         <option value="0">Todas as marcas</option>
-        {props.brands.map(brand => {
-          return (
-            <option key={brand.id} value={brand.id}>{brand.name}</option>
-          )
-        })}
+        {props.brands.map(
+          brand => <option key={brand.id} value={brand.id}>{brand.name}</option>
+        )}
       </select>
 
       <select
@@ -97,12 +96,8 @@ export function Filter(props: FilterProps) {
               name={formatString(category.name)}
               id={formatString(category.name)}
               onChange={(event) => {
-                if (event.currentTarget.checked) {
-                  props.handleFilter("category", category.id.toString())
-                }
-                else {
-                  props.handleFilter("category", "")
-                }
+                event.currentTarget.checked ? props.addCategoryInFilter(category.id)
+                                            : props.removeCategoryInFilter(category.id)
               }}
             />
             <label htmlFor={formatString(category.name)}>{category.name}</label>
@@ -122,10 +117,13 @@ export function Filter(props: FilterProps) {
       >
         <Range
           values={initialPosition}
-          min={19.99}
-          max={599.99}
+          min={0}
+          max={299.99}
           onChange={(initialPosition) => {
             setInitialPosition(initialPosition);
+          }}
+          onFinalChange={(initialPosition) => {
+            props.handlePriceRange(initialPosition);
           }}
           renderTrack={({ props, children }) => (
             <div
@@ -146,8 +144,8 @@ export function Filter(props: FilterProps) {
                   background: getTrackBackground({
                     values: initialPosition,
                     colors: ['#E5E5E5', '#2C3238', '#E5E5E5'],
-                    min: 19.99,
-                    max: 599.99
+                    min: 0,
+                    max: 299.99
                   })
                 }}
               >

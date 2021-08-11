@@ -9,7 +9,7 @@ export function getAPIClient(ctx?: Pick<next.NextPageContext, 'req'> | {
   const { 'ecommerce.token': token } = parseCookies();
 
   const api = axios.create({
-    baseURL: 'http://localhost:8000/api'
+    baseURL: `${process.env.NEXT_PUBLIC_BASE_URL_API}`
   })
 
   if (token) {

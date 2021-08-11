@@ -9,6 +9,7 @@ import { getAPIClient } from '../../services/apiClient';
 import Carousel from '../../components/Carousel';
 import { Filter } from '../../components/Filter';
 import { ProductCard } from '../../components/ProductCard';
+import WhatsappIcon from '../../components/WhatsappIcon';
 
 import { LoadingContext } from '../../contexts/LoadingContext';
 
@@ -47,8 +48,12 @@ export default function Produtos(props: ProdutosPageProps) {
   const [ filter, setFilter ] = useState<FilterType>({
     brandId: "0",
     sizeId: "0",
-    categoryId: "0"
+    categoryId: "0",
+    priceMin: 0,
+    priceMax: 299.99
   });
+
+  const [ categoryFilter, setCategoryFilter ] = useState<number[]>([])
 
   useEffect(() => {
     setTimeout(() => setLoading(props.isLoading), 4500);
@@ -100,26 +105,50 @@ export default function Produtos(props: ProdutosPageProps) {
     document.querySelector('#filter')?.classList.toggle("show-filter");
   }
 
+  function addCategoryInFilter(item: number) {
+    const categoriesFiltered = [...categoryFilter, item];
+
+    setCategoryFilter(categoriesFiltered);
+    
+    setFilter({
+      ...filter,
+      categoryId: categoriesFiltered.toString()
+    });
+  }
+
+  function removeCategoryInFilter(item: number) {
+    const categoriesFiltered = categoryFilter.filter(
+      category => category !== item
+    );
+
+    setCategoryFilter(categoriesFiltered);
+
+    const categoryFilterIsEmpty = categoriesFiltered.length === 0;
+
+    setFilter({
+      ...filter,
+      categoryId: categoryFilterIsEmpty ? "0" : categoriesFiltered.toString()
+    });
+  }
+
+  function handlePriceRange(values: number[]) {
+    setFilter({
+      ...filter,
+      priceMin: values[0],
+      priceMax: values[1]
+    })
+  }
+
   function handleFilter(nameFilter: string, valueFilter: string) {
-    if (nameFilter == "category" && valueFilter != "") {
-      setFilter({
-        ...filter,
-        categoryId: `${filter.categoryId}, ${valueFilter}`
-      })
-
-      console.log(filter.categoryId)
-    }
-    else {
-      setFilter({
-        ...filter,
-        [`${nameFilter}Id`]: valueFilter
-      });
-    }
-
-    setLoading(true);
+    setFilter({
+      ...filter,
+      [nameFilter]: valueFilter
+    });
   }
 
   async function filterProducts() {
+    setLoading(true);
+
     const { data } = await api.get('products', {
       params: {
         per_page: 9,
@@ -216,7 +245,11 @@ export default function Produtos(props: ProdutosPageProps) {
             brands={brands}
             sizes={sizes}
             categories={categories}
+
             handleFilter={handleFilter}
+            handlePriceRange={handlePriceRange}
+            addCategoryInFilter={addCategoryInFilter}
+            removeCategoryInFilter={removeCategoryInFilter}
           />          
 
           <div className={styles["products-list"]}>
@@ -264,11 +297,10 @@ export default function Produtos(props: ProdutosPageProps) {
           />
         </section>
       
-        <div className="whatsapp-icon">
-          <a href="#">
-            <img src="/icons/whatsapp-icon.svg" alt="Whatsapp-icon" />
-          </a>
-        </div>
+        <WhatsappIcon
+          phone={process.env.NEXT_PUBLIC_CONTACT_PHONE}
+          message="Olá, vim do site do Geral. Gostaria de entrar em contato com a equipe de vocês aqui mesmo pelo Whatsapp."
+        />
       </main>
     </>
   );
