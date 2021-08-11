@@ -68,7 +68,7 @@ export default function Home(props: HomePageProps) {
               id={product.id}
               title={product.title}
               price={product.price}
-              favorite={true}
+              favorite={product.isFavorite}
               isLoading={loading}
               img="camisa-barcelona"
             />
@@ -94,7 +94,7 @@ export default function Home(props: HomePageProps) {
                 id={product.id}
                 title={product.title}
                 price={product.price}
-                favorite={true}
+                favorite={product.isFavorite}
                 isLoading={loading}
                 img="camisa-barcelona"
               />
