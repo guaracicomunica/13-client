@@ -1,5 +1,6 @@
 .carousel-dimensions {
   height: 116vh;
+  min-height: 116vh;
   width: 100%;
 }
 
@@ -16,5 +17,5 @@
 }
 
 .blur {
-  -webkit-filter: blur(6px);
+  -webkit-filter: blur(2px);
 }

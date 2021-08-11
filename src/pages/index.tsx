@@ -16,7 +16,7 @@ import { ProductType } from "../types/products/index";
 
 type HomePageProps = {
   lastProducts: ProductType[];
-  popularProducts: ProductType[];
+  trendProducts: ProductType[];
   isLoading: boolean;
 }
 
@@ -87,7 +87,7 @@ export default function Home(props: HomePageProps) {
           <h1 className="mb-5 title-section">Mais popular</h1>
 
           <div className={styles["products-list"]}>
-            {props.popularProducts?.map(product => (
+            {props.trendProducts?.map(product => (
               <ProductCard
                 key={product.id}
                 id={product.id}
@@ -200,7 +200,7 @@ export const getStaticProps: GetStaticProps = async () => {
     }
   });
 
-  const { data: popularProductsResponse } = await api.get('products', {
+  const { data: trendProductsResponse } = await api.get('products/trend', {
     params: {
       per_page: 8
     }
@@ -208,12 +208,12 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const lastProducts: ProductType[] = mapResponse(lastProductsResponse);
 
-  const popularProducts: ProductType[] = mapResponse(popularProductsResponse);
+  const trendProducts: ProductType[] = mapResponse(trendProductsResponse);
 
   return {
     props: {
       lastProducts,
-      popularProducts: popularProducts,
+      trendProducts: trendProducts,
       isLoading: false,
     }
   }
