@@ -301,6 +301,15 @@ export default function Produtos(props: ProdutosPageProps) {
   );
 }
 
+function mapResponse(response: any) {
+  return response.data?.map(item => {
+    return {
+      id: item.id,
+      name: item.name
+    }
+  });
+}
+
 export const getStaticProps: GetStaticProps = async () => {
   const api = getAPIClient();
 
@@ -319,40 +328,16 @@ export const getStaticProps: GetStaticProps = async () => {
   });
 
   const dataBrands = await api.get('brands');
-
-  const brands: FilterItemType[] = dataBrands.data.map(brand => {
-    return {
-      id: brand.id,
-      name: brand.name
-    }
-  });
+  const brands: FilterItemType[] = mapResponse(dataBrands);
 
   const dataSizes = await api.get('sizes');
-
-  const sizes: FilterItemType[] = dataSizes.data.map(size => {
-    return {
-      id: size.id,
-      name: size.name
-    }
-  });
+  const sizes: FilterItemType[] = mapResponse(dataSizes);
 
   const dataCategories = await api.get('categories');
-
-  const categories: FilterItemType[] = dataCategories.data.map(category => {
-    return {
-      id: category.id,
-      name: category.name
-    }
-  });
+  const categories: FilterItemType[] = mapResponse(dataCategories);
 
   const dataMaterials = await api.get('materials');
-
-  const materials: FilterItemType[] = dataMaterials.data.map(material => {
-    return {
-      id: material.id,
-      name: material.name
-    }
-  });
+  const materials: FilterItemType[] = mapResponse(dataMaterials);
 
   return {
     props: {
