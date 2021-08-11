@@ -13,4 +13,6 @@ export type FilterType = {
     sizeId: string;
     brandId: string;
     categoryId: string;
+    priceMin: number;
+    priceMax: number;
 }
