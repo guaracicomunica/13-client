@@ -59,6 +59,7 @@ export default function Newsletter() {
                             type="checkbox"
                             className="custom-control-input"
                             id="checkbox-newsletter"
+                            required
                         />
                         <label
                             className={`${styles["newsletter-checkbox"]} custom-control-label`}
