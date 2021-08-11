@@ -48,7 +48,9 @@ export default function Produtos(props: ProdutosPageProps) {
   const [ filter, setFilter ] = useState<FilterType>({
     brandId: "0",
     sizeId: "0",
-    categoryId: "0"
+    categoryId: "0",
+    priceMin: 0,
+    priceMax: 299.99
   });
 
   const [ categoryFilter, setCategoryFilter ] = useState<number[]>([])
@@ -127,6 +129,14 @@ export default function Produtos(props: ProdutosPageProps) {
       ...filter,
       categoryId: categoryFilterIsEmpty ? "0" : categoriesFiltered.toString()
     });
+  }
+
+  function handlePriceRange(values: number[]) {
+    setFilter({
+      ...filter,
+      priceMin: values[0],
+      priceMax: values[1]
+    })
   }
 
   function handleFilter(nameFilter: string, valueFilter: string) {
@@ -235,7 +245,9 @@ export default function Produtos(props: ProdutosPageProps) {
             brands={brands}
             sizes={sizes}
             categories={categories}
+
             handleFilter={handleFilter}
+            handlePriceRange={handlePriceRange}
             addCategoryInFilter={addCategoryInFilter}
             removeCategoryInFilter={removeCategoryInFilter}
           />          

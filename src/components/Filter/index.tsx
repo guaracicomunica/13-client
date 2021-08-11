@@ -12,12 +12,13 @@ type FilterProps = {
   sizes: FilterItemType[];
   categories: FilterItemType[];
   handleFilter: (nameFilter: string, valueFilter: string) => void;
+  handlePriceRange: (values: number[]) => void;
   addCategoryInFilter: (item: number) => void;
   removeCategoryInFilter: (item: number) => void;
 }
 
 export function Filter(props: FilterProps) {
-  const [initialPosition, setInitialPosition] = useState([25,200]);
+  const [initialPosition, setInitialPosition] = useState([0, 299.99]);
 
   return (
     <div className={`${styles.filter}`} id="filter">
@@ -116,10 +117,13 @@ export function Filter(props: FilterProps) {
       >
         <Range
           values={initialPosition}
-          min={19.99}
-          max={599.99}
+          min={0}
+          max={299.99}
           onChange={(initialPosition) => {
             setInitialPosition(initialPosition);
+          }}
+          onFinalChange={(initialPosition) => {
+            props.handlePriceRange(initialPosition);
           }}
           renderTrack={({ props, children }) => (
             <div
@@ -140,8 +144,8 @@ export function Filter(props: FilterProps) {
                   background: getTrackBackground({
                     values: initialPosition,
                     colors: ['#E5E5E5', '#2C3238', '#E5E5E5'],
-                    min: 19.99,
-                    max: 599.99
+                    min: 0,
+                    max: 299.99
                   })
                 }}
               >
