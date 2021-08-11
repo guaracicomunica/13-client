@@ -11,6 +11,7 @@ type FilterProps = {
   brands: FilterItemType[];
   sizes: FilterItemType[];
   categories: FilterItemType[];
+  materials: FilterItemType[];
   handleFilter: (nameFilter: string, valueFilter: string) => void;
   handlePriceRange: (values: number[]) => void;
   addCategoryInFilter: (item: number) => void;
@@ -66,11 +67,13 @@ export function Filter(props: FilterProps) {
         name="material"
         id="material"
         className="form-control mb-3"
+        onChange={(event) => props.handleFilter("materialId", event.target.value)}
       >
         <option value="" disabled={true}>Material</option>
-        <option value="all">Todos os materiais</option>
-        <option value="algodao">Algodão</option>
-        <option value="poliester">Poliéster</option>
+        <option value="0">Todos os materiais</option>
+        {props.materials.map(
+          material => <option key={material.id} value={material.id}>{material.name}</option>
+        )}
       </select>
 
       <select

@@ -16,4 +16,5 @@ export type FilterType = {
     categoryId: string;
     priceMin: number;
     priceMax: number;
+    materialId: string;
 }

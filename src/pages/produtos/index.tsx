@@ -22,6 +22,7 @@ type ProdutosPageProps = {
   brands: FilterItemType[];
   sizes: FilterItemType[];
   categories: FilterItemType[];
+  materials: FilterItemType[];
   queryProps: {
     totalProducts: number;
     totalPages: number;
@@ -38,6 +39,7 @@ export default function Produtos(props: ProdutosPageProps) {
   const [brands, setBrands] = useState<FilterItemType[]>([]);
   const [sizes, setSizes] = useState<FilterItemType[]>([]);
   const [categories, setCategories] = useState<FilterItemType[]>([]);
+  const [materials, setMaterials] = useState<FilterItemType[]>([]);
   const [firstProductOnPage, setFirstProductOnPage] = useState(0);
   const [lastProductOnPage, setLastProductOnPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -50,7 +52,8 @@ export default function Produtos(props: ProdutosPageProps) {
     sizeId: "0",
     categoryId: "0",
     priceMin: 0,
-    priceMax: 299.99
+    priceMax: 299.99,
+    materialId: "0"
   });
 
   const [ categoryFilter, setCategoryFilter ] = useState<number[]>([])
@@ -65,6 +68,7 @@ export default function Produtos(props: ProdutosPageProps) {
       setBrands(props.brands);
       setSizes(props.sizes);
       setCategories(props.categories);
+      setMaterials(props.materials);
       setFirstProductOnPage(props.queryProps.firstProductOnPage);
       setLastProductOnPage(props.queryProps.lastProductOnPage);
       setTotalPages(props.queryProps.totalPages);
@@ -245,6 +249,7 @@ export default function Produtos(props: ProdutosPageProps) {
             brands={brands}
             sizes={sizes}
             categories={categories}
+            materials={materials}
 
             handleFilter={handleFilter}
             handlePriceRange={handlePriceRange}
@@ -350,12 +355,22 @@ export const getStaticProps: GetStaticProps = async () => {
     }
   });
 
+  const dataMaterials = await api.get('materials');
+
+  const materials: FilterItemType[] = dataMaterials.data.map(material => {
+    return {
+      id: material.id,
+      name: material.name
+    }
+  });
+
   return {
     props: {
       products,
       brands,
       sizes,
       categories,
+      materials,
       queryProps: {
         totalProducts: data.total,
         totalPages: data.last_page,
