@@ -27,7 +27,7 @@ export default function Newsletter() {
             await api.post('newsletter/subscribe', {
                 email
             });
-            toast.success('Sucesso. Você agora pode acompanhar nossa newsletter!')            
+            toast.success('Sucesso. Você agora pode acompanhar nossa newsletter!', options);            
         } catch (error) {
             toast.error('Erro ao se cadastrar na newsletter!', options);
         }
