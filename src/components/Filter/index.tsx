@@ -78,14 +78,15 @@ export function Filter(props: FilterProps) {
         name="rating"
         id="rating"
         className="form-control mb-3"
+        onChange={(event) => props.handleFilter("stars", event.target.value)}
       >
         <option value="" disabled={true}>Avaliações</option>
-        <option value="all">Todas as avaliações</option>
-        <option value="five">Cinco estrelas</option>
-        <option value="four">Quatro estrelas</option>
-        <option value="three">Três estrelas</option>
-        <option value="two">Duas estrelas</option>
-        <option value="one">Uma estrela</option>
+        <option value="0">Todas as avaliações</option>
+        <option value="5">Cinco estrelas</option>
+        <option value="4">Quatro estrelas</option>
+        <option value="3">Três estrelas</option>
+        <option value="2">Duas estrelas</option>
+        <option value="1">Uma estrela</option>
       </select>
 
       {props.categories.map(category => {
