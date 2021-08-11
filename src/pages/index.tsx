@@ -163,7 +163,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const api = getAPIClient();
 
-  const { data: lastProductsResponse } = await api.get('products', {
+  const { data: lastProductsResponse } = await api.get('products/latest', {
     params: {
       per_page: 8
     }
