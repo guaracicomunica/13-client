@@ -13,24 +13,14 @@ import WhatsappIcon from '../../components/WhatsappIcon';
 
 import { LoadingContext } from '../../contexts/LoadingContext';
 
-import { FilterItemType, FilterType, ProductType } from '../../types/products/index';
+import {
+  FilterItemType,
+  FilterType,
+  ProductType,
+  ProdutosPageProps
+} from '../../types/products/index';
 
 import styles from './styles.module.css';
-
-type ProdutosPageProps = {
-  products: ProductType[];
-  brands: FilterItemType[];
-  sizes: FilterItemType[];
-  categories: FilterItemType[];
-  materials: FilterItemType[];
-  queryProps: {
-    totalProducts: number;
-    totalPages: number;
-    firstProductOnPage: number;
-    lastProductOnPage: number;
-  };
-  isLoading: boolean;
-}
 
 export default function Produtos(props: ProdutosPageProps) {
   const api = getAPIClient();
