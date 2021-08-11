@@ -13,6 +13,7 @@ import styles from "./home.module.css";
 import { LoadingContext } from '../contexts/LoadingContext';
 
 import { ProductType } from "../types/products/index";
+import WhatsappIcon from '../components/WhatsappIcon';
 
 type HomePageProps = {
   lastProducts: ProductType[];
@@ -169,12 +170,11 @@ export default function Home(props: HomePageProps) {
             </a>
           </div>
         </section>
-
-        <div className="whatsapp-icon">
-          <a href={`https://api.whatsapp.com/send?phone=${process.env.NEXT_PUBLIC_CONTACT_PHONE}&text=%20Olá, vim do site do Geral. Gostaria de entrar em contato com a equipe de vocês aqui mesmo pelo Whatsapp.`} target="_blank">
-            <img src="/icons/whatsapp-icon.svg" alt="Whatsapp-icon" />
-          </a>
-        </div>
+        
+        <WhatsappIcon 
+          phone={process.env.NEXT_PUBLIC_CONTACT_PHONE} 
+          message="Olá, vim do site do Geral. Gostaria de entrar em contato com a equipe de vocês aqui mesmo pelo Whatsapp."
+        />
       </main>
     </>
   )
