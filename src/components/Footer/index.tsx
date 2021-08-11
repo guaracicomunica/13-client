@@ -54,13 +54,13 @@ export function Footer() {
                         <ul className={`${styles['ul']}`}>
                             <li className={`${styles['li']} mb-1`}><b>ATENDIMENTO</b></li>
                             <li className={`${styles['li']} mb-1`}>
-                                <span className={styles['smoothText']}>(84) 99999-9999</span>
+                                <span className={styles['smoothText']}>{`${process.env.NEXT_PUBLIC_CONTACT_PHONE}`}</span>
                             </li>
                             <li className={`${styles['li']} mb-1`}>
-                                <span className={styles['smoothText']}>atendimento@geral.com</span>
+                                <span className={styles['smoothText']}>{`${process.env.NEXT_PUBLIC_CONTACT_EMAIL}`}</span>
                             </li>
                             <li className={`${styles['li']} mb-1`}>
-                                <span className={styles['smoothText']}>instagram.com/geral.store</span>
+                                <span className={styles['smoothText']}>{`${process.env.NEXT_PUBLIC_CONTACT_INSTAGRAM}`}</span>
                             </li>
                         </ul>
                     </div>
