@@ -1,14 +1,7 @@
 .carousel-dimensions {
-  min-height: 80vh;
-  width: 100%;
-}
-
-@media(max-width: 1024px)
-{
-  .carousel-dimensions {
-    height: auto !important;
-    min-height: 20vh !important;
-  }
+  height: auto !important;
+  min-height: 20vh !important;
+  width: 100% !important;
 }
 
 .carousel-item-indicator {
