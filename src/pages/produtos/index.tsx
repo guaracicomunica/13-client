@@ -13,12 +13,8 @@ import WhatsappIcon from '../../components/WhatsappIcon';
 
 import { LoadingContext } from '../../contexts/LoadingContext';
 
-import {
-  FilterItemType,
-  FilterType,
-  ProductType,
-  ProdutosPageProps
-} from '../../types/products/index';
+import { FilterItemType, FilterType, } from '../../types/filter/index'
+import { ProductType, ProdutosPageProps } from '../../types/products/index';
 
 import styles from './styles.module.css';
 
