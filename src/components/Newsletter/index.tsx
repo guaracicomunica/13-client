@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast, ToastOptions } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { api } from "../../services/api";
@@ -7,7 +7,19 @@ import styles from "./styles.module.css";
 
 export default function Newsletter() {
 
-    const [email, setEmail] = useState("");
+    const defaultEmail = "";
+
+    const [email, setEmail] = useState(defaultEmail);
+    
+    const options: ToastOptions = {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+    };
 
     async function handleSubmit(event: any) {
         event.preventDefault();
@@ -15,17 +27,11 @@ export default function Newsletter() {
             await api.post('newsletter/subscribe', {
                 email
             });
+            toast.success('Sucesso. Você agora pode acompanhar nossa newsletter!')            
         } catch (error) {
-            toast.error('Erro ao se cadastrar na newsletter!', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
+            toast.error('Erro ao se cadastrar na newsletter!', options);
         }
+        setEmail(defaultEmail);
     }
 
     return (
