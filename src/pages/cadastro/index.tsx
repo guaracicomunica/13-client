@@ -4,48 +4,64 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { useForm } from 'react-hook-form';
 import styles from './styles.module.css';
 import { getAPIClient } from '../../services/apiClient';
+import { ToastContainer, toast, ToastOptions } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 export default function Cadastro() {
+
+    const options: ToastOptions = {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+    };
+    /*
     const [name, setName] = useState('');
     const [cpf, setCpf] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [telefone, setTelefone] = useState('');
     const [password_confirmation, setPassword_confirmation] = useState('');
-   
+    */
+   const { register, handleSubmit} = useForm();
 
    const handleParam = setValue => e => setValue(e.target.value)
 
-    async function handleRegister(event: any) {
-        event.preventDefault();
-
-        let data = {
-            email: email,
-            telefone: telefone,
-            password: password,
-            password_confirmation: password_confirmation,
-            role: "2",
-        }
-        await register(data)
+    async function onSubmit(event: any) {
+       // console.log(event)
+        
+        //let data = JSON.stringify(event);
+        await registerfunc(event)
+        
     }
 
 
-    async function register({email, telefone, password}){
+    async function registerfunc(data: any){
+        console.log(data.email)
         const api = getAPIClient()
-        const response = await api.post('/auth/register', {
-          email,
-          telefone,
-          name,
-          cpf,
-          password,
-          password_confirmation,
-          role:2,
+        const response = await api.post('/auth/register', 
+        data ,
+        {
+            headers:{
+                'Content-Type': 'application/json',
+            }
         }        
         ).then((response) => {
-          history.back()
+            //TODO: mostrar mensagem de sucesso
+            toast.success('Sucesso! Você foi cadastrado.', options); 
+          
           console.log(response)
+        }).catch((response) => {
+            //TODO: mostrar mensagem de validação
+            toast.error(response.error, options);
         });
     }
+
 
     return (
         <>
@@ -62,21 +78,19 @@ export default function Cadastro() {
                 <div className="row">
 
                     <div className="col-sm-12 d-flex justify-content-center">
-                        <form onSubmit={handleRegister} className={`${styles['w-sm-85']} ${styles['w-md-50']}`}>
+                        <form onSubmit={handleSubmit(onSubmit)} className={`${styles['w-sm-85']} ${styles['w-md-50']}`}>
                             <div className="form-group">
                                 <label htmlFor="email" className={`${styles['label']}`}>E-mail*</label>
                                 <input type="email" className={`${styles['bg-input']} form-control`} 
                                 name="email" 
-                                value={email}
-                                onChange={handleParam(setEmail)}
-                                placeholder="usuario@email.com" />
+                                {... register("email")}
+                                placeholder="usuario@email.com"  {... register("email")} />
                             </div>
                          
                             <div className="form-group">
                                 <label htmlFor="name" className={`${styles['label']}`}>Nome*</label>
                                 <input type="text" className={`${styles['bg-input']} form-control`} 
-                                value={name}
-                                onChange={handleParam(setName)}
+                                {... register("name")}
                                 name="name" placeholder="Fulano da Silva Lima" />
                             </div>
                          
@@ -86,9 +100,8 @@ export default function Cadastro() {
                                     <div className="form-group">
                                         <label htmlFor="cpf" className={`${styles['label']}`}>CPF</label>
                                         <input type="cpf" className={`${styles['bg-input']} form-control`} 
-                                        value={cpf}
-                                        onChange={handleParam(setCpf)}
-                                        name="text" placeholder="000.000.000-00" />
+                                        {... register("cpf")}
+                                        name="cpf" placeholder="000.000.000-00" />
                                     </div>
                                 </div>
                                 
@@ -96,9 +109,7 @@ export default function Cadastro() {
                                     <div className="form-group">
                                         <label htmlFor="phone" className={`${styles['label']}`}>Telefone*</label>
                                         <input type="text" className={`${styles['bg-input']} form-control`} 
-                                        name="phone"
-                                        value={telefone}
-                                        onChange={handleParam(setTelefone)}
+                                         {... register("telefone")} name="telefone"
                                         placeholder="(84) 99999-9999" />
                                     </div>
                                 </div>
@@ -106,17 +117,17 @@ export default function Cadastro() {
                             <div className="form-group">
                                 <label htmlFor="password" className={`${styles['label']}`}>Criar sua senha*</label>
                                 <input type="password" className={`${styles['bg-input']} form-control`} name="password" 
-                                value={password}
-                                onChange={handleParam(setPassword)}
+                                {... register("password")}
                                 placeholder="Digite sua senha" />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="password_confirmation" className={`${styles['label']}`}>Confirmar sua senha*</label>
                                 <input type="password" className={`${styles['bg-input']} form-control`} 
-                                value={password_confirmation}
-                                onChange={handleParam(setPassword_confirmation)}
+                                {... register("password_confirmation")}
                                 name="password_confirmation" placeholder="Digite sua senha novamente" />
                             </div>
+
+                            <input type="hidden" name="role" value="2"  {... register("role")} />
 
                             <div className="row">
                                 <div className="col-sm-1">    
@@ -142,6 +153,7 @@ export default function Cadastro() {
                     </div>
                 </div>
             </main>
+            <ToastContainer />
         </>
     );
 }
