@@ -9,6 +9,7 @@ import { getAPIClient } from '../../services/apiClient';
 import Carousel from '../../components/Carousel';
 import { Filter } from '../../components/Filter';
 import { ProductCard } from '../../components/ProductCard';
+import WhatsappIcon from '../../components/WhatsappIcon';
 
 import { LoadingContext } from '../../contexts/LoadingContext';
 
@@ -284,11 +285,10 @@ export default function Produtos(props: ProdutosPageProps) {
           />
         </section>
       
-        <div className="whatsapp-icon">
-          <a href="#">
-            <img src="/icons/whatsapp-icon.svg" alt="Whatsapp-icon" />
-          </a>
-        </div>
+        <WhatsappIcon
+          phone={process.env.NEXT_PUBLIC_CONTACT_PHONE}
+          message="Olá, vim do site do Geral. Gostaria de entrar em contato com a equipe de vocês aqui mesmo pelo Whatsapp."
+        />
       </main>
     </>
   );
