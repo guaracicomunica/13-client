@@ -184,6 +184,7 @@ export const getStaticProps: GetStaticProps = async () => {
       lastProducts,
       trendProducts: trendProducts,
       isLoading: false,
-    }
+    },
+    revalidate: 60 * 60 * 24
   }
 }
