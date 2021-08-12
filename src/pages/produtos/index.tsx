@@ -14,9 +14,25 @@ import WhatsappIcon from '../../components/WhatsappIcon';
 import { LoadingContext } from '../../contexts/LoadingContext';
 
 import { FilterItemType, FilterType, ColorType } from '../../types/filter/index'
-import { ProductType, ProdutosPageProps } from '../../types/products/index';
+import { ProductType } from '../../types/products/index';
 
 import styles from './styles.module.css';
+
+export type ProdutosPageProps = {
+  products: ProductType[];
+  brands: FilterItemType[];
+  sizes: FilterItemType[];
+  categories: FilterItemType[];
+  materials: FilterItemType[];
+  colors: ColorType[];
+  queryProps: {
+      totalProducts: number;
+      totalPages: number;
+      firstProductOnPage: number;
+      lastProductOnPage: number;
+  };
+  isLoading: boolean;
+}
 
 export default function Produtos(props: ProdutosPageProps) {
   const api = getAPIClient();
