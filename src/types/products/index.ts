@@ -1,4 +1,4 @@
-import { FilterItemType } from '../filter/index';
+import { FilterItemType, ColorType } from '../filter/index';
 
 export type ProdutosPageProps = {
     products: ProductType[];
@@ -6,6 +6,7 @@ export type ProdutosPageProps = {
     sizes: FilterItemType[];
     categories: FilterItemType[];
     materials: FilterItemType[];
+    colors: ColorType[];
     queryProps: {
         totalProducts: number;
         totalPages: number;

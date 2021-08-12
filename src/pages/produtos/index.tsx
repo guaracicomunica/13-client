@@ -13,7 +13,7 @@ import WhatsappIcon from '../../components/WhatsappIcon';
 
 import { LoadingContext } from '../../contexts/LoadingContext';
 
-import { FilterItemType, FilterType, } from '../../types/filter/index'
+import { FilterItemType, FilterType, ColorType } from '../../types/filter/index'
 import { ProductType, ProdutosPageProps } from '../../types/products/index';
 
 import styles from './styles.module.css';
@@ -26,6 +26,7 @@ export default function Produtos(props: ProdutosPageProps) {
   const [sizes, setSizes] = useState<FilterItemType[]>([]);
   const [categories, setCategories] = useState<FilterItemType[]>([]);
   const [materials, setMaterials] = useState<FilterItemType[]>([]);
+  const [colors, setColors] = useState<ColorType[]>([]);
   const [firstProductOnPage, setFirstProductOnPage] = useState(0);
   const [lastProductOnPage, setLastProductOnPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -39,10 +40,12 @@ export default function Produtos(props: ProdutosPageProps) {
     categoryId: "0",
     priceMin: 0,
     priceMax: 299.99,
-    materialId: "0"
+    materialId: "0",
+    colorId: "0"
   });
 
-  const [ categoryFilter, setCategoryFilter ] = useState<number[]>([])
+  const [ categoryFilter, setCategoryFilter ] = useState<number[]>([]);
+  const [ colorsFilter, setColorsFilter ] = useState<number[]>([]);
 
   useEffect(() => {
     setTimeout(() => setLoading(props.isLoading), 4500);
@@ -55,6 +58,7 @@ export default function Produtos(props: ProdutosPageProps) {
       setSizes(props.sizes);
       setCategories(props.categories);
       setMaterials(props.materials);
+      setColors(props.colors);
       setFirstProductOnPage(props.queryProps.firstProductOnPage);
       setLastProductOnPage(props.queryProps.lastProductOnPage);
       setTotalPages(props.queryProps.totalPages);
@@ -127,6 +131,36 @@ export default function Produtos(props: ProdutosPageProps) {
       priceMin: values[0],
       priceMax: values[1]
     })
+  }
+
+  function addColorInFilter(item: number) {
+    const colorsFiltered = [...colorsFilter, item];
+
+    setColorsFilter(colorsFiltered);
+    
+    setFilter({
+      ...filter,
+      colorId: colorsFiltered.toString()
+    });
+
+    console.log(colorsFiltered);
+  }
+
+  function removeColorInFilter(item: number) {
+    const colorsFiltered = colorsFilter.filter(
+      color => color !== item
+    );
+
+    setColorsFilter(colorsFiltered);
+
+    const colorsFilterIsEmpty = colorsFiltered.length === 0;
+
+    setFilter({
+      ...filter,
+      colorId: colorsFilterIsEmpty ? "0" : colorsFiltered.toString()
+    });
+
+    console.log(colorsFiltered);
   }
 
   function handleFilter(nameFilter: string, valueFilter: string) {
@@ -236,11 +270,14 @@ export default function Produtos(props: ProdutosPageProps) {
             sizes={sizes}
             categories={categories}
             materials={materials}
+            colors={colors}
 
             handleFilter={handleFilter}
             handlePriceRange={handlePriceRange}
             addCategoryInFilter={addCategoryInFilter}
             removeCategoryInFilter={removeCategoryInFilter}
+            addColorInFilter={addColorInFilter}
+            removeColorInFilter={removeColorInFilter}
           />          
 
           <div className={styles["products-list"]}>
@@ -335,6 +372,15 @@ export const getStaticProps: GetStaticProps = async () => {
   const dataMaterials = await api.get('materials');
   const materials: FilterItemType[] = mapResponse(dataMaterials);
 
+  const dataColors = await api.get('colors');
+  const colors: ColorType[] = dataColors.data.map(color => {
+    return {
+      id: color.id,
+      name: color.name,
+      hex_code: color.hex_code
+    }
+  })
+
   return {
     props: {
       products,
@@ -342,6 +388,7 @@ export const getStaticProps: GetStaticProps = async () => {
       sizes,
       categories,
       materials,
+      colors,
       queryProps: {
         totalProducts: data.total,
         totalPages: data.last_page,

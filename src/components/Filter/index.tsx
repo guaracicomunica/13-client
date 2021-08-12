@@ -172,50 +172,26 @@ export function Filter(props: FilterProps) {
 
       <h5 className="my-4">Cores</h5>
       <div className={`mb-2 ${styles.colors}`}>
-        <div className={`${styles.color} mr-1 mb-2`}>
-          <input type="checkbox" name="color-black" id="color-black" />
-          <label htmlFor="color-black" />
-        </div>
+        {props.colors.map(color => {
+          const colorStyle = {
+            backgroundColor: color.hex_code
+          }
 
-        <div className={`${styles.color} mr-1 mb-2`}>
-          <input type="checkbox" name="color-white" id="color-white" />
-          <label htmlFor="color-white" />
-        </div>
-
-        <div className={`${styles.color} mr-1 mb-2`}>
-          <input type="checkbox" name="color-gray" id="color-gray" />
-          <label htmlFor="color-gray" />
-        </div>
-
-        <div className={`${styles.color} mr-1 mb-2`}>
-          <input type="checkbox" name="color-red" id="color-red" />
-          <label htmlFor="color-red" />
-        </div>
-
-        <div className={`${styles.color} mr-1 mb-2`}>
-          <input type="checkbox" name="color-blue" id="color-blue" />
-          <label htmlFor="color-blue" />
-        </div>
-
-        <div className={`${styles.color} mr-1 mb-2`}>
-          <input type="checkbox" name="color-green" id="color-green" />
-          <label htmlFor="color-green" />
-        </div>
-
-        <div className={`${styles.color} mr-1 mb-2`}>
-          <input type="checkbox" name="color-yellow" id="color-yellow" />
-          <label htmlFor="color-yellow" />
-        </div>
-
-        <div className={`${styles.color} mr-1 mb-2`}>
-          <input type="checkbox" name="color-purple" id="color-purple" />
-          <label htmlFor="color-purple" />
-        </div>
-
-        <div className={`${styles.color} mr-1 mb-2`}>
-          <input type="checkbox" name="color-brown" id="color-brown" />
-          <label htmlFor="color-brown" />
-        </div>
+          return (
+            <div className={`${styles.color} mr-1 mb-2`} key={color.id}>
+              <input
+                type="checkbox"
+                name={`color-${color.name.toLowerCase()}`}
+                id={`color-${color.name.toLowerCase()}`}
+                onChange={(event) => {
+                  event.currentTarget.checked ? props.addColorInFilter(color.id)
+                                              : props.removeColorInFilter(color.id)
+                }}
+              />
+              <label htmlFor={`color-${color.name.toLowerCase()}`} style={colorStyle} />
+            </div>
+          );
+        })}
       </div>
 
       <hr />
