@@ -63,6 +63,8 @@ export default function Produtos(props: ProdutosPageProps) {
   const [ categoryFilter, setCategoryFilter ] = useState<number[]>([]);
   const [ colorsFilter, setColorsFilter ] = useState<number[]>([]);
 
+  const [ order, setOrder ] = useState("latest");
+
   useEffect(() => {
     setTimeout(() => setLoading(props.isLoading), 4500);
   }, [loading]);
@@ -84,7 +86,7 @@ export default function Produtos(props: ProdutosPageProps) {
 
   useEffect(() => {
     filterProducts();
-  }, [filter]);
+  }, [filter, order]);
 
   async function changePage(page) {
     setLoading(true);
@@ -186,10 +188,14 @@ export default function Produtos(props: ProdutosPageProps) {
     });
   }
 
+  function handleOrder(order: string) {
+    setOrder(order);
+  }
+
   async function filterProducts() {
     setLoading(true);
 
-    const { data } = await api.get('products', {
+    const { data } = await api.get(`products/${order}`, {
       params: {
         per_page: 9,
         ...filter
@@ -259,7 +265,7 @@ export default function Produtos(props: ProdutosPageProps) {
                   <a>Home</a>
                 </Link>
               </li>
-              <li className="breadcrumb-item active" aria-current="page">Masculino</li>
+              <li className="breadcrumb-item active" aria-current="page">Todos os produtos</li>
             </ol>
           </nav>
 
@@ -270,11 +276,17 @@ export default function Produtos(props: ProdutosPageProps) {
 
             <div className={`d-flex align-items-center ${styles["order-filter"]}`}>
               <label htmlFor="order">Ordenar por</label>
-              <select name="order" id="order" className="form-control ml-4">
-                <option value="popular">Mais populares</option>
-                <option value="recent">Mais recentes</option>
-                <option value="lowest-price">Menor preço</option>
-                <option value="biggest-price">Maior preço</option>
+              <select
+                name="order"
+                id="order"
+                defaultValue="latest"
+                className="form-control ml-4"
+                onChange={(event) => handleOrder(event.target.value)}
+              >
+                <option value="latest">Mais recentes</option>
+                <option value="trend">Mais populares</option>
+                <option value="lowestprice">Menor preço</option>
+                <option value="highestprice">Maior preço</option>
               </select>
             </div>
           </div>
@@ -362,13 +374,13 @@ function mapResponse(response: any) {
 export const getStaticProps: GetStaticProps = async () => {
   const api = getAPIClient();
 
-  const { data } = await api.get('products', {
+  const { data: dataProducts } = await api.get('products/latest', {
     params: {
       per_page: 9
     }
   });
 
-  const products: ProductType[] = data.data.map(product => {
+  const products: ProductType[] = dataProducts.data.map(product => {
     return {
       id: product.id,
       title: product.name,
@@ -406,10 +418,10 @@ export const getStaticProps: GetStaticProps = async () => {
       materials,
       colors,
       queryProps: {
-        totalProducts: data.total,
-        totalPages: data.last_page,
-        firstProductOnPage: data.from,
-        lastProductOnPage: data.to
+        totalProducts: dataProducts.total,
+        totalPages: dataProducts.last_page,
+        firstProductOnPage: dataProducts.from,
+        lastProductOnPage: dataProducts.to
       },
       isLoading: false
     },
