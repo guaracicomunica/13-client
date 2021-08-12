@@ -8,6 +8,7 @@ type ProductType = {
   favorite: boolean;
   isLoading: boolean;
   id: number;
+  stars: number;
 }
 
 export function ProductCard(props: ProductType) {

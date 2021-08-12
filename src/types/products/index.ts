@@ -3,4 +3,5 @@ export type ProductType = {
     title: string;
     price: number;
     isFavorite: boolean;
+    stars: number;
 }

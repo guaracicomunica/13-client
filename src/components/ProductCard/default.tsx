@@ -8,6 +8,7 @@ type ProductType = {
     favorite: boolean;
     isLoading: boolean;
     id: number;
+    stars: number;
 }
 
 type DefaultProductType = {
@@ -16,6 +17,22 @@ type DefaultProductType = {
 
 export function DefaultProductCard(props: DefaultProductType) {
     const { item } = props;
+
+    function showRating(stars: number) {
+        let rating = [];
+
+        for (let i = 0; i < stars; i++) {
+            rating.push(<img className="mr-1" src="./icons/star.svg" alt="Estrela" />)
+        }
+
+        if (5 - stars > 0) {
+            for (let i = 0; i < (5 - stars); i++) {
+                rating.push(<img className="mr-1" src="./icons/star-gray.svg" alt="Estrela" />)
+            }
+        }
+
+        return rating;
+    }
 
     return (
         <div className={`p-4 d-flex flex-column ${styles["product-card"]}`}>
@@ -33,11 +50,7 @@ export function DefaultProductCard(props: DefaultProductType) {
             </h1>
 
             <div className={`d-flex ${styles.rating} mb-1`}>
-                <img className="mr-1" src="./icons/star.svg" alt="Estrela" />
-                <img className="mr-1" src="./icons/star.svg" alt="Estrela" />
-                <img className="mr-1" src="./icons/star.svg" alt="Estrela" />
-                <img className="mr-1" src="./icons/star.svg" alt="Estrela" />
-                <img src="./icons/star-gray.svg" alt="Estrela" />
+                {showRating(item.stars).map(star => star)}
             </div>
 
             <div className={styles["product-shipping"]}>Frete grátis</div>

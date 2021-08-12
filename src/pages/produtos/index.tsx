@@ -206,7 +206,8 @@ export default function Produtos(props: ProdutosPageProps) {
       return {
         id: product.id,
         title: product.name,
-        price: product.price
+        price: product.price,
+        stars: product.stars
       }
     });
 
@@ -324,6 +325,7 @@ export default function Produtos(props: ProdutosPageProps) {
                     favorite={true}
                     img="camisa-barcelona"
                     isLoading={loading}
+                    stars={product.stars}
                   />
                 )
               })
@@ -384,7 +386,8 @@ export const getStaticProps: GetStaticProps = async () => {
     return {
       id: product.id,
       title: product.name,
-      price: product.price
+      price: product.price,
+      stars: product.stars
     }
   });
 
