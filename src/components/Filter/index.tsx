@@ -1,11 +1,25 @@
 import { useState } from 'react';
 import { Range, getTrackBackground } from 'react-range';
 
-import { FilterProps } from '../../types/filter/index';
+import { FilterItemType, ColorType } from '../../types/filter/index';
 
 import { formatString } from '../../utils/formatString';
 
 import styles from './styles.module.css';
+
+export type FilterProps = {
+  brands: FilterItemType[];
+  sizes: FilterItemType[];
+  categories: FilterItemType[];
+  materials: FilterItemType[];
+  colors: ColorType[];
+  handleFilter: (nameFilter: string, valueFilter: string) => void;
+  handlePriceRange: (values: number[]) => void;
+  addCategoryInFilter: (item: number) => void;
+  removeCategoryInFilter: (item: number) => void;
+  addColorInFilter: (item: number) => void;
+  removeColorInFilter: (item: number) => void;
+}
 
 export function Filter(props: FilterProps) {
   const [initialPosition, setInitialPosition] = useState([0, 299.99]);

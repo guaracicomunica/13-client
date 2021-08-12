@@ -1,17 +1,3 @@
-export type FilterProps = {
-  brands: FilterItemType[];
-  sizes: FilterItemType[];
-  categories: FilterItemType[];
-  materials: FilterItemType[];
-  colors: ColorType[];
-  handleFilter: (nameFilter: string, valueFilter: string) => void;
-  handlePriceRange: (values: number[]) => void;
-  addCategoryInFilter: (item: number) => void;
-  removeCategoryInFilter: (item: number) => void;
-  addColorInFilter: (item: number) => void;
-  removeColorInFilter: (item: number) => void;
-}
-
 export type FilterItemType = {
   id: number;
   name: string;
