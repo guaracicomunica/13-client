@@ -30,6 +30,7 @@ export type ProdutosPageProps = {
       totalPages: number;
       firstProductOnPage: number;
       lastProductOnPage: number;
+      currentPage: number;
   };
   isLoading: boolean;
 }
@@ -47,6 +48,7 @@ export default function Produtos(props: ProdutosPageProps) {
   const [lastProductOnPage, setLastProductOnPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [totalProducts, setTotalProducts] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const { loading, setLoading } = useContext(LoadingContext);
 
@@ -81,6 +83,7 @@ export default function Produtos(props: ProdutosPageProps) {
       setLastProductOnPage(props.queryProps.lastProductOnPage);
       setTotalPages(props.queryProps.totalPages);
       setTotalProducts(props.queryProps.totalProducts);
+      setCurrentPage(props.queryProps.currentPage);
     }
   }, []);
 
@@ -103,13 +106,15 @@ export default function Produtos(props: ProdutosPageProps) {
       return {
         id: product.id,
         title: product.name,
-        price: product.price
+        price: product.price,
+        stars: product.stars
       }
     });
 
     setProducts(products);
     setFirstProductOnPage(data.from);
     setLastProductOnPage(data.to);
+    setCurrentPage(data.current_page);
 
     setLoading(false);
   }
@@ -199,6 +204,7 @@ export default function Produtos(props: ProdutosPageProps) {
     const { data } = await api.get(`products/${order}`, {
       params: {
         per_page: 9,
+        page: 1,
         ...filter
       }
     });
@@ -217,6 +223,7 @@ export default function Produtos(props: ProdutosPageProps) {
     setLastProductOnPage(data.to);
     setTotalPages(data.last_page);
     setTotalProducts(data.total);
+    setCurrentPage(data.current_page);
 
     setLoading(false);
   }
@@ -338,6 +345,7 @@ export default function Produtos(props: ProdutosPageProps) {
           <ReactPaginate
             onPageChange={changePage}
             pageCount={totalPages}
+            forcePage={currentPage - 1}
             pageRangeDisplayed={2}
             marginPagesDisplayed={2}
             previousLabel="Anterior"
@@ -425,7 +433,8 @@ export const getStaticProps: GetStaticProps = async () => {
         totalProducts: dataProducts.total,
         totalPages: dataProducts.last_page,
         firstProductOnPage: dataProducts.from,
-        lastProductOnPage: dataProducts.to
+        lastProductOnPage: dataProducts.to,
+        currentPage: dataProducts.current_page
       },
       isLoading: false
     },
