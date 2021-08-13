@@ -91,10 +91,11 @@ export default function Produtos(props: ProdutosPageProps) {
   async function changePage(page) {
     setLoading(true);
 
-    const { data } = await api.get('products', {
+    const { data } = await api.get(`products/${order}`, {
       params: {
         per_page: 9,
-        page: page.selected + 1
+        page: page.selected + 1,
+        ...filter
       }
     });
 
