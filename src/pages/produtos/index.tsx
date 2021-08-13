@@ -13,20 +13,24 @@ import WhatsappIcon from '../../components/WhatsappIcon';
 
 import { LoadingContext } from '../../contexts/LoadingContext';
 
-import { FilterItemType, FilterType, ProductType } from '../../types/products/index';
+import { FilterItemType, FilterType, ColorType } from '../../types/filter/index'
+import { ProductType } from '../../types/products/index';
 
 import styles from './styles.module.css';
 
-type ProdutosPageProps = {
+export type ProdutosPageProps = {
   products: ProductType[];
   brands: FilterItemType[];
   sizes: FilterItemType[];
   categories: FilterItemType[];
+  materials: FilterItemType[];
+  colors: ColorType[];
   queryProps: {
-    totalProducts: number;
-    totalPages: number;
-    firstProductOnPage: number;
-    lastProductOnPage: number;
+      totalProducts: number;
+      totalPages: number;
+      firstProductOnPage: number;
+      lastProductOnPage: number;
+      currentPage: number;
   };
   isLoading: boolean;
 }
@@ -38,10 +42,13 @@ export default function Produtos(props: ProdutosPageProps) {
   const [brands, setBrands] = useState<FilterItemType[]>([]);
   const [sizes, setSizes] = useState<FilterItemType[]>([]);
   const [categories, setCategories] = useState<FilterItemType[]>([]);
+  const [materials, setMaterials] = useState<FilterItemType[]>([]);
+  const [colors, setColors] = useState<ColorType[]>([]);
   const [firstProductOnPage, setFirstProductOnPage] = useState(0);
   const [lastProductOnPage, setLastProductOnPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [totalProducts, setTotalProducts] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const { loading, setLoading } = useContext(LoadingContext);
 
@@ -50,10 +57,15 @@ export default function Produtos(props: ProdutosPageProps) {
     sizeId: "0",
     categoryId: "0",
     priceMin: 0,
-    priceMax: 299.99
+    priceMax: 299.99,
+    materialId: "0",
+    colorId: "0"
   });
 
-  const [ categoryFilter, setCategoryFilter ] = useState<number[]>([])
+  const [ categoryFilter, setCategoryFilter ] = useState<number[]>([]);
+  const [ colorsFilter, setColorsFilter ] = useState<number[]>([]);
+
+  const [ order, setOrder ] = useState("latest");
 
   useEffect(() => {
     setTimeout(() => setLoading(props.isLoading), 4500);
@@ -65,24 +77,28 @@ export default function Produtos(props: ProdutosPageProps) {
       setBrands(props.brands);
       setSizes(props.sizes);
       setCategories(props.categories);
+      setMaterials(props.materials);
+      setColors(props.colors);
       setFirstProductOnPage(props.queryProps.firstProductOnPage);
       setLastProductOnPage(props.queryProps.lastProductOnPage);
       setTotalPages(props.queryProps.totalPages);
       setTotalProducts(props.queryProps.totalProducts);
+      setCurrentPage(props.queryProps.currentPage);
     }
   }, []);
 
   useEffect(() => {
     filterProducts();
-  }, [filter]);
+  }, [filter, order]);
 
   async function changePage(page) {
     setLoading(true);
 
-    const { data } = await api.get('products', {
+    const { data } = await api.get(`products/${order}`, {
       params: {
         per_page: 9,
-        page: page.selected + 1
+        page: page.selected + 1,
+        ...filter
       }
     });
 
@@ -90,13 +106,15 @@ export default function Produtos(props: ProdutosPageProps) {
       return {
         id: product.id,
         title: product.name,
-        price: product.price
+        price: product.price,
+        stars: product.stars
       }
     });
 
     setProducts(products);
     setFirstProductOnPage(data.from);
     setLastProductOnPage(data.to);
+    setCurrentPage(data.current_page);
 
     setLoading(false);
   }
@@ -139,6 +157,36 @@ export default function Produtos(props: ProdutosPageProps) {
     })
   }
 
+  function addColorInFilter(item: number) {
+    const colorsFiltered = [...colorsFilter, item];
+
+    setColorsFilter(colorsFiltered);
+    
+    setFilter({
+      ...filter,
+      colorId: colorsFiltered.toString()
+    });
+
+    console.log(colorsFiltered);
+  }
+
+  function removeColorInFilter(item: number) {
+    const colorsFiltered = colorsFilter.filter(
+      color => color !== item
+    );
+
+    setColorsFilter(colorsFiltered);
+
+    const colorsFilterIsEmpty = colorsFiltered.length === 0;
+
+    setFilter({
+      ...filter,
+      colorId: colorsFilterIsEmpty ? "0" : colorsFiltered.toString()
+    });
+
+    console.log(colorsFiltered);
+  }
+
   function handleFilter(nameFilter: string, valueFilter: string) {
     setFilter({
       ...filter,
@@ -146,12 +194,17 @@ export default function Produtos(props: ProdutosPageProps) {
     });
   }
 
+  function handleOrder(order: string) {
+    setOrder(order);
+  }
+
   async function filterProducts() {
     setLoading(true);
 
-    const { data } = await api.get('products', {
+    const { data } = await api.get(`products/${order}`, {
       params: {
         per_page: 9,
+        page: 1,
         ...filter
       }
     });
@@ -160,7 +213,8 @@ export default function Produtos(props: ProdutosPageProps) {
       return {
         id: product.id,
         title: product.name,
-        price: product.price
+        price: product.price,
+        stars: product.stars
       }
     });
 
@@ -169,6 +223,7 @@ export default function Produtos(props: ProdutosPageProps) {
     setLastProductOnPage(data.to);
     setTotalPages(data.last_page);
     setTotalProducts(data.total);
+    setCurrentPage(data.current_page);
 
     setLoading(false);
   }
@@ -219,7 +274,7 @@ export default function Produtos(props: ProdutosPageProps) {
                   <a>Home</a>
                 </Link>
               </li>
-              <li className="breadcrumb-item active" aria-current="page">Masculino</li>
+              <li className="breadcrumb-item active" aria-current="page">Todos os produtos</li>
             </ol>
           </nav>
 
@@ -230,11 +285,17 @@ export default function Produtos(props: ProdutosPageProps) {
 
             <div className={`d-flex align-items-center ${styles["order-filter"]}`}>
               <label htmlFor="order">Ordenar por</label>
-              <select name="order" id="order" className="form-control ml-4">
-                <option value="popular">Mais populares</option>
-                <option value="recent">Mais recentes</option>
-                <option value="lowest-price">Menor preço</option>
-                <option value="biggest-price">Maior preço</option>
+              <select
+                name="order"
+                id="order"
+                defaultValue="latest"
+                className="form-control ml-4"
+                onChange={(event) => handleOrder(event.target.value)}
+              >
+                <option value="latest">Mais recentes</option>
+                <option value="trend">Mais populares</option>
+                <option value="lowestprice">Menor preço</option>
+                <option value="highestprice">Maior preço</option>
               </select>
             </div>
           </div>
@@ -245,11 +306,15 @@ export default function Produtos(props: ProdutosPageProps) {
             brands={brands}
             sizes={sizes}
             categories={categories}
+            materials={materials}
+            colors={colors}
 
             handleFilter={handleFilter}
             handlePriceRange={handlePriceRange}
             addCategoryInFilter={addCategoryInFilter}
             removeCategoryInFilter={removeCategoryInFilter}
+            addColorInFilter={addColorInFilter}
+            removeColorInFilter={removeColorInFilter}
           />          
 
           <div className={styles["products-list"]}>
@@ -268,6 +333,7 @@ export default function Produtos(props: ProdutosPageProps) {
                     favorite={true}
                     img="camisa-barcelona"
                     isLoading={loading}
+                    stars={product.stars}
                   />
                 )
               })
@@ -279,6 +345,7 @@ export default function Produtos(props: ProdutosPageProps) {
           <ReactPaginate
             onPageChange={changePage}
             pageCount={totalPages}
+            forcePage={currentPage - 1}
             pageRangeDisplayed={2}
             marginPagesDisplayed={2}
             previousLabel="Anterior"
@@ -306,49 +373,53 @@ export default function Produtos(props: ProdutosPageProps) {
   );
 }
 
+function mapResponse(response: any) {
+  return response.data?.map(item => {
+    return {
+      id: item.id,
+      name: item.name
+    }
+  });
+}
+
 export const getStaticProps: GetStaticProps = async () => {
   const api = getAPIClient();
 
-  const { data } = await api.get('products', {
+  const { data: dataProducts } = await api.get('products/latest', {
     params: {
       per_page: 9
     }
   });
 
-  const products: ProductType[] = data.data.map(product => {
+  const products: ProductType[] = dataProducts.data.map(product => {
     return {
       id: product.id,
       title: product.name,
-      price: product.price
+      price: product.price,
+      stars: product.stars
     }
   });
 
   const dataBrands = await api.get('brands');
-
-  const brands: FilterItemType[] = dataBrands.data.map(brand => {
-    return {
-      id: brand.id,
-      name: brand.name
-    }
-  });
+  const brands: FilterItemType[] = mapResponse(dataBrands);
 
   const dataSizes = await api.get('sizes');
-
-  const sizes: FilterItemType[] = dataSizes.data.map(size => {
-    return {
-      id: size.id,
-      name: size.name
-    }
-  });
+  const sizes: FilterItemType[] = mapResponse(dataSizes);
 
   const dataCategories = await api.get('categories');
+  const categories: FilterItemType[] = mapResponse(dataCategories);
 
-  const categories: FilterItemType[] = dataCategories.data.map(category => {
+  const dataMaterials = await api.get('materials');
+  const materials: FilterItemType[] = mapResponse(dataMaterials);
+
+  const dataColors = await api.get('colors');
+  const colors: ColorType[] = dataColors.data.map(color => {
     return {
-      id: category.id,
-      name: category.name
+      id: color.id,
+      name: color.name,
+      hex_code: color.hex_code
     }
-  });
+  })
 
   return {
     props: {
@@ -356,11 +427,14 @@ export const getStaticProps: GetStaticProps = async () => {
       brands,
       sizes,
       categories,
+      materials,
+      colors,
       queryProps: {
-        totalProducts: data.total,
-        totalPages: data.last_page,
-        firstProductOnPage: data.from,
-        lastProductOnPage: data.to
+        totalProducts: dataProducts.total,
+        totalPages: dataProducts.last_page,
+        firstProductOnPage: dataProducts.from,
+        lastProductOnPage: dataProducts.to,
+        currentPage: dataProducts.current_page
       },
       isLoading: false
     },

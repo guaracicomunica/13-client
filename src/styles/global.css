@@ -78,6 +78,8 @@ select {
   
   border-radius: 10px !important;
   border: none !important;
+
+  cursor: pointer;
 }
 
 select:focus {

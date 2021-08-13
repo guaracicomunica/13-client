@@ -72,6 +72,7 @@ export default function Home(props: HomePageProps) {
               favorite={product.isFavorite}
               isLoading={loading}
               img="camisa-barcelona"
+              stars={product.stars}
             />
           ))}
         </section>
@@ -98,6 +99,7 @@ export default function Home(props: HomePageProps) {
                 favorite={product.isFavorite}
                 isLoading={loading}
                 img="camisa-barcelona"
+                stars={product.stars}
               />
             ))}
           </div>
@@ -154,7 +156,8 @@ function mapResponse(response: any) {
     return {
       id: product.id,
       title: product.name,
-      price: product.price
+      price: product.price,
+      stars: product.stars
     }
   });
 }
@@ -184,6 +187,7 @@ export const getStaticProps: GetStaticProps = async () => {
       lastProducts,
       trendProducts: trendProducts,
       isLoading: false,
-    }
+    },
+    revalidate: 60 * 60 * 24
   }
 }

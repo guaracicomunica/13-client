@@ -1,20 +1,24 @@
 import { useState } from 'react';
 import { Range, getTrackBackground } from 'react-range';
 
-import { FilterItemType } from '../../types/products/index';
+import { FilterItemType, ColorType } from '../../types/filter/index';
 
 import { formatString } from '../../utils/formatString';
 
 import styles from './styles.module.css';
 
-type FilterProps = {
+export type FilterProps = {
   brands: FilterItemType[];
   sizes: FilterItemType[];
   categories: FilterItemType[];
+  materials: FilterItemType[];
+  colors: ColorType[];
   handleFilter: (nameFilter: string, valueFilter: string) => void;
   handlePriceRange: (values: number[]) => void;
   addCategoryInFilter: (item: number) => void;
   removeCategoryInFilter: (item: number) => void;
+  addColorInFilter: (item: number) => void;
+  removeColorInFilter: (item: number) => void;
 }
 
 export function Filter(props: FilterProps) {
@@ -66,11 +70,13 @@ export function Filter(props: FilterProps) {
         name="material"
         id="material"
         className="form-control mb-3"
+        onChange={(event) => props.handleFilter("materialId", event.target.value)}
       >
         <option value="" disabled={true}>Material</option>
-        <option value="all">Todos os materiais</option>
-        <option value="algodao">Algodão</option>
-        <option value="poliester">Poliéster</option>
+        <option value="0">Todos os materiais</option>
+        {props.materials.map(
+          material => <option key={material.id} value={material.id}>{material.name}</option>
+        )}
       </select>
 
       <select
@@ -78,14 +84,15 @@ export function Filter(props: FilterProps) {
         name="rating"
         id="rating"
         className="form-control mb-3"
+        onChange={(event) => props.handleFilter("stars", event.target.value)}
       >
         <option value="" disabled={true}>Avaliações</option>
-        <option value="all">Todas as avaliações</option>
-        <option value="five">Cinco estrelas</option>
-        <option value="four">Quatro estrelas</option>
-        <option value="three">Três estrelas</option>
-        <option value="two">Duas estrelas</option>
-        <option value="one">Uma estrela</option>
+        <option value="0">Todas as avaliações</option>
+        <option value="5">Cinco estrelas</option>
+        <option value="4">Quatro estrelas</option>
+        <option value="3">Três estrelas</option>
+        <option value="2">Duas estrelas</option>
+        <option value="1">Uma estrela</option>
       </select>
 
       {props.categories.map(category => {
@@ -179,50 +186,26 @@ export function Filter(props: FilterProps) {
 
       <h5 className="my-4">Cores</h5>
       <div className={`mb-2 ${styles.colors}`}>
-        <div className={`${styles.color} mr-3 mb-2`}>
-          <input type="checkbox" name="color-black" id="color-black" />
-          <label htmlFor="color-black" />
-        </div>
+        {props.colors.map(color => {
+          const colorStyle = {
+            backgroundColor: color.hex_code
+          }
 
-        <div className={`${styles.color} mr-3 mb-2`}>
-          <input type="checkbox" name="color-white" id="color-white" />
-          <label htmlFor="color-white" />
-        </div>
-
-        <div className={`${styles.color} mr-3 mb-2`}>
-          <input type="checkbox" name="color-gray" id="color-gray" />
-          <label htmlFor="color-gray" />
-        </div>
-
-        <div className={`${styles.color} mr-3 mb-2`}>
-          <input type="checkbox" name="color-red" id="color-red" />
-          <label htmlFor="color-red" />
-        </div>
-
-        <div className={`${styles.color} mr-3 mb-2`}>
-          <input type="checkbox" name="color-blue" id="color-blue" />
-          <label htmlFor="color-blue" />
-        </div>
-
-        <div className={`${styles.color} mr-3 mb-2`}>
-          <input type="checkbox" name="color-green" id="color-green" />
-          <label htmlFor="color-green" />
-        </div>
-
-        <div className={`${styles.color} mr-3 mb-2`}>
-          <input type="checkbox" name="color-yellow" id="color-yellow" />
-          <label htmlFor="color-yellow" />
-        </div>
-
-        <div className={`${styles.color} mr-3 mb-2`}>
-          <input type="checkbox" name="color-purple" id="color-purple" />
-          <label htmlFor="color-purple" />
-        </div>
-
-        <div className={`${styles.color} mr-3 mb-2`}>
-          <input type="checkbox" name="color-brown" id="color-brown" />
-          <label htmlFor="color-brown" />
-        </div>
+          return (
+            <div className={`${styles.color} mr-1 mb-2`} key={color.id}>
+              <input
+                type="checkbox"
+                name={`color-${color.name.toLowerCase()}`}
+                id={`color-${color.name.toLowerCase()}`}
+                onChange={(event) => {
+                  event.currentTarget.checked ? props.addColorInFilter(color.id)
+                                              : props.removeColorInFilter(color.id)
+                }}
+              />
+              <label htmlFor={`color-${color.name.toLowerCase()}`} style={colorStyle} />
+            </div>
+          );
+        })}
       </div>
 
       <hr />
