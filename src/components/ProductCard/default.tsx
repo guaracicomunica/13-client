@@ -22,12 +22,26 @@ export function DefaultProductCard(props: DefaultProductType) {
         let rating = [];
 
         for (let i = 0; i < stars; i++) {
-            rating.push(<img className="mr-1" src="./icons/star.svg" alt="Estrela" />)
+            rating.push(
+                <img
+                    className="mr-1"
+                    src="./icons/star.svg"
+                    alt="Estrela"
+                    key={`star-${item.id}-${i + 1}`}
+                />
+            );
         }
 
         if (5 - stars > 0) {
             for (let i = 0; i < (5 - stars); i++) {
-                rating.push(<img className="mr-1" src="./icons/star-gray.svg" alt="Estrela" />)
+                rating.push(
+                    <img
+                        className="mr-1"
+                        src="./icons/star-gray.svg"
+                        alt="Estrela"
+                        key={`star-gray-${item.id}-${stars - i + 1}`}
+                    />
+                );
             }
         }
 
