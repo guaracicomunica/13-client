@@ -17,17 +17,12 @@ type SignInData = {
   password: string;
 }
 
-type RegisterData = {
-  email: string;
-  telefone: string;
-  password: string;
-}
-
 type AuthContextType = {
   user: User;
   isAuthenticated: boolean;
   signIn: (data: SignInData) => void;
   logoff: () => void;
+  setUser: (data: User) => void;
 }
 
 type DataAuth = {
@@ -50,7 +45,7 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const { 'ecommerce.token': token } = parseCookies();
-
+    
     if (token) {
       setUser({
         id: 11,
@@ -83,34 +78,10 @@ export function AuthProvider({ children }) {
 
     Router.push('/login');
   }
-
-  async function register({email, telefone, password}: RegisterData){
-    const api = getAPIClient()
-    const response = await api.post<DataRegisterData>('/auth/register', {
-      email,
-      telefone,
-      password
-    }
-    /*, 
-
-    {
-       headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers": "Authorization", 
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, PATCH, DELETE" ,
-        "Content-Type": "application/json;charset=UTF-8" 
-       }
-    }
-    */
-    ).then((response) => {
-      console.log(response)
-    });
-
     
-  }
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, signIn, logoff, register }}>
+    <AuthContext.Provider value={{ user, setUser, isAuthenticated, signIn, logoff }}>
       { children }
     </AuthContext.Provider>
   )

@@ -1,16 +1,24 @@
 import Head from 'next/head'
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { useForm } from 'react-hook-form';
 import styles from './styles.module.css';
 import { getAPIClient } from '../../services/apiClient';
 import { ToastContainer, toast, ToastOptions } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { parseCookies, setCookie } from 'nookies';
+import Router from 'next/router';
 
+type User = {
+    id: number;
+    name: string;
+    email: string;
+    cpf: string;
+  }
 
 
 export default function Cadastro() {
-
+    //const { set } = AuthContext();
     const options: ToastOptions = {
         position: "top-right",
         autoClose: 5000,
@@ -20,46 +28,65 @@ export default function Cadastro() {
         draggable: true,
         progress: undefined,
     };
-    /*
-    const [name, setName] = useState('');
-    const [cpf, setCpf] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [telefone, setTelefone] = useState('');
-    const [password_confirmation, setPassword_confirmation] = useState('');
-    */
+
+    const { user, setUser, logoff } = useContext(AuthContext);
+    
    const { register, handleSubmit} = useForm();
 
-   const handleParam = setValue => e => setValue(e.target.value)
-
     async function onSubmit(event: any) {
-       // console.log(event)
-        
-        //let data = JSON.stringify(event);
         await registerfunc(event)
-        
     }
 
 
     async function registerfunc(data: any){
-        console.log(data.email)
-        const api = getAPIClient()
-        const response = await api.post('/auth/register', 
-        data ,
-        {
-            headers:{
-                'Content-Type': 'application/json',
-            }
-        }        
-        ).then((response) => {
-            //TODO: mostrar mensagem de sucesso
-            toast.success('Sucesso! Você foi cadastrado.', options); 
+
+        try {
+            const api = getAPIClient()
+            const response = await api.post('/auth/register', 
+            data ,
+                {
+                    headers:{
+                        'Content-Type': 'application/json',
+                    }
+                }    
+            
+            )
+              setCookie(undefined, 'ecommerce.token', response.data.access_token, {
+                maxAge: 60 * 60, // 1 hour
+              });
           
-          console.log(response)
-        }).catch((response) => {
-            //TODO: mostrar mensagem de validação
-            toast.error(response.error, options);
-        });
+              api.defaults.headers['Authorization'] = `Bearer ${response.data.access_token}`;
+              console.log(response.data.user);
+              setUser(response.data.user);
+
+          
+              Router.push('/dashboard');
+            toast.success('Sucesso! Você foi cadastrado!', options); 
+
+        } catch (error) {
+            console.log(error.response)
+            if(error.response.status == 400){
+
+                var obj = JSON.parse(error.response.data.error);
+                
+                obj?.name?.map( (item) => {
+                    toast.error(item, options);     
+                })
+                obj?.cpf?.map( (item) => {
+                    toast.error(item, options);     
+                })
+                obj?.email?.map( (item) => {
+                    toast.error(item, options);     
+                })
+                obj?.telefone?.map( (item) => {
+                    toast.error(item, options);     
+                })
+                obj?.password?.map( (item) => {
+                    toast.error(item, options);     
+                })
+            }
+        }
+     
     }
 
 
