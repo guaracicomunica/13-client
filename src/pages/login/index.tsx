@@ -8,12 +8,18 @@ import { AuthContext } from '../../contexts/AuthContext';
 import styles from './styles.module.css';
 
 export default function Login() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm({defaultValues: {
+    email: "",
+    password: "",
+  },
+  });
   const { signIn } = useContext(AuthContext);
 
   async function handleSignIn(data) {
     await signIn(data)
   }
+  const onSubmit = async data => { handleSignIn(data);};
+  
 
   return (
     <>
@@ -28,14 +34,18 @@ export default function Login() {
               <h1 className="text-md-left text-center mediumTitle">Já sou cliente</h1>
             </div>
             <div className="col-sm-12">
-              <form action="javascript:void(0)" className={`${styles['w-sm-100']} ${styles['w-md-75']}`}>
+              <form action="javascript:void(0)"  onSubmit={handleSubmit(onSubmit)} className={`${styles['w-sm-100']} ${styles['w-md-75']}`}>
                 <div className="form-group">
                   <label htmlFor="email" className={`${styles['label']}`}>E-mail</label>
-                  <input type="email" className={`${styles['bg-input']} form-control`} name="email" placeholder="usuario@email.com" />
+                  <input type="email" className={`${styles['bg-input']} form-control`} 
+                  {...register('email')} 
+                  name="email" placeholder="usuario@email.com" />
                 </div>
                 <div className="form-group">
                   <label htmlFor="password" className={`${styles['label']}`}>Senha</label>
-                  <input type="password" className={`${styles['bg-input']} form-control`} name="password" placeholder="Digite sua senha" />
+                  <input type="password" className={`${styles['bg-input']} form-control`} 
+                  {...register('password')} 
+                  name="password" placeholder="Digite sua senha" />
                 </div>
                 <div className="form-group d-flex justify-content-center pt-3">
                   <button type="submit" className="button button-primary">Acessar conta</button>
