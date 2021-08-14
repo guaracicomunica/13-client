@@ -24,6 +24,7 @@ export type ProdutosPageProps = {
   sizes: FilterItemType[];
   categories: FilterItemType[];
   materials: FilterItemType[];
+  productTypes: FilterItemType[];
   colors: ColorType[];
   queryProps: {
       totalProducts: number;
@@ -43,6 +44,7 @@ export default function Produtos(props: ProdutosPageProps) {
   const [sizes, setSizes] = useState<FilterItemType[]>([]);
   const [categories, setCategories] = useState<FilterItemType[]>([]);
   const [materials, setMaterials] = useState<FilterItemType[]>([]);
+  const [productTypes, setProductTypes] = useState<FilterItemType[]>([]);
   const [colors, setColors] = useState<ColorType[]>([]);
   const [firstProductOnPage, setFirstProductOnPage] = useState(0);
   const [lastProductOnPage, setLastProductOnPage] = useState(0);
@@ -52,7 +54,7 @@ export default function Produtos(props: ProdutosPageProps) {
 
   const { loading, setLoading } = useContext(LoadingContext);
 
-  const [ filter, setFilter ] = useState<FilterType>({
+  const [filter, setFilter] = useState<FilterType>({
     brandId: "0",
     sizeId: "0",
     categoryId: "0",
@@ -62,10 +64,10 @@ export default function Produtos(props: ProdutosPageProps) {
     colorId: "0"
   });
 
-  const [ categoryFilter, setCategoryFilter ] = useState<number[]>([]);
-  const [ colorsFilter, setColorsFilter ] = useState<number[]>([]);
+  const [categoryFilter, setCategoryFilter] = useState<number[]>([]);
+  const [colorsFilter, setColorsFilter] = useState<number[]>([]);
 
-  const [ order, setOrder ] = useState("latest");
+  const [order, setOrder] = useState("latest");
 
   useEffect(() => {
     setTimeout(() => setLoading(props.isLoading), 4500);
@@ -79,6 +81,7 @@ export default function Produtos(props: ProdutosPageProps) {
       setCategories(props.categories);
       setMaterials(props.materials);
       setColors(props.colors);
+      setProductTypes(props.productTypes);
       setFirstProductOnPage(props.queryProps.firstProductOnPage);
       setLastProductOnPage(props.queryProps.lastProductOnPage);
       setTotalPages(props.queryProps.totalPages);
@@ -308,6 +311,7 @@ export default function Produtos(props: ProdutosPageProps) {
             categories={categories}
             materials={materials}
             colors={colors}
+            productTypes={productTypes}
 
             handleFilter={handleFilter}
             handlePriceRange={handlePriceRange}
@@ -412,6 +416,9 @@ export const getStaticProps: GetStaticProps = async () => {
   const dataMaterials = await api.get('materials');
   const materials: FilterItemType[] = mapResponse(dataMaterials);
 
+  const dataProductTypes = await api.get('product-types');
+  const productTypes: FilterItemType[] = mapResponse(dataProductTypes);
+
   const dataColors = await api.get('colors');
   const colors: ColorType[] = dataColors.data.map(color => {
     return {
@@ -429,6 +436,7 @@ export const getStaticProps: GetStaticProps = async () => {
       categories,
       materials,
       colors,
+      productTypes,
       queryProps: {
         totalProducts: dataProducts.total,
         totalPages: dataProducts.last_page,
