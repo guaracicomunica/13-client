@@ -51,12 +51,7 @@
 .search-icon {
   border-radius: 0 30px 30px 0 !important;
   border: none !important;
-  
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  background-color: var(--background-input);
+  background-color: var(--background-input) !important;
 }
 
 .search-icon img {
