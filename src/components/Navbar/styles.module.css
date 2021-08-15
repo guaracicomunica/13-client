@@ -1,6 +1,6 @@
 .navbar-padding {
-  padding-left: 5rem;
-  padding-right: 5rem;
+  padding-left: 5rem !important;
+  padding-right: 5rem !important;
 }
 
 .navbar-link a {
@@ -69,8 +69,8 @@
 
 @media (max-width: 1360px) {
   .navbar-padding {
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: 1.75rem !important;
+    padding-right: 1.75rem !important;
   }
 
   .navbar-padding .navbar-collapse {
