@@ -76,36 +76,42 @@ export function Navbar() {
 
             <div className={`${styles["nav-group-items"]}`}>
               <li className="nav-item">
-                <a className="nav-link" href="#">
-                  <img
-                    src="/icons/heart.svg"
-                    alt="Produtos favoritos"
-                    aria-label="Produtos favoritos"
-                    className={styles["nav-icon"]}
-                  />
-                </a>
+                <Link href="#">
+                  <a className="nav-link">
+                    <img
+                      src="/icons/heart.svg"
+                      alt="Produtos favoritos"
+                      aria-label="Produtos favoritos"
+                      className={styles["nav-icon"]}
+                    />
+                  </a>
+                </Link>
               </li>
 
               <li className="nav-item">
-                <a className="nav-link" href="#">
-                  <img
-                    src="/icons/cart.svg"
-                    alt="Carrinho de compras"
-                    aria-label="Carrinho de compras"
-                    className={styles["nav-icon"]}
-                  />
-                </a>
+                <Link href="/carrinho">
+                  <a className="nav-link">
+                    <img
+                      src="/icons/cart.svg"
+                      alt="Carrinho de compras"
+                      aria-label="Carrinho de compras"
+                      className={styles["nav-icon"]}
+                    />
+                  </a>
+                </Link>
               </li>
 
               <li className="nav-item">
-                <a className="nav-link" href="#">
-                  <img
-                    src="/icons/user.svg"
-                    alt="Área do usuário"
-                    aria-label="Área do usuário"
-                    className={styles["nav-icon"]}
-                  />
-                </a>
+                <Link href="#">
+                  <a className="nav-link">
+                    <img
+                      src="/icons/user.svg"
+                      alt="Área do usuário"
+                      aria-label="Área do usuário"
+                      className={styles["nav-icon"]}
+                    />
+                  </a>
+                </Link>
               </li>
             </div>
           </ul>
