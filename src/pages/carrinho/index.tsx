@@ -4,13 +4,39 @@ import Image from 'next/image'
 
 import { CartContext } from '../../contexts/CartContext';
 import { ProductType } from '../../types/products';
-
 import styles from './styles.module.css';
 
 export default function Carrinho() {
   const { cart, addToCart, removeFromCart, clearCart } = useContext(CartContext);
 
   const item = { id: 2, title: 'produto 02', price: 50.5 } as ProductType;
+  
+  function openCheckout() {
+    
+    let checkout = new PagarMeCheckout.Checkout({
+      encryption_key: "ENCRYPTION_KEY",
+      success: function(data) {
+        //to do: as transações ficarão no bd ou só na api do pagarme?
+        alert(JSON.stringify(data));
+      },
+      error: function(err) {
+        alert(JSON.stringify(err));
+      },
+      close: function() {
+        alert("The modal has been closed.");
+      }
+    });
+
+    checkout.open({
+      amount: 8000,
+      buttonText: "Pagar",
+      customerData: "true",
+      createToken: "false",
+      paymentMethods: "credit_card, boleto",
+      postbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL_API}`
+    });
+  }
+
 
   return (
     <>
@@ -117,7 +143,7 @@ export default function Carrinho() {
                 <div className="row mt-3">
                   <div className="col-sm-12">
                     <div className="d-flex justify-content-center">
-                      <a href="#" className={`btn ${styles['btn-green']} mt-3`}>Continuar</a>
+                      <a href="#" className={`btn ${styles['btn-green']} mt-3`} onClick={openCheckout}> Continuar</a>
                     </div>
                   </div>
                 </div>
