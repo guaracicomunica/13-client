@@ -21,17 +21,17 @@ export function Navbar() {
           className="navbar-toggler"
           type="button"
           data-toggle="collapse"
-          data-target="#navbarTogglerDemo02"
-          aria-controls="navbarTogglerDemo02"
+          data-target="#navbar"
+          aria-controls="navbar"
           aria-expanded="false"
-          aria-label="Alterna navegação"
+          aria-label="Expandir menu"
         >
           <img src="/icons/menu.svg" alt="Menu" className={styles["nav-icon"]} />
         </button>
 
         <div
           className="ml-lg-5 pt-5 pb-3 py-lg-0 collapse navbar-collapse"
-          id="navbarTogglerDemo02"
+          id="navbar"
         >
           <ul className={`nav w-100 ${styles["nav-column"]} ${styles["justify-me"]}`}>
             <li className="nav-item mb-3 mb-lg-0">
