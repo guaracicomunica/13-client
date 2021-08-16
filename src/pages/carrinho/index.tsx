@@ -1,9 +1,11 @@
 import Head from 'next/head'
+import Link from 'next/link';
 import { useContext } from 'react';
-import Image from 'next/image'
 
 import { CartContext } from '../../contexts/CartContext';
+import { ProductCard } from '../../components/ProductCard';
 import { ProductType } from '../../types/products';
+
 import styles from './styles.module.css';
 
 export default function Carrinho() {
@@ -12,7 +14,6 @@ export default function Carrinho() {
   const item = { id: 2, title: 'produto 02', price: 50.5 } as ProductType;
   
   function openCheckout() {
-    
     let checkout = new PagarMeCheckout.Checkout({
       encryption_key: "ENCRYPTION_KEY",
       success: function(data) {
@@ -37,131 +38,182 @@ export default function Carrinho() {
     });
   }
 
-
   return (
     <>
       <Head>
-        <title>Geral.com</title>
+        <title>Seu carrinho de compras</title>
       </Head>
 
-      <main className="container py-5">
-        <div className="row">
+      <main className="background-gray">
+        <section className="section row justify-content-between">
           <div className="col-lg-7 col-sm-12 mb-4 mr-sm-5">
-            <h1 className={`${styles.mediumTitle} mb-4`}>Meu Carrinho</h1>
-            <div className={`"card mr-sm-5" ${styles['my-shadow']}`}>
-              <div className="card-body border-none">
-                <div className="container">
-                  <div className="row">
-                    <div className="col-md-3 col-sm-12">
-                      <Image
-                        src="/images/camisa-barcelona.svg"
-                        alt="camisa do barcelona"
-                        layout="fill"
-                        objectFit="cover"
-                        quality={100}
-                      />
-                    </div>
-                    <div className="col-md-5 col-sm-12">
-                      <h5 className={`card-title ${styles["smallTitle"]}`}>Camisa Barcelona 20/21 S/Nº Torcedor Nike Masculina</h5>
-                      <div>
-                        <p className={`card-text ${styles["smallText"]} ${styles['mb-restart-3']}`}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.</p>
-                        <p className={`${styles.smallText} ${styles['mb-restart-3']}`}><b>Tamanho:</b> P</p>
-                        <p className={`${styles.smallText} ${styles['mb-restart-3']}`}><b>Cor:</b>: Azul</p>
-                      </div>
-                    </div>
-                    <div className="col-md-4 col-sm-12">
-                      <img
-                        src="/icons/garbage.svg"
-                        alt="Remova item do carrinho"
-                        aria-label="Remova item do carrinho"
-                        className={styles.absoluteRigthTop}
-                      />
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-sm-12">
-                      <hr className="justify-content-center w-100" />
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-between">
-                    <div className="">
-                      <p className={`${styles.mediumText} ${styles['mb-restart-3']}`}><b>Quantidade:</b> 1</p>
-                    </div>
-                    <div className="">
-                      <span><b>R$99,99</b></span>
-                    </div>
+            <h1 className="title-secondary mb-4">Meu Carrinho</h1>
+            <div className={`p-4 ${styles['base-card']} ${styles['product-cart-card']}`}>
+              <div className="row">
+                <div className="col-3 p-0 d-flex">
+                  <img
+                    src="/images/camisa-barcelona.svg"
+                    alt="camisa do barcelona"
+                    className="img-fluid align-items-center"
+                  />
+                </div>
+
+                <div className="col-8">
+                  <h5 className={`small-title mb-3 ${styles["info-product"]}`}>
+                    Camisa Barcelona 20/21 S/Nº Torcedor Nike Masculina
+                  </h5>
+                  <div className={`small-text ${styles["info-product"]}`}>
+                    <p className="mb-1">
+                      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.
+                    </p>
+                    <p className="mb-1">
+                      <b>Tamanho:</b> P
+                    </p>
+                    <p className="mb-1">
+                      <b>Cor:</b> Azul
+                    </p>
                   </div>
                 </div>
+
+                <div className={`col-1 ${styles["delete-product-cart"]}`}>
+                  <img
+                    src="/icons/garbage.svg"
+                    alt="Remova item do carrinho"
+                    aria-label="Remova item do carrinho"
+                  />
+                </div>
+              </div>
+
+              <hr className="my-4" />
+
+              <div className="d-flex justify-content-between">
+                <p>
+                  <b>Quantidade:</b> 1
+                </p>
+                  
+                <p>
+                  <b>R$ 99,99</b>
+                </p>
               </div>
             </div>
           </div>
-          <div className="col-lg-4 col-sm-12">
-            <h1 className={`${styles.mediumTitle} mb-4`}>Resumo da Compra</h1>
-            <div className={`"card mr-sm-5" ${styles['base-card']} ${styles['bg-gray']} ${styles['height-400']}`}>
-              <div className="card-body border-none">
-                <div className="row">
-                  <div className="col-sm-12">
-                    <div className="d-flex justify-content-between align-items-center mt-2">
-                      <span className={`card-text ${styles['color-gray']} ${styles['smooth-text']} ${styles['resume-title']}`}>Subtotal (1 item)</span>
-                      <span className={`card-text ${styles['resume-title']}`}><b>R$ 99,99</b></span>
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-sm-12">
-                    <hr className="justify-content-center w-100" />
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-sm-12">
-                    <div className="d-flex justify-content-between align-items-center mt-2">
-                      <span className={`card-text ${styles['color-gray']} ${styles['smooth-text']} ${styles['resume-title']}`}>Descontos</span>
-                      <span className={`card-text ${styles['resume-title']}`}><b>R$ 00,00</b></span>
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-sm-12">
-                    <hr className="justify-content-center w-100" />
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-sm-12">
-                    <div className="d-flex justify-content-between align-items-center mt-2">
-                      <span className={`card-text ${styles['color-gray']} ${styles['smooth-text']} ${styles['resume-title']}`}>Valor Total</span>
-                      <span className={`card-text ${styles['resume-title']}`}><b>R$ 99,99</b></span>
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-sm-12">
-                    <div className="d-flex justify-content-end">
-                      <span className={`${styles['smallText']} ${styles['color-gray']}  mt-2`}>Em até 5x de 19,98 sem juros</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="row mt-3">
-                  <div className="col-sm-12">
-                    <div className="d-flex justify-content-center">
-                      <a href="#" className={`btn ${styles['btn-green']} mt-3`} onClick={openCheckout}> Continuar</a>
-                    </div>
-                  </div>
-                </div>
-                <div className="row mt-3">
-                  <div className="col-sm-12">
-                    <div className="d-flex justify-content-center">
-                      <a href="#" className={`btn ${styles['btn-white']} mt-3`}>
-                        <span className={`${styles.smallText}`}>
-                          Escolher Mais Produtos
-                        </span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
+
+          <div className="col-lg-4 col-sm-12 mt-5 mt-lg-0">
+            <h1 className="title-secondary mb-4">Resumo da Compra</h1>
+
+            <div className={`p-4 ${styles['base-card']} ${styles['resume-card']}`}>
+              <div className="d-flex justify-content-between">
+                <span className={styles['resume-title']}>
+                  Subtotal (1 item)
+                </span>
+
+                <span>
+                  <b>R$ 99,99</b>
+                </span>
+              </div>
+
+              <hr />
+
+              <div className="d-flex justify-content-between mt-2">
+                <span className={styles['resume-title']}>
+                  Descontos
+                </span>
+
+                <span>
+                  <b>R$ 00,00</b>
+                </span>
+              </div>  
+
+              <hr />
+
+              <div className="d-flex justify-content-between mt-2">
+                <span className={styles['resume-title']}>
+                  Valor Total
+                </span>
+
+                <span>
+                  <b>R$ 99,99</b>
+                </span>
+              </div>
+
+              <div className="d-flex justify-content-end">
+                <small className={`${styles['small-info']} mt-2`}>
+                  Em até 5x de 19,98 sem juros
+                </small>
+              </div>
+
+              <div className={`${styles["buttons-cart"]} mt-5`}>
+                <button
+                  className="button button-primary"
+                  onClick={openCheckout}
+                >
+                  Continuar
+                </button>
+
+                <Link href="/produtos">
+                  <a className="button button-secondary-outline mt-3">
+                    Escolher mais produtos
+                  </a>
+                </Link>
+              </div>
+
+              <div className="d-flex justify-content-center align-items-center mt-5">
+                <img src="/icons/lock.svg" width={9} />
+                <small className={styles["safe-purchase"]}>
+                  Compra segura
+                </small>
               </div>
             </div>
           </div>
-        </div>
+        </section>
+
+        <section className="section">
+          <h1 className="mb-5 title-secondary">
+            Aproveite e leve também
+          </h1>
+
+          <div className={styles["products-list"]}>
+            <ProductCard
+              id={1}
+              title="Camisa Barcelona 20/21 S/Nº Torcedor Nike Masculina"
+              price={99.99}
+              favorite={true}
+              isLoading={false}
+              img="camisa-barcelona"
+              stars={5}
+            />
+
+            <ProductCard
+              id={2}
+              title="Camisa Barcelona 20/21 S/Nº Torcedor Nike Masculina"
+              price={99.99}
+              favorite={true}
+              isLoading={false}
+              img="camisa-barcelona"
+              stars={5}
+            />
+
+            <ProductCard
+              id={3}
+              title="Camisa Barcelona 20/21 S/Nº Torcedor Nike Masculina"
+              price={99.99}
+              favorite={true}
+              isLoading={false}
+              img="camisa-barcelona"
+              stars={5}
+            />
+
+            <ProductCard
+              id={4}
+              title="Camisa Barcelona 20/21 S/Nº Torcedor Nike Masculina"
+              price={99.99}
+              favorite={true}
+              isLoading={false}
+              img="camisa-barcelona"
+              stars={5}
+            />
+          </div>
+        </section>
       </main>
     </>
   )

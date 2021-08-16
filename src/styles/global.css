@@ -133,23 +133,21 @@ select:focus {
   color: var(--gray);
 }
 
+.title-secondary {
+  font-size: 1.75rem;
+  color: var(--blue-dark);
+}
+
 .text-gray {
   color: var(--gray);
 }
-.mediumTitle {
-  font-size: 1.7rem;
+
+.small-title {
+  font-size: 1.1rem;
 }
 
-.smallTitle {
-  font-size: 14px;
-}
-
-.smallText {
-  font-size: 11px;
-}
-
-.mediumText {
-  font-size: 14px;
+.small-text {
+  font-size: 0.9rem;
 }
 
 .show-filter {
