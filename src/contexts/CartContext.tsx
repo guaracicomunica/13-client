@@ -1,7 +1,7 @@
 import { createContext, useState } from 'react';
 import { CartType, CartContextType } from '../types/cart';
 
-const initialState = {products: [{id: 1, name: 'produto 01', price: 50.5}], amount: 0, subtotal: 0, discount: 0} as CartType
+const initialState = {products: [{id: 1, title: 'produto 01', price: 50.5}], amount: 0, subtotal: 0, discount: 0} as CartType
 
 export const CartContext = createContext({} as CartContextType);
 
