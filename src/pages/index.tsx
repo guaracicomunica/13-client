@@ -62,35 +62,9 @@ export default function Home(props: HomePageProps) {
           </div>
         </section>
 
-        <section className={`section ${styles["products-list"]}`}>
-          {props.lastProducts?.map(product => (
-            <ProductCard
-              key={product.id}
-              id={product.id}
-              title={product.title}
-              price={product.price}
-              favorite={product.isFavorite}
-              isLoading={loading}
-              img="camisa-barcelona"
-              stars={product.stars}
-            />
-          ))}
-        </section>
-
-        <section className="mx-3 mx-md-5 my-3">
-          <img
-            src="./images/banner-promocao.svg"
-            alt="Banner - Promoção 50% off"
-            aria-label="Promoção 50% off"
-            className="img-fluid"
-          />
-        </section>
-
-        <section className="section">
-          <h1 className="mb-5 title-section">Mais popular</h1>
-
-          <div className={styles["products-list"]}>
-            {props.trendProducts?.map(product => (
+        {props.lastProducts &&
+          <section className={`section ${styles["products-list"]}`}>
+            {props.lastProducts?.map(product => (
               <ProductCard
                 key={product.id}
                 id={product.id}
@@ -102,8 +76,38 @@ export default function Home(props: HomePageProps) {
                 stars={product.stars}
               />
             ))}
-          </div>
+          </section>
+        }
+
+        <section className="mx-3 mx-md-5 my-3">
+          <img
+            src="./images/banner-promocao.svg"
+            alt="Banner - Promoção 50% off"
+            aria-label="Promoção 50% off"
+            className="img-fluid"
+          />
         </section>
+
+        {props.trendProducts &&
+          <section className="section">
+            <h1 className="mb-5 title-section">Mais popular</h1>
+
+            <div className={styles["products-list"]}>
+              {props.trendProducts?.map(product => (
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  title={product.title}
+                  price={product.price}
+                  favorite={product.isFavorite}
+                  isLoading={loading}
+                  img="camisa-barcelona"
+                  stars={product.stars}
+                />
+              ))}
+            </div>
+          </section>
+        }
 
         <section className={`section ${styles["newsletter-section"]}`}>
           <Newsletter />
