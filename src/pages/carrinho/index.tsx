@@ -14,7 +14,7 @@ export default function Carrinho() {
   const item = { id: 2, title: 'produto 02', price: 50.5 } as ProductType;
   
   function openCheckout() {
-    let checkout = new PagarMeCheckout.Checkout({
+    let checkout = new window['PagarMeCheckout'].Checkout({
       encryption_key: "ENCRYPTION_KEY",
       success: function(data) {
         //to do: as transações ficarão no bd ou só na api do pagarme?
