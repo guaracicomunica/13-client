@@ -5,6 +5,13 @@
     background-color: var(--white);
 }
 
+@media(max-width: 576px)
+{
+    .newsletter {
+        padding      : 1rem 2rem;
+    }
+}
+
 .newsletter h5 {
     min-width: fit-content;
 }
