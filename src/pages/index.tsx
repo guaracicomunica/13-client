@@ -87,7 +87,7 @@ export default function Home(props: HomePageProps) {
         </section>
 
         <section className="section">
-          <h1 className="mb-5 title-section">Mais popular</h1>
+          {props.trendProducts.length > 0 && <h1 className="mb-5 title-section">Mais popular</h1>}
 
           <div className={styles["products-list"]}>
             {props.trendProducts?.map(product => (
