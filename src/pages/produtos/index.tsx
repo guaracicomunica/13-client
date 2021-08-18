@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -37,6 +37,11 @@ export type ProdutosPageProps = {
 }
 
 export default function Produtos(props: ProdutosPageProps) {
+
+  const scrollRef = useRef(null)
+
+   const executeScroll = () => scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+
   const api = getAPIClient();
 
   const [products, setProducts] = useState<ProductType[]>([]);
@@ -74,6 +79,9 @@ export default function Produtos(props: ProdutosPageProps) {
   }, [loading]);
 
   useEffect(() => {
+    
+    executeScroll();
+
     if (props) {
       setProducts(props.products);
       setBrands(props.brands);
@@ -304,7 +312,7 @@ export default function Produtos(props: ProdutosPageProps) {
           </div>
         </section>
         
-        <section className={`section ${styles["products-filter"]}`}>
+        <section ref={scrollRef} className={`section ${styles["products-filter"]}`}>
           <Filter
             brands={brands}
             sizes={sizes}
