@@ -1,0 +1,21 @@
+.menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-link {
+  display: grid;
+  grid-template-columns: 1.75rem 1fr;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.menu-link img {
+  justify-self: center;
+}
+
+.menu-link span {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--blue-dark);
+}

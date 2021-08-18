@@ -1,0 +1,11 @@
+.order-page {
+  display: grid;
+  grid-template-columns: 18rem 1fr;
+  gap: 4rem;
+
+  padding: 4rem 5rem;
+}
+
+.card-product {
+  display: flex;
+}

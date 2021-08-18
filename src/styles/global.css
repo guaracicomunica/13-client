@@ -153,3 +153,9 @@ select:focus {
 .show-filter {
   display: flex !important;
 }
+
+.card-style {
+  border-radius: 15px;
+  background-color: var(--white);
+  box-shadow: 0px 4px 10px -3px rgba(0, 0, 0, 0.1);
+}
