@@ -66,3 +66,30 @@
   color: var(--white);
   background-color: var(--blue-dark);
 }
+
+.button-gray, .button-gray-outline {
+  padding: 0.5rem 0.75rem;
+  border: 3px solid var(--gray);
+
+  font-size: 0.9rem;
+}
+
+.button-gray {
+  color: var(--white);
+  background-color: var(--gray);
+}
+
+.button-gray:hover {
+  color: var(--gray);
+  background-color: var(--white);
+}
+
+.button-gray-outline {
+  color: var(--gray);
+  background-color: var(--white);
+}
+
+.button-gray-outline:hover {
+  color: var(--white);
+  background-color: var(--gray);
+}
