@@ -1,6 +1,7 @@
 .menu {
   display: flex;
   flex-direction: column;
+  height: max-content;
 }
 
 .menu-link {
