@@ -47,11 +47,14 @@ export function AuthProvider({ children }) {
     const { 'ecommerce.token': token } = parseCookies();
     
     if (token) {
+      const { 'ecommerce.user': user } = parseCookies();
+      var userJSON = JSON.parse(user);
+
       setUser({
-        id: 11,
-        name: "Beltrano",
-        email: "beltrano@email.com",
-        cpf: "001.001.001-01"
+        id: userJSON.id,
+        name: userJSON.name,
+        email: userJSON.email,
+        cpf: userJSON.cpf,
       })
     }
   }, []);
@@ -65,10 +68,12 @@ export function AuthProvider({ children }) {
     setCookie(undefined, 'ecommerce.token', response.data.access_token, {
       maxAge: 60 * 60, // 1 hour
     });
+    var userJson = JSON.stringify(response.data.user);
 
     api.defaults.headers['Authorization'] = `Bearer ${response.data.access_token}`;
 
     setUser(response.data.user);
+    setCookie(null, 'ecommerce.user', userJson);
 
     Router.push('/dashboard');
   }
