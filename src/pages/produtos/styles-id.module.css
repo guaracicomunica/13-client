@@ -1,0 +1,35 @@
+.product-info {
+    min-height: 100vh;
+}
+
+.product-title {
+    font-size: 1.4rem;
+}
+
+.product-ref {
+    font-weight: 600;
+    font-size: .85rem;
+    color: var(--gray);
+}
+
+.product-description {
+    font-size: 1rem;
+    color: var(--gray-dark);
+}
+
+.avaliation-title {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: .9rem;
+}
+
+.avaliation-metrics-stars-cardinal {
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.avaliation-metrics-comments-cardinal {
+    color: var(--gray);
+    font-weight: 500;
+    font-size: .9rem;
+}
