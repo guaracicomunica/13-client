@@ -59,3 +59,12 @@
     font-weight: 550;
     font-size: 0.9rem;
 }
+
+.banner-title {
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+.banner-image {
+    width: 60%;
+}

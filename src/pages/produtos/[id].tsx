@@ -20,7 +20,7 @@ export default function Product({ product }: ProductProps) {
                 <title>Detalhes de Produto</title>
             </Head>
 
-            <main className={`${styles['product-info']} background-gray`}>
+            <section className={`${styles['product-info']} background-gray`}>
                 <div className="container">
                     <div className="row mt-5">
                         <div className="col-12 col-lg-4">
@@ -112,7 +112,13 @@ export default function Product({ product }: ProductProps) {
                         </div>
                     </div>
                 </div>
-            </main>
+            </section>
+            <section className={`p-5 background-gray-darkish`}>
+                <h1 className={`${styles['banner-title']} mt-2`}>Compre nossos produtos, comente e ganhe descontos exclusivos</h1>
+                <div className="d-flex justify-content-center align-items-center mt-5">
+                    <img className={`${styles['banner-image']}`} src="/images/banner-product-comments.svg" />
+                </div>
+            </section>
         </>
     );
 }
