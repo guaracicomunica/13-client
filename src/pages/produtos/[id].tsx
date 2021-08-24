@@ -1,13 +1,17 @@
 import Head from 'next/head';
 import { GetStaticProps, GetStaticPaths } from 'next';
+import ReactImageMagnify from 'react-image-magnify';
 import { api } from '../../services/api';
-import Image from 'next/image';
-
 import styles from './styles-id.module.css';
 
 type ProductProps = {
     product: any;
 }
+
+const watchImg1200 = "/images/camisa-barcelona.svg";
+const srcSet = [
+    `${watchImg1200} 1200w`,
+].join(', ');
 
 export default function Product({ product }: ProductProps) {
     return (
@@ -74,14 +78,36 @@ export default function Product({ product }: ProductProps) {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-12 col-lg-8">
-                            <div className="">
-                                <img
-                                    src={`/images/camisa-barcelona.svg`}
-                                    alt="Camisa"
-                                    aria-label="Camisa do Barcelona"
-                                    className="img-fluid"
-                                />
+                        <div className="col-12 col-lg-6">
+                            <div className={`${styles['magnify-container']}`}>
+                                <ReactImageMagnify {...{
+                                    smallImage: {
+                                        alt: 'Wristwatch by Ted Baker London',
+                                        isFluidWidth: true,
+                                        src: watchImg1200,
+                                        srcSet: srcSet,
+                                        sizes: '(max-width: 480px) 100vw, (max-width: 1200px) 30vw, 360px'
+                                    },
+                                    largeImage: {
+                                        src: watchImg1200,
+                                        width: 1200,
+                                        height: 1800
+                                    },
+                                }} />
+                            </div>
+                        </div>
+                        <div className="col-12 col-lg-2">
+                            <span className={`${styles['frete-info']}`}>Frete Grátis</span>
+                            <div>
+                                <div className={`${styles['frete-info-gray']} mt-2`}>
+                                    <span>A partir de</span>
+                                </div>
+                                <div>
+                                    <span className={`${styles['frete-info-bold']} mt-2`}>R$ 99,99</span>
+                                </div>
+                                <div>
+                                    <span className={`${styles['frete-info-parcela']} mt-2`}>5x de 19,98</span>
+                                </div>
                             </div>
                         </div>
                     </div>
