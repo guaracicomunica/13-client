@@ -2,10 +2,11 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
-
 import { AuthContext } from '../../contexts/AuthContext';
-
 import styles from './styles.module.css';
+import { ToastContainer, toast, ToastOptions } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { options } from '../../utils/deafultToastOptions';
 
 export default function Login() {
   const { register, handleSubmit } = useForm({defaultValues: {
@@ -16,7 +17,32 @@ export default function Login() {
   const { signIn } = useContext(AuthContext);
 
   async function handleSignIn(data) {
-    await signIn(data)
+    
+    try {
+      await  signIn(data)
+      toast.success("Sucesso! Você entrou no sistema.", options)
+    } catch (error) {
+      if (!error.response) {
+        // network error
+        return toast.error('Ops! Algo não saiu como o esperado. Tente novamente ou entre em contato com o suporte.', options);
+      }
+      switch (error.response.status) {
+
+          //erro no (email ou senha) ou (não foi cadastrado)
+          case 401:
+              toast.error(error.response?.data.error.trim() ? error.response?.data.error.trim() 
+              :  "Ops! Algo não saiu como o esperado, tente novamente ou entre em contato com o suporte.", options);
+              break;
+      
+          case 500: 
+              toast.error('Ops! Algo não saiu como o esperado. Tente novamente ou entre em contato com o suporte.', options);
+              break;
+          default:
+              toast.error('Ops! Algo não saiu como o esperado. Tente novamente ou entre em contato com o suporte.', options);
+              break;
+          }
+      
+    } 
   }
   const onSubmit = async data => { handleSignIn(data);};
   
@@ -63,6 +89,7 @@ export default function Login() {
           </div>
         </div>
       </main>
+      <ToastContainer />  
     </>
   );
 }
