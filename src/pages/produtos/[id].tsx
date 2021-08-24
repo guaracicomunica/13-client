@@ -109,6 +109,23 @@ export default function Product({ product }: ProductProps) {
                                     <span className={`${styles['frete-info-parcela']} mt-2`}>5x de 19,98</span>
                                 </div>
                             </div>
+                            <div className="mt-2">
+                                <span className="bold">Tamanho</span>
+                                <div className="d-flex">
+                                    <div className={`${styles['size']}`}>PP</div>
+                                    <div className={`${styles['size']}`}>P</div>
+                                    <div className={`${styles['size']}`}>M</div>
+                                    <div className={`${styles['size']}`}>G</div>
+                                </div>
+                            </div>
+                            <div>
+                                <button
+                                    className="button button-primary px-4 mt-3"
+                                    onClick={() => { }}
+                                >
+                                    Comprar
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

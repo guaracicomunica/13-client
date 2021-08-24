@@ -35,7 +35,7 @@
 }
 
 .magnify-container {
-    width: 35%;
+    width: 50%;
 }
 
 .frete-info {
@@ -58,6 +58,22 @@
 .frete-info-parcela {
     font-weight: 550;
     font-size: 0.9rem;
+}
+
+.size {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: 2px solid var(--gray);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: .8rem;
+    font-weight: 700;
+    color: var(--gray);
+    margin-right: 2px;
+    cursor: pointer;
 }
 
 .banner-title {
