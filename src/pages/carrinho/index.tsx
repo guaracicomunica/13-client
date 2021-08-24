@@ -9,18 +9,9 @@ import styles from './styles.module.css';
 import { ToastContainer, toast, ToastOptions } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import pagarme from 'pagarme';
+import {options} from '../../utils/deafultToastOptions';
 
 export default function Carrinho() {
-  
-  const options: ToastOptions = {
-    position: "top-right",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-  };
 
   const { cart, addToCart, removeFromCart, clearCart } = useContext(CartContext);
 
@@ -44,7 +35,7 @@ export default function Carrinho() {
         //to do: as transações ficarão no bd ou só na api do pagarme?
         captureTransactions(data.token);
       },
-      error: function(err) {
+      error: function(err) {      
         checkout.close(); 
         toast.error("Erro ao realizar essa compra. Por favor, aguarde alguns instantes, tente novamente ou entre em contato com o suporte." + JSON.stringify(err),options);
         console.log(err);
@@ -70,19 +61,12 @@ export default function Carrinho() {
         .then( client => 
           {
               try {
-                let resp = client.transactions.capture({ id: tokenIdTransaction, amount: 8000} ) 
-                
-                console.log("response do capture"+resp?.errors)
-                console.log(resp)
-                
-
+                let resp = client.transactions.capture( { id: tokenIdTransaction, amount: 8000} ) 
                 if(resp?.errors != null && resp?.errors != undefined) throw resp;
-                toast.success("Compra efetuada com sucesso!", options);
                 Router.push('/preparando-produto');    
                 
-                
-                
               } catch (e) { 
+                client.transactions.refund({ id: tokenIdTransaction }) //estornando o valor
                 checkout.close();
                 toast.error("Ops! algo não saiu como o esperado", options)
               }
