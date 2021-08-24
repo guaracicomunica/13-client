@@ -122,15 +122,23 @@ export default function Carrinho(props: CarrinhoPageProps) {
                     Camisa Barcelona 20/21 S/Nº Torcedor Nike Masculina
                   </h5>
                   <div className={`small-text ${styles["info-product"]}`}>
-                    <p className="mb-1">
+                    <div className="mb-2">
                       Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.
-                    </p>
-                    <p className="mb-1">
-                      <b>Tamanho:</b> P
-                    </p>
-                    <p className="mb-1">
-                      <b>Cor:</b> Azul
-                    </p>
+                    </div>
+
+                    <div className="mb-1 d-flex align-items-center">
+                      <b>Tamanho:</b>
+                      <div className={styles["product-size"]}>P</div>
+                    </div>
+
+                    <div className="mb-1 d-flex align-items-center">
+                      <b>Cor:</b>
+                      <div
+                        className={styles["product-color"]}
+                        style={{backgroundColor: "#118AB2"}}
+                        aria-label="Azul"
+                      />
+                    </div>
                   </div>
                 </div>
 
@@ -146,13 +154,24 @@ export default function Carrinho(props: CarrinhoPageProps) {
               <hr className="my-4" />
 
               <div className="d-flex justify-content-between">
-                <p>
-                  <b>Quantidade:</b> 1
-                </p>
+                <div className="d-flex align-items-center">
+                  <b>Quantidade:</b>
+                  <div className="d-flex">
+                    <div className={styles["qtd-button"]}>
+                      <img src="./icons/minus.svg" alt="Diminuir quantidade do produto" />
+                    </div>
+                    <div className={styles["qtd-product-info"]}>
+                      1
+                    </div>
+                    <div className={styles["qtd-button"]}>
+                      <img src="./icons/plus.svg" alt="Aumentar quantidade do produto" />
+                    </div>
+                  </div>
+                </div>
                   
-                <p>
+                <div className="big-text">
                   <b>R$ 99,99</b>
-                </p>
+                </div>
               </div>
             </div>
           </div>

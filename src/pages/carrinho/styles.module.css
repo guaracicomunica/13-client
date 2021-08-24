@@ -37,6 +37,49 @@
   }
 }
 
+.product-size {
+  margin-left: 0.5rem;
+  padding: 0.15rem 0.45rem;
+  border: 1px solid var(--gray);
+  border-radius: 50%;
+
+  color: var(--gray);
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+.product-color {
+  height: 1rem;
+  width: 1rem;
+  border-radius: 50%;
+  margin-left: 0.5rem;
+}
+
+.qtd-button {
+  border: 1px solid var(--gray);
+  border-radius: 50%;
+  padding: 0 0.4rem;
+  margin: 0 0.75rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.qtd-product-info {
+  border: 1px solid var(--gray);
+  border-radius: 5px;
+  padding: 0 0.5rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 700;
+  color: var(--gray);
+}
+
 .resume-title {
   font-weight: 500;
   color: var(--gray-dark);

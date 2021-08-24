@@ -150,6 +150,10 @@ select:focus {
   font-size: 0.9rem;
 }
 
+.big-text {
+  font-size: 1.2rem;
+}
+
 .show-filter {
   display: flex !important;
 }
