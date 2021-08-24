@@ -1,25 +1,47 @@
+import { useContext, useState, useEffect } from 'react';
+import { GetStaticProps } from 'next';
 import Head from 'next/head'
 import Link from 'next/link';
-import { useContext, useState } from 'react';
 import Router from 'next/router';
-import { CartContext } from '../../contexts/CartContext';
-import { ProductCard } from '../../components/ProductCard';
-import { ProductType } from '../../types/products';
-import styles from './styles.module.css';
 import { ToastContainer, toast, ToastOptions } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import pagarme from 'pagarme';
-import {options} from '../../utils/deafultToastOptions';
 
-export default function Carrinho() {
+import { CartContext } from '../../contexts/CartContext';
+import { LoadingContext } from '../../contexts/LoadingContext';
+import { ProductCard } from '../../components/ProductCard';
+import { getAPIClient } from '../../services/apiClient';
+import { ProductType } from '../../types/products';
+import { options } from '../../utils/deafultToastOptions';
 
+import styles from './styles.module.css';
+import 'react-toastify/dist/ReactToastify.css';
+
+type CarrinhoPageProps = {
+  products: ProductType[];
+  isLoading: boolean;
+}
+
+export default function Carrinho(props: CarrinhoPageProps) {
   const { cart, addToCart, removeFromCart, clearCart } = useContext(CartContext);
+  const { loading, setLoading } = useContext(LoadingContext);
+
+  const [products, setProducts] = useState([]);
 
   const item = { id: 2, title: 'produto 02', price: 505 } as ProductType;
 
   const itemToSend = { id: 2, title: 'produto 02', unit_price: 500, quantity: 1, tangible: true };
   
-  const [ encryption_key_pagarme, setEncryption_key_pagarme]  = useState("") ;
+  const [ encryption_key_pagarme, setEncryption_key_pagarme]  = useState("");
+
+  useEffect(() => {
+    setTimeout(() => setLoading(props.isLoading), 4500);
+  }, [loading]);
+
+  useEffect(() => {
+    if (props) {
+      setProducts(props.products);
+    }
+  }, []);
 
   //transforma o valor em real para centavos
   function realToCentavos(valorEmReal: number = 0){
@@ -209,49 +231,53 @@ export default function Carrinho() {
           </h1>
 
           <div className={styles["products-list"]}>
-            <ProductCard
-              id={1}
-              title="Camisa Barcelona 20/21 S/Nº Torcedor Nike Masculina"
-              price={99.99}
-              favorite={true}
-              isLoading={false}
-              img="camisa-barcelona"
-              stars={5}
-            />
-
-            <ProductCard
-              id={2}
-              title="Camisa Barcelona 20/21 S/Nº Torcedor Nike Masculina"
-              price={99.99}
-              favorite={true}
-              isLoading={false}
-              img="camisa-barcelona"
-              stars={5}
-            />
-
-            <ProductCard
-              id={3}
-              title="Camisa Barcelona 20/21 S/Nº Torcedor Nike Masculina"
-              price={99.99}
-              favorite={true}
-              isLoading={false}
-              img="camisa-barcelona"
-              stars={5}
-            />
-
-            <ProductCard
-              id={4}
-              title="Camisa Barcelona 20/21 S/Nº Torcedor Nike Masculina"
-              price={99.99}
-              favorite={true}
-              isLoading={false}
-              img="camisa-barcelona"
-              stars={5}
-            />
+            {products.length !== 0 ? (
+              products.map(product => {
+                return (
+                  <ProductCard
+                    key={product.id}
+                    id={product.id}
+                    title={product.title}
+                    price={product.price}
+                    favorite={true}
+                    img="camisa-barcelona"
+                    isLoading={loading}
+                    stars={product.stars}
+                  />
+                )
+              })
+            ) : ""}
           </div>
         </section>
       </main>
       <ToastContainer />
     </>
   )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const api = getAPIClient();
+
+  const { data: dataProducts } = await api.get('products/trend', {
+    params: {
+      per_page: 4
+    }
+  });
+
+  const products: ProductType[] = dataProducts.data.map(product => {
+    return {
+      id: product.id,
+      title: product.name,
+      price: product.price,
+      stars: product.stars
+    }
+  });
+
+  return {
+    props: {
+      products,
+      isLoading: false,
+    },
+    revalidate: 60 * 60 * 24
+  }
 }
