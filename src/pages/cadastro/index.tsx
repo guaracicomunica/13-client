@@ -8,6 +8,7 @@ import { ToastContainer, toast, ToastOptions } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { parseCookies, setCookie } from 'nookies';
 import Router from 'next/router';
+import { options } from '../../utils/deafultToastOptions';
 
 type User = {
     id: number;
@@ -19,16 +20,6 @@ type User = {
 
 export default function Cadastro() {
     //const { set } = AuthContext();
-    const options: ToastOptions = {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-    };
-
     const { user, setUser, logoff } = useContext(AuthContext);
     
    const { register, handleSubmit} = useForm();
