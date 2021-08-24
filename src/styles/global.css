@@ -11,8 +11,10 @@
   --gray: #CDCDD2;
   --gray-icon: #D4D4D4;
   --gray-dark: #757575;
+  --gray-darkish: #F3F3F3;
   --green-primary: #7AE582;
   --green-secondary: #4AD66D;
+  --green-terciary: #14D6A5;
   --blue-dark: #1A2531;
 
   --background: #FBFBFB;
@@ -88,6 +90,10 @@ select:focus {
 
 .background-gray {
   background-color: var(--background);
+}
+
+.background-gray-darkish {
+  background-color: var(--gray-darkish);
 }
 
 .section {

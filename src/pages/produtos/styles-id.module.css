@@ -1,0 +1,86 @@
+.product-info {
+    min-height: 100vh;
+}
+
+.product-title {
+    font-size: 1.4rem;
+}
+
+.product-ref {
+    font-weight: 600;
+    font-size: .85rem;
+    color: var(--gray);
+}
+
+.product-description {
+    font-size: 1rem;
+    color: var(--gray-dark);
+}
+
+.avaliation-title {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: .9rem;
+}
+
+.avaliation-metrics-stars-cardinal {
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.avaliation-metrics-comments-cardinal {
+    color: var(--gray);
+    font-weight: 500;
+    font-size: .9rem;
+}
+
+.magnify-container {
+    width: 50%;
+}
+
+.frete-info {
+    color: var(--green-terciary);
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+}
+
+.frete-info-gray {
+    color: var(--gray);
+    font-size: 0.85rem;
+}
+
+.frete-info-bold {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.frete-info-parcela {
+    font-weight: 550;
+    font-size: 0.9rem;
+}
+
+.size {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: 2px solid var(--gray);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: .8rem;
+    font-weight: 700;
+    color: var(--gray);
+    margin-right: 2px;
+    cursor: pointer;
+}
+
+.banner-title {
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+.banner-image {
+    width: 60%;
+}
