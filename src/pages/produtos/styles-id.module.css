@@ -33,3 +33,29 @@
     font-weight: 500;
     font-size: .9rem;
 }
+
+.magnify-container {
+    width: 35%;
+}
+
+.frete-info {
+    color: var(--green-terciary);
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+}
+
+.frete-info-gray {
+    color: var(--gray);
+    font-size: 0.85rem;
+}
+
+.frete-info-bold {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.frete-info-parcela {
+    font-weight: 550;
+    font-size: 0.9rem;
+}
