@@ -64,27 +64,45 @@ export default function Cadastro() {
             toast.success('Sucesso! Você foi cadastrado!', options); 
 
         } catch (error) {
-            console.log(error.response)
-            if(error.response.status == 400){
-
-                var obj = JSON.parse(error.response.data.error);
-                
-                obj?.name?.map( (item) => {
-                    toast.error(item, options);     
-                })
-                obj?.cpf?.map( (item) => {
-                    toast.error(item, options);     
-                })
-                obj?.email?.map( (item) => {
-                    toast.error(item, options);     
-                })
-                obj?.telefone?.map( (item) => {
-                    toast.error(item, options);     
-                })
-                obj?.password?.map( (item) => {
-                    toast.error(item, options);     
-                })
+            if (!error.response) {
+                // network error
+                return toast.error('Ops! Algo não saiu como o esperado. Tente novamente ou entre em contato com o suporte.', options);
             }
+            switch (error.response.status) {
+
+                //erro de validação
+                case 400:
+                    var obj = JSON.parse(error.response.data.error);
+                
+                    obj?.name?.map( (item) => {
+                        toast.error(item, options);     
+                    })
+                    obj?.cpf?.map( (item) => {
+                        toast.error(item, options);     
+                    })
+                    obj?.email?.map( (item) => {
+                        toast.error(item, options);     
+                    })
+                    obj?.telefone?.map( (item) => {
+                        toast.error(item, options);     
+                    })
+                    obj?.password?.map( (item) => {
+                        toast.error(item, options);     
+                    })
+                    break;
+            
+                case 500: 
+                    toast.error('Ops! Algo não saiu como o esperado. Tente novamente ou entre em contato com o suporte.', options);
+                    break;
+                default:
+                    toast.error('Ops! Algo não saiu como o esperado. Tente novamente ou entre em contato com o suporte.', options);
+                    break;
+            }
+            
+            
+
+                
+            
         }
      
     }

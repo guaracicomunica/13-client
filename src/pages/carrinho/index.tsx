@@ -1,30 +1,53 @@
 import Head from 'next/head'
 import Link from 'next/link';
-import { useContext } from 'react';
-
+import { useContext, useState } from 'react';
+import Router from 'next/router';
 import { CartContext } from '../../contexts/CartContext';
 import { ProductCard } from '../../components/ProductCard';
 import { ProductType } from '../../types/products';
-
 import styles from './styles.module.css';
+import { ToastContainer, toast, ToastOptions } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import pagarme from 'pagarme';
 
 export default function Carrinho() {
+  
+  const options: ToastOptions = {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  };
+
   const { cart, addToCart, removeFromCart, clearCart } = useContext(CartContext);
 
-  const item = { id: 2, title: 'produto 02', price: 50.5 } as ProductType;
+  const item = { id: 2, title: 'produto 02', price: 505 } as ProductType;
+
+  const itemToSend = { id: 2, title: 'produto 02', unit_price: 500, quantity: 1, tangible: true };
   
+  const [ encryption_key_pagarme, setEncryption_key_pagarme]  = useState("") ;
+
+  //transforma o valor em real para centavos
+  function realToCentavos(valorEmReal: number = 0){
+      //return valorEmReal*100;
+      toast.success("teste",options);
+  }
+
+  let checkout;
   function openCheckout() {
-    let checkout = new window['PagarMeCheckout'].Checkout({
-      encryption_key: "ENCRYPTION_KEY",
+    checkout = new window['PagarMeCheckout'].Checkout({
+      encryption_key: 'ek_test_Vzvun2RUeM5NFKNDOUIj3BgqXWm5pr',
       success: function(data) {
         //to do: as transações ficarão no bd ou só na api do pagarme?
-        alert(JSON.stringify(data));
+        captureTransactions(data.token);
       },
       error: function(err) {
-        alert(JSON.stringify(err));
-      },
-      close: function() {
-        alert("The modal has been closed.");
+        checkout.close(); 
+        toast.error("Erro ao realizar essa compra. Por favor, aguarde alguns instantes, tente novamente ou entre em contato com o suporte." + JSON.stringify(err),options);
+        console.log(err);
       }
     });
 
@@ -32,10 +55,40 @@ export default function Carrinho() {
       amount: 8000,
       buttonText: "Pagar",
       customerData: "true",
-      createToken: "false",
+      createToken: "true",
+      uiColor: '#7AE582',
       paymentMethods: "credit_card, boleto",
-      postbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL_API}`
+      items:[itemToSend],
+     //postbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL_API}/preparando-produto`
     });
+  }
+  
+  //captura de uma transação
+  function captureTransactions(tokenIdTransaction: String)
+  {
+    pagarme.client.connect({ api_key:'ak_test_6JIOewlI2n1O15fQgGgsE0poSDpsSd'})
+        .then( client => 
+          {
+              try {
+                let resp = client.transactions.capture({ id: tokenIdTransaction, amount: 8000} ) 
+                
+                console.log("response do capture"+resp?.errors)
+                console.log(resp)
+                
+
+                if(resp?.errors != null && resp?.errors != undefined) throw resp;
+                toast.success("Compra efetuada com sucesso!", options);
+                Router.push('/preparando-produto');    
+                
+                
+                
+              } catch (e) { 
+                checkout.close();
+                toast.error("Ops! algo não saiu como o esperado", options)
+              }
+          })
+          
+
   }
 
   return (
@@ -149,7 +202,6 @@ export default function Carrinho() {
                 >
                   Continuar
                 </button>
-
                 <Link href="/produtos">
                   <a className="button button-secondary-outline mt-3">
                     Escolher mais produtos
@@ -215,6 +267,7 @@ export default function Carrinho() {
           </div>
         </section>
       </main>
+      <ToastContainer />
     </>
   )
 }
