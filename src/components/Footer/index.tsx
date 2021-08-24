@@ -94,14 +94,6 @@ export function Footer() {
                         </div>
                     </div>
                 </div>
-
-                <div className="row mt-4 justify-content-center">
-                    <img
-                        src="./images/icons-payment.svg"
-                        alt="Ícones de pagamentos"
-                        className={styles["icons-payment"]}
-                    />
-                </div>
             </div>
         </footer>
     );
