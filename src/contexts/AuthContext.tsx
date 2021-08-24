@@ -80,6 +80,7 @@ export function AuthProvider({ children }) {
 
   function logoff() {
     destroyCookie(null, 'ecommerce.token');
+    destroyCookie(null, 'ecommerce.user');
 
     Router.push('/login');
   }
