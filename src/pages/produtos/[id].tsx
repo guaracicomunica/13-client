@@ -81,9 +81,12 @@ export default function Product({ product }: ProductProps) {
                         <div className="col-12 col-lg-6">
                             <div className={`${styles['magnify-container']}`}>
                                 <ReactImageMagnify {...{
+                                    enlargedImagePosition: 'beside',
                                     smallImage: {
                                         alt: 'Wristwatch by Ted Baker London',
-                                        isFluidWidth: true,
+                                        //isFluidWidth: false,
+                                        width: 100,
+                                        height: 100,
                                         src: watchImg1200,
                                         srcSet: srcSet,
                                         sizes: '(max-width: 480px) 100vw, (max-width: 1200px) 30vw, 360px'
@@ -93,6 +96,10 @@ export default function Product({ product }: ProductProps) {
                                         width: 1200,
                                         height: 1800
                                     },
+                                    enlargedImageContainerDimensions: {
+                                        width: '400%',
+                                        height: '300%'
+                                    }
                                 }} />
                             </div>
                         </div>
