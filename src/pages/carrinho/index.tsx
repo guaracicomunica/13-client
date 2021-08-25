@@ -9,9 +9,11 @@ import pagarme from 'pagarme';
 import { CartContext } from '../../contexts/CartContext';
 import { LoadingContext } from '../../contexts/LoadingContext';
 import { ProductCard } from '../../components/ProductCard';
+import { ProductCartCard } from '../../components/ProductCartCard';
 import { getAPIClient } from '../../services/apiClient';
 import { ProductType } from '../../types/products';
 import { options } from '../../utils/deafultToastOptions';
+import { formatPrice } from '../../utils/formatPrice';
 
 import styles from './styles.module.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,13 +27,13 @@ export default function Carrinho(props: CarrinhoPageProps) {
   const { cart, addToCart, removeFromCart, clearCart } = useContext(CartContext);
   const { loading, setLoading } = useContext(LoadingContext);
 
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<ProductType[]>([]);
 
   const item = { id: 2, title: 'produto 02', price: 505 } as ProductType;
 
   const itemToSend = { id: 2, title: 'produto 02', unit_price: 500, quantity: 1, tangible: true };
   
-  const [ encryption_key_pagarme, setEncryption_key_pagarme]  = useState("");
+  const [encryption_key_pagarme, setEncryption_key_pagarme]  = useState("");
 
   useEffect(() => {
     setTimeout(() => setLoading(props.isLoading), 4500);
@@ -44,7 +46,7 @@ export default function Carrinho(props: CarrinhoPageProps) {
   }, []);
 
   //transforma o valor em real para centavos
-  function realToCentavos(valorEmReal: number = 0){
+  function realToCentavos(valorEmReal: number = 0) {
       //return valorEmReal*100;
       toast.success("teste",options);
   }
@@ -65,7 +67,7 @@ export default function Carrinho(props: CarrinhoPageProps) {
     });
 
     checkout.open({
-      amount: 8000,
+      amount: cart.amount,
       buttonText: "Pagar",
       customerData: "true",
       createToken: "true",
@@ -77,8 +79,7 @@ export default function Carrinho(props: CarrinhoPageProps) {
   }
   
   //captura de uma transação
-  function captureTransactions(tokenIdTransaction: String)
-  {
+  function captureTransactions(tokenIdTransaction: String) {
     pagarme.client.connect({ api_key:'ak_test_6JIOewlI2n1O15fQgGgsE0poSDpsSd'})
         .then( client => 
           {
@@ -107,86 +108,41 @@ export default function Carrinho(props: CarrinhoPageProps) {
         <section className="section row justify-content-between">
           <div className="col-lg-7 col-sm-12 mb-4 mr-sm-5">
             <h1 className="title-secondary mb-4">Meu Carrinho</h1>
-            <div className={`p-4 ${styles['base-card']} ${styles['product-cart-card']}`}>
-              <div className="row">
-                <div className="col-3 p-0 d-flex">
-                  <img
-                    src="/images/camisa-barcelona.svg"
-                    alt="camisa do barcelona"
-                    className="img-fluid align-items-center"
+            
+            {cart.products.length !== 0 ? (
+              cart.products.map(product => {
+                return (
+                  <ProductCartCard
+                    key={product.id}
+                    id={product.id}
+                    title={product.title}
+                    description={product.description}
+                    price={product.price}
+                    hex_code_color={product.hex_code_color}
+                    color={product.color}
+                    size={product.size}
+                    size_id={product.size_id}
                   />
-                </div>
-
-                <div className="col-8">
-                  <h5 className={`small-title mb-3 ${styles["info-product"]}`}>
-                    Camisa Barcelona 20/21 S/Nº Torcedor Nike Masculina
-                  </h5>
-                  <div className={`small-text ${styles["info-product"]}`}>
-                    <div className="mb-2">
-                      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.
-                    </div>
-
-                    <div className="mb-1 d-flex align-items-center">
-                      <b>Tamanho:</b>
-                      <div className={styles["product-size"]}>P</div>
-                    </div>
-
-                    <div className="mb-1 d-flex align-items-center">
-                      <b>Cor:</b>
-                      <div
-                        className={styles["product-color"]}
-                        style={{backgroundColor: "#118AB2"}}
-                        aria-label="Azul"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className={`col-1 ${styles["delete-product-cart"]}`}>
-                  <img
-                    src="/icons/garbage.svg"
-                    alt="Remova item do carrinho"
-                    aria-label="Remova item do carrinho"
-                  />
-                </div>
+                )
+              })
+            ) : (
+              <div className="big-text text-center">
+                <b>Carrinho vazio</b>
               </div>
-
-              <hr className="my-4" />
-
-              <div className="d-flex justify-content-between">
-                <div className="d-flex align-items-center">
-                  <b>Quantidade:</b>
-                  <div className="d-flex">
-                    <div className={styles["qtd-button"]}>
-                      <img src="./icons/minus.svg" alt="Diminuir quantidade do produto" />
-                    </div>
-                    <div className={styles["qtd-product-info"]}>
-                      1
-                    </div>
-                    <div className={styles["qtd-button"]}>
-                      <img src="./icons/plus.svg" alt="Aumentar quantidade do produto" />
-                    </div>
-                  </div>
-                </div>
-                  
-                <div className="big-text">
-                  <b>R$ 99,99</b>
-                </div>
-              </div>
-            </div>
+            )}
           </div>
 
           <div className="col-lg-4 col-sm-12 mt-5 mt-lg-0">
             <h1 className="title-secondary mb-4">Resumo da Compra</h1>
 
-            <div className={`p-4 ${styles['base-card']} ${styles['resume-card']}`}>
+            <div className={`p-4 ${styles['resume-card']}`}>
               <div className="d-flex justify-content-between">
                 <span className={styles['resume-title']}>
-                  Subtotal (1 item)
+                  Subtotal ({cart.products.length} {cart.products.length > 1 ? "itens" : "item"})
                 </span>
 
                 <span>
-                  <b>R$ 99,99</b>
+                  <b>R$ {formatPrice(cart.subtotal)}</b>
                 </span>
               </div>
 
@@ -198,7 +154,7 @@ export default function Carrinho(props: CarrinhoPageProps) {
                 </span>
 
                 <span>
-                  <b>R$ 00,00</b>
+                  <b>R$ {formatPrice(cart.discount)}</b>
                 </span>
               </div>  
 
@@ -210,13 +166,13 @@ export default function Carrinho(props: CarrinhoPageProps) {
                 </span>
 
                 <span>
-                  <b>R$ 99,99</b>
+                  <b>R$ {formatPrice(cart.amount)}</b>
                 </span>
               </div>
 
               <div className="d-flex justify-content-end">
                 <small className={`${styles['small-info']} mt-2`}>
-                  Em até 5x de 19,98 sem juros
+                  Em até 5x de {formatPrice(cart.amount / 5)} sem juros
                 </small>
               </div>
 
