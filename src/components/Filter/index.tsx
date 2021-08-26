@@ -44,11 +44,7 @@ export function Filter(props: FilterProps) {
       props.addCategoryInFilter(id)
     }
   }
-  useEffect(() => {
-    if (isCategoryPrefiltered) {
-      setCheckedCategories([preFilterCategoryId]);
-    }
-  }, []);
+  
   return (
     <div className={`${styles.filter}`} id="filter">
       <select
