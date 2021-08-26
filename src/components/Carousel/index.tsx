@@ -33,18 +33,21 @@ export default function Carousel() {
           <div className="carousel-inner">
             <div className={`carousel-item active ${styles['carousel-dimensions']}`}>
               <img
+                className="d-block w-100"
                 src="/images/banner-home.svg"
                 alt="Primeiro Slide"
               />
             </div>
             <div className={`carousel-item ${styles['carousel-dimensions']}`}>
               <img
+                className="d-block w-100"
                 src="/images/banner-home.svg"
                 alt="Segundo Slide"
               />
             </div>
             <div className={`carousel-item ${styles['carousel-dimensions']}`}>
               <img
+                className="d-block w-100"
                 src="/images/banner-home.svg"
                 alt="Terceiro Slide"
               />

@@ -1,5 +1,12 @@
 .carousel-dimensions {
-  height: 100vh !important;
+  min-height: 400px !important;
+  width: 100% !important;
+}
+
+@media (max-width: 576px) {
+  .carousel-dimensions {
+    min-height: 20vh !important;
+  }
 }
 
 .carousel-dimensions img {
