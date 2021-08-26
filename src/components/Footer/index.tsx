@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styles from "./styles.module.css";
 
 export function Footer() {
@@ -40,13 +41,14 @@ export function Footer() {
                         <ul className={`${styles['ul']}`}>
                             <li className={`${styles['li']} mb-1`}><b>MENU</b></li>
                             <li className={`${styles['li']} mb-1`}>
-                                <a href="#" className={styles['smoothText']}>Seleções brasileiras</a>
+                                <Link href="/">
+                                    <a className={styles['smoothText']}>Página Inicial</a>
+                                </Link>
                             </li>
                             <li className={`${styles['li']} mb-1`}>
-                                <a href="#" className={styles['smoothText']}>Seleções europeias</a>
-                            </li>
-                            <li className={`${styles['li']} mb-1`}>
-                                <a href="#" className={styles['smoothText']}>Seleções tailandesas</a>
+                                <Link href="/produtos">
+                                    <a className={styles['smoothText']}>Camisas</a>
+                                </Link>
                             </li>
                         </ul>
                     </div>
