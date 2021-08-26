@@ -7,6 +7,7 @@ import { FilterItemType, ColorType } from '../../types/filter/index';
 import { formatString } from '../../utils/formatString';
 
 import styles from './styles.module.css';
+import { useEffect } from 'react';
 
 export type FilterProps = {
   brands: FilterItemType[];
@@ -26,8 +27,28 @@ export type FilterProps = {
 export function Filter(props: FilterProps) {
   const [initialPosition, setInitialPosition] = useState([0, 299.99]);
 
-  const { preFilterCategoryId, cancelCategoryPrefilter } = useContext(CategoryContext);
+  const [checkedCategories, setCheckedCategories] = useState<Number[]>([]);
 
+  const { isCategoryPrefiltered, preFilterCategoryId, cancelCategoryPrefilter } = useContext(CategoryContext);
+
+  function handleCheckedCategory(id: number) {
+    const alreadySelected = checkedCategories.findIndex(item => item === id)
+
+    if (alreadySelected >= 0) {
+      const filteredItems = checkedCategories.filter(item => item !== id);
+      setCheckedCategories(filteredItems);
+      props.removeCategoryInFilter(id)
+      cancelCategoryPrefilter();
+    } else {
+      setCheckedCategories([...checkedCategories, id]);
+      props.addCategoryInFilter(id)
+    }
+  }
+  useEffect(() => {
+    if (isCategoryPrefiltered) {
+      setCheckedCategories([preFilterCategoryId]);
+    }
+  }, []);
   return (
     <div className={`${styles.filter}`} id="filter">
       <select
@@ -109,22 +130,15 @@ export function Filter(props: FilterProps) {
               type="checkbox"
               name={formatString(category.name)}
               id={formatString(category.name)}
-              onChange={(event) => {
-                if(event.currentTarget.checked) {
-                  props.addCategoryInFilter(category.id) 
-                } else {
-                  props.removeCategoryInFilter(category.id)
-                  cancelCategoryPrefilter();
-                }
-              }}
-              checked={ category.id == preFilterCategoryId }
+              onChange={() => { handleCheckedCategory(category.id) }}
+              checked={(isCategoryPrefiltered && category.id == preFilterCategoryId) || (checkedCategories.findIndex(item => item === category.id)) >= 0 ? true : false}
             />
             <label htmlFor={formatString(category.name)}>{category.name}</label>
             <div className={`${styles["icon-checkbox"]}`} />
           </div>
         )
       })}
-      
+
       <hr />
 
       <h5 className="my-4">Preço</h5>
@@ -211,7 +225,7 @@ export function Filter(props: FilterProps) {
                 id={`color-${color.name.toLowerCase()}`}
                 onChange={(event) => {
                   event.currentTarget.checked ? props.addColorInFilter(color.id)
-                                              : props.removeColorInFilter(color.id)
+                    : props.removeColorInFilter(color.id)
                 }}
               />
               <label htmlFor={`color-${color.name.toLowerCase()}`} style={colorStyle} />
