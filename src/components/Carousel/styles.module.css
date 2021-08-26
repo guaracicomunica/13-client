@@ -1,23 +1,12 @@
 .carousel-dimensions {
-  min-height: 700px !important;
-  width: 100% !important;
-}
-
-@media (min-width: 768px) and (max-width: 1200px) {
-  .carousel-dimensions {
-    min-height: 400px !important;
-  }
-}
-
-@media (max-width: 576px) {
-  .carousel-dimensions {
-    min-height: 20vh !important;
-  }
+  height: 100vh !important;
 }
 
 .carousel-dimensions img {
-  object-fit: cover !important;
-  object-position: center !important;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  object-position: center;
 }
 
 .carousel-item-indicator {
