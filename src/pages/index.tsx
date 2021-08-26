@@ -82,7 +82,7 @@ export default function Home(props: HomePageProps) {
             src="./images/banner-promocao.svg"
             alt="Banner - Promoção 50% off"
             aria-label="Promoção 50% off"
-            className="img-fluid"
+            className="img-fluid w-100"
           />
         </section>
 
