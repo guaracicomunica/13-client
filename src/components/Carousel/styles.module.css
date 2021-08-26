@@ -1,7 +1,10 @@
 .carousel-dimensions {
-  height: auto !important;
-  min-height: 20vh !important;
-  width: 100% !important;
+  height: 100vh !important;
+}
+
+.carousel-dimensions img {
+  object-fit: cover !important;
+  object-position: center !important;
 }
 
 .carousel-item-indicator {
@@ -14,8 +17,4 @@
 
 .carousel-item-indicator:not(.carousel-item-indicator:last-of-type) {
   margin-right: 0.5rem !important;
-}
-
-.blur {
-  -webkit-filter: blur(2px);
 }
