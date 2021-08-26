@@ -1,15 +1,11 @@
 import styles from './styles.module.css';
-//import { LoadingPropsType } from '../../types/loading';
-//props: LoadingPropsType
 export default function Carousel() {
-  //const isLoading = props.isLoading;
   return (
     <section
       id="carousel-home"
       className={`${styles['carousel-dimensions']} carousel slide`}
       data-ride="carousel"
     >
-
       <div>
         <div>
           <ol className="carousel-indicators">

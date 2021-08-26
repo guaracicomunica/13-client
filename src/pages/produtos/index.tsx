@@ -252,7 +252,7 @@ export default function Produtos(props: ProdutosPageProps) {
       </Head>
       
       <main className="background-gray">
-        <Carousel isLoading={loading} />
+        <Carousel />
 
         <section className="section d-none d-md-flex flex-column">
           <div className="row justify-content-between">

@@ -39,7 +39,7 @@ export default function Home(props: HomePageProps) {
       </Head>
 
       <main className="background-gray">
-        <Carousel isLoading={loading} />
+        <Carousel />
 
         <section className="section">
           <div className="row justify-content-between">
