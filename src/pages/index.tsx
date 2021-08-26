@@ -115,34 +115,38 @@ export default function Home(props: HomePageProps) {
           <h1 className="mb-5 title-section">Categorias</h1>
 
           <div className={styles["category-list"]}>
-            <Link href="/produtos"> 
-            <a onClick={() => {applyCategoryPrefilter(1)}} className={styles["img-category"]}>
-              <img
-                src="./images/selecoes-brasileiras.svg"
-                alt="Seleções brasileiras"
-                aria-label="Categoria: seleções brasileiras"
-                className="img-fluid"
-              />
-            </a>
+            <Link href="/produtos">
+              <a onClick={() => { applyCategoryPrefilter(1) }} className={styles["img-category"]}>
+                <img
+                  src="./images/selecoes-brasileiras.svg"
+                  alt="Seleções brasileiras"
+                  aria-label="Categoria: seleções brasileiras"
+                  className="img-fluid"
+                />
+              </a>
             </Link>
 
-            <a href="#" className={styles["img-category"]}>
-              <img
-                src="./images/selecoes-europeias.svg"
-                alt="Seleções europeias"
-                aria-label="Categoria: seleções europeias"
-                className="img-fluid"
-              />
-            </a>
+            <Link href="/produtos">
+              <a onClick={() => { applyCategoryPrefilter(2) }} className={styles["img-category"]}>
+                <img
+                  src="./images/selecoes-europeias.svg"
+                  alt="Seleções europeias"
+                  aria-label="Categoria: seleções europeias"
+                  className="img-fluid"
+                />
+              </a>
+            </Link>
 
-            <a href="#" className={styles["img-category"]}>
-              <img
-                src="./images/selecoes-tailandesas.svg"
-                alt="Seleções tailandesas"
-                aria-label="Categoria: seleções tailandesas"
-                className="img-fluid"
-              />
-            </a>
+            <Link href="/produtos">
+              <a onClick={() => { applyCategoryPrefilter(3) }} className={styles["img-category"]}>
+                <img
+                  src="./images/selecoes-tailandesas.svg"
+                  alt="Seleções tailandesas"
+                  aria-label="Categoria: seleções tailandesas"
+                  className="img-fluid"
+                />
+              </a>
+            </Link>
           </div>
         </section>
 
