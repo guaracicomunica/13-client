@@ -12,6 +12,7 @@ import { ProductCard } from '../../components/ProductCard';
 import WhatsappIcon from '../../components/WhatsappIcon';
 
 import { LoadingContext } from '../../contexts/LoadingContext';
+import { CategoryContext } from '../../contexts/CategoryContext';
 
 import { FilterItemType, FilterType, ColorType } from '../../types/filter/index'
 import { ProductType } from '../../types/products/index';
@@ -37,6 +38,8 @@ export type ProdutosPageProps = {
 }
 
 export default function Produtos(props: ProdutosPageProps) {
+  
+  const { isCategoryPrefiltered, preFilterCategoryId } = useContext(CategoryContext);
 
   const scrollRef = useRef(null)
 
@@ -95,6 +98,9 @@ export default function Produtos(props: ProdutosPageProps) {
       setTotalPages(props.queryProps.totalPages);
       setTotalProducts(props.queryProps.totalProducts);
       setCurrentPage(props.queryProps.currentPage);
+    }
+    if(isCategoryPrefiltered) {
+      addCategoryInFilter(preFilterCategoryId);
     }
   }, []);
 

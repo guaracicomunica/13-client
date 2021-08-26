@@ -2,13 +2,14 @@ import Head from 'next/head';
 
 import { AuthProvider } from '../contexts/AuthContext';
 import { CartProvider } from '../contexts/CartContext';
+import { CategoryProvider } from '../contexts/CategoryContext';
+import { LoadingProvider } from '../contexts/LoadingContext';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import '../styles/global.css';
 import '../styles/buttons.css';
-import { LoadingProvider } from '../contexts/LoadingContext';
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -20,9 +21,11 @@ function MyApp({ Component, pageProps }) {
       <AuthProvider>
         <CartProvider>
           <LoadingProvider>
-            <Navbar />
-            <Component {...pageProps} />
-            <Footer />
+            <CategoryProvider>
+              <Navbar />
+              <Component {...pageProps} />
+              <Footer />
+            </CategoryProvider>
           </LoadingProvider>
         </CartProvider>
       </AuthProvider>

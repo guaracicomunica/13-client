@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { CategoryContext } from '../../contexts/CategoryContext';
 import { Range, getTrackBackground } from 'react-range';
 
 import { FilterItemType, ColorType } from '../../types/filter/index';
@@ -24,6 +25,8 @@ export type FilterProps = {
 
 export function Filter(props: FilterProps) {
   const [initialPosition, setInitialPosition] = useState([0, 299.99]);
+
+  const { preFilterCategoryId, cancelCategoryPrefilter } = useContext(CategoryContext);
 
   return (
     <div className={`${styles.filter}`} id="filter">
@@ -107,9 +110,14 @@ export function Filter(props: FilterProps) {
               name={formatString(category.name)}
               id={formatString(category.name)}
               onChange={(event) => {
-                event.currentTarget.checked ? props.addCategoryInFilter(category.id)
-                                            : props.removeCategoryInFilter(category.id)
+                if(event.currentTarget.checked) {
+                  props.addCategoryInFilter(category.id) 
+                } else {
+                  props.removeCategoryInFilter(category.id)
+                  cancelCategoryPrefilter();
+                }
               }}
+              checked={ category.id == preFilterCategoryId }
             />
             <label htmlFor={formatString(category.name)}>{category.name}</label>
             <div className={`${styles["icon-checkbox"]}`} />

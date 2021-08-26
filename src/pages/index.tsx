@@ -1,5 +1,5 @@
 import Head from 'next/head'
-
+import Link from 'next/link'
 import { useEffect, useContext } from 'react';
 
 import { GetStaticProps } from 'next';
@@ -11,6 +11,7 @@ import { getAPIClient } from '../services/apiClient';
 
 import styles from "./home.module.css";
 import { LoadingContext } from '../contexts/LoadingContext';
+import { CategoryContext } from '../contexts/CategoryContext';
 
 import { ProductType } from "../types/products/index";
 import WhatsappIcon from '../components/WhatsappIcon';
@@ -25,6 +26,7 @@ type HomePageProps = {
 export default function Home(props: HomePageProps) {
 
   const { loading, setLoading } = useContext(LoadingContext);
+  const { applyCategoryPrefilter } = useContext(CategoryContext);
 
   useEffect(() => {
     setTimeout(() => setLoading(props.isLoading), 4500);
@@ -113,7 +115,8 @@ export default function Home(props: HomePageProps) {
           <h1 className="mb-5 title-section">Categorias</h1>
 
           <div className={styles["category-list"]}>
-            <a href="#" className={styles["img-category"]}>
+            <Link href="/produtos"> 
+            <a onClick={() => {applyCategoryPrefilter(1)}} className={styles["img-category"]}>
               <img
                 src="./images/selecoes-brasileiras.svg"
                 alt="Seleções brasileiras"
@@ -121,6 +124,7 @@ export default function Home(props: HomePageProps) {
                 className="img-fluid"
               />
             </a>
+            </Link>
 
             <a href="#" className={styles["img-category"]}>
               <img
