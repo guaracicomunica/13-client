@@ -7,7 +7,6 @@ import { FilterItemType, ColorType } from '../../types/filter/index';
 import { formatString } from '../../utils/formatString';
 
 import styles from './styles.module.css';
-import { useEffect } from 'react';
 
 export type FilterProps = {
   brands: FilterItemType[];
@@ -34,14 +33,14 @@ export function Filter(props: FilterProps) {
   function handleCheckedCategory(id: number) {
     const alreadySelected = checkedCategories.findIndex(item => item === id)
 
-    if (alreadySelected >= 0) {
+    if (alreadySelected >= 0 || isCategoryPrefiltered) {
       const filteredItems = checkedCategories.filter(item => item !== id);
       setCheckedCategories(filteredItems);
-      props.removeCategoryInFilter(id)
+      props.removeCategoryInFilter(id);
       cancelCategoryPrefilter();
     } else {
       setCheckedCategories([...checkedCategories, id]);
-      props.addCategoryInFilter(id)
+      props.addCategoryInFilter(id);
     }
   }
   
