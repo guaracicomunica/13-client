@@ -87,7 +87,9 @@ export default function Login() {
             </h1>
             <div className="d-flex justify-content-center">
               <Link href="/cadastro" >
-                <button className="button button-primary">Cadastre-se</button>
+                <a className="button button-primary">
+                  Cadastre-se
+                </a>
               </Link>
             </div>
           </div>
