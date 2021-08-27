@@ -33,7 +33,7 @@ export function Navbar() {
           className="ml-lg-5 pt-5 pb-3 py-lg-0 collapse navbar-collapse"
           id="navbar"
         >
-          <ul className={`nav w-100 ${styles["nav-column"]} ${styles["justify-me"]}`}>
+          <ul className={`nav w-100 ${styles["nav-column"]} justify-content-between`}>
             <li className="nav-item mb-3 mb-lg-0">
               <form className={styles["search-bar"]}>
                 <input
@@ -51,30 +51,12 @@ export function Navbar() {
             </li>
 
             <div className={`${styles["nav-group-items"]}`}>
-              <li className={`nav-item ${styles["navbar-link"]}`}>
+              <li className={`nav-item mr-3 ${styles["navbar-link"]}`}>
                 <Link href="/produtos">
-                  <a className="nav-link">Camisas</a>
+                  <a className="nav-link">Todos os produtos</a>
                 </Link>
               </li>
 
-              <li className={`nav-item ${styles["navbar-link"]} dropdown`}>
-                <a
-                  className="nav-link dropdown-toggle"
-                  data-toggle="dropdown"
-                  href="#"
-                  role="button"
-                  aria-haspopup="true"
-                  aria-expanded="true"
-                >Todas as categorias</a>
-                <div className="dropdown-menu">
-                  <a className="dropdown-item" href="#">Seleções tailandesas</a>
-                  <a className="dropdown-item" href="#">Seleções europeias</a>
-                  <a className="dropdown-item" href="#">Seleções brasileiras</a>
-                </div>
-              </li>
-            </div>
-
-            <div className={`${styles["nav-group-items"]}`}>
               <li className="nav-item">
                 <Link href="#">
                   <a className="nav-link">
