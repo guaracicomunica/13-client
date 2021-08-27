@@ -28,10 +28,10 @@ export function Footer() {
 
                 <div className="row">
                     <div className={`${styles['hr-container']}  col-sm-12`}>
-                        <hr className={`${styles['hr']}  w-75`} />
+                        <hr className={`${styles['hr']} w-75`} />
                     </div>
                 </div>
-                <div className="row mt-4">
+                <div className="row mt-4 justify-content-around">
                     <div className="col-md-2 col-sm-12 d-flex mb-3">
                         <div>
                             <img src="/icons/logo-white.svg" alt="Geral.com" />
@@ -66,29 +66,14 @@ export function Footer() {
                             </li>
                         </ul>
                     </div>
-                    <div className="col-md-4 col-sm-12 pb-5">
+                    <div className="col-md-3 col-sm-12 pb-5">
                         <div className="d-flex flex-wrap align-items-center">
-                            <a href="#">
-                                <div className={`${styles['social-media-box']} d-flex justify-content-center align-items-center mr-3 mb-2`}>
-                                    <img src="/icons/twitter.svg" alt="twitter" />
-                                </div>
-                            </a>
                             <a href="#">
                                 <div className={`${styles['social-media-box']} d-flex justify-content-center align-items-center mr-3 mb-2`}>
                                     <img src="/icons/facebook.svg" alt="facebook" />
                                 </div>
                             </a>
-                            <a href="#">
-                                <div className={`${styles['social-media-box']} d-flex justify-content-center align-items-center mr-3 mb-2`}>
-                                    <img src="/icons/pinterest.svg" alt="pinterest" />
-                                </div>
-                            </a>
-                            <a href="#">
-                                <div className={`${styles['social-media-box']} d-flex justify-content-center align-items-center mr-3 mb-2`}>
-                                    <img src="/icons/snapchat.svg" alt="snapchat" />
-                                </div>
-                            </a>
-                            <a href="#">
+                            <a href={`https://www.${process.env.NEXT_PUBLIC_CONTACT_INSTAGRAM}`} target="_blank">
                                 <div className={`${styles['social-media-box']} d-flex justify-content-center align-items-center mb-2`}>
                                     <img src="/icons/instagram.svg" alt="instagram" />
                                 </div>
