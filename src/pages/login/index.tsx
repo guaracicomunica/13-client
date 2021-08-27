@@ -57,7 +57,9 @@ export default function Login() {
         <div className="row d-flex justify-content-center">
           <div className="col-md-6 col-sm-12 mb-5 mb-md-3 border-right">
             <div className="col-sm-12">
-              <h1 className="text-md-left text-center mediumTitle">Já sou cliente</h1>
+              <h1 className="text-md-left text-center title-secondary mb-4">
+                Já sou cliente
+              </h1>
             </div>
             <div className="col-sm-12">
               <form action="javascript:void(0)"  onSubmit={handleSubmit(onSubmit)} className={`${styles['w-sm-100']} ${styles['w-md-75']}`}>
@@ -80,8 +82,10 @@ export default function Login() {
             </div>
           </div>
           <div className="col-md-6 col-sm-12">
-            <h1 className="text-center mediumTitle">Não sou cliente ainda</h1>
-            <div className="d-flex justify-content-center pt-3">
+            <h1 className="text-center title-secondary mb-5">
+              Não sou cliente ainda
+            </h1>
+            <div className="d-flex justify-content-center">
               <Link href="/cadastro" >
                 <button className="button button-primary">Cadastre-se</button>
               </Link>

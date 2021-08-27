@@ -108,7 +108,9 @@ export default function Cadastro() {
             <main className="container my-5">
                 <div className="row">
                     <div className="col-sm-12">
-                        <h1 className="text-center mediumTitle">Sobre sua conta</h1>
+                        <h1 className="text-center title-secondary mb-4">
+                            Sobre sua conta
+                        </h1>
                     </div>
                 </div>
                 <div className="row">
