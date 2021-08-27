@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { formatPrice } from '../../utils/formatPrice';
+
 import styles from "./styles.module.css";
 
 type ProductType = {
@@ -71,8 +73,8 @@ export function DefaultProductCard(props: DefaultProductType) {
 
             <div className="d-flex mt-1 justify-content-between align-items-center">
                 <div className={styles["product-price"]}>
-                    <h6 className="mb-0">{`R$ ${item.price}`}</h6>
-                    <small>{`5x de R$ ${(item.price / 5).toFixed(2)}`}</small>
+                    <h6 className="mb-0">{`R$ ${formatPrice(item.price)}`}</h6>
+                    <small>{`5x de R$ ${formatPrice(item.price / 5)}`}</small>
                 </div>
 
                 <div className={styles.favorite}>
