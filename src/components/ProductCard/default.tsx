@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useState } from "react";
 import { formatPrice } from '../../utils/formatPrice';
 
 import styles from "./styles.module.css";
@@ -19,6 +20,12 @@ type DefaultProductType = {
 
 export function DefaultProductCard(props: DefaultProductType) {
     const { item } = props;
+
+    const [isFavorite, setIsFavorite] = useState(item.favorite);
+
+    function handleFavoriteProduct() {
+        setIsFavorite(!isFavorite);
+    }
 
     function showRating(stars: number) {
         let rating = [];
@@ -77,8 +84,8 @@ export function DefaultProductCard(props: DefaultProductType) {
                     <small>{`5x de R$ ${formatPrice(item.price / 5)}`}</small>
                 </div>
 
-                <div className={styles.favorite}>
-                    {item.favorite ? (
+                <div className={styles.favorite} onClick={handleFavoriteProduct}>
+                    {isFavorite ? (
                         <img
                             src="./icons/heart-fill.svg"
                             alt="Favorito"
