@@ -47,7 +47,7 @@ export function Footer() {
                             </li>
                             <li className={`${styles['li']} mb-1`}>
                                 <Link href="/produtos">
-                                    <a className={styles['smoothText']}>Camisas</a>
+                                    <a className={styles['smoothText']}>Todos os produtos</a>
                                 </Link>
                             </li>
                         </ul>
