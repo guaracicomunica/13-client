@@ -136,7 +136,7 @@ export default function Cadastro() {
                                 
                                 <div className="col-sm-6">
                                     <div className="form-group">
-                                        <label htmlFor="cpf" className={`${styles['label']}`}>CPF</label>
+                                        <label htmlFor="cpf" className={`${styles['label']}`}>CPF*</label>
                                         <input type="cpf" className={`${styles['bg-input']} form-control`} 
                                         {... register("cpf")}
                                         name="cpf" placeholder="000.000.000-00" />
@@ -182,9 +182,7 @@ export default function Cadastro() {
                                 </div>
                             </div>
                          
-
-
-                            <div className="form-group d-flex justify-content-center pt-3">
+                            <div className="form-group d-flex justify-content-center mt-5">
                                 <button type="submit" className="button button-primary">Criar Conta</button>
                             </div>
                         </form>
