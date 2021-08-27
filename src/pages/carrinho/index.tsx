@@ -12,7 +12,7 @@ import { ProductCard } from '../../components/ProductCard';
 import { ProductCartCard } from '../../components/ProductCartCard';
 import { getAPIClient } from '../../services/apiClient';
 import { ProductType } from '../../types/products';
-import { options } from '../../utils/deafultToastOptions';
+import { options } from '../../utils/defaultToastOptions';
 import { formatPrice } from '../../utils/formatPrice';
 
 import styles from './styles.module.css';

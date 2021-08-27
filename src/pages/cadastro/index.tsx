@@ -8,7 +8,7 @@ import { ToastContainer, toast, ToastOptions } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { parseCookies, setCookie } from 'nookies';
 import Router from 'next/router';
-import { options } from '../../utils/deafultToastOptions';
+import { options } from '../../utils/defaultToastOptions';
 
 type User = {
     id: number;

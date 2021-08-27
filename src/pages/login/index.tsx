@@ -6,7 +6,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 import styles from './styles.module.css';
 import { ToastContainer, toast, ToastOptions } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { options } from '../../utils/deafultToastOptions';
+import { options } from '../../utils/defaultToastOptions';
 
 export default function Login() {
   const { register, handleSubmit } = useForm({defaultValues: {
