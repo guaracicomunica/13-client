@@ -76,11 +76,13 @@ export const CartProvider = ({ children }) => {
             product => product.id !== idProduct
         );
 
+        const discount = filteredItems.length == 0 ? 0 : cart.discount;
+
         setCart({
-            ...cart,
             products: [...filteredItems], 
             amount: calculatePurchase(filteredItems).amount, 
-            subtotal: calculatePurchase(filteredItems).subtotal
+            subtotal: calculatePurchase(filteredItems).subtotal,
+            discount: discount
         });
         console.log('remove from cart:', cart);
     }
