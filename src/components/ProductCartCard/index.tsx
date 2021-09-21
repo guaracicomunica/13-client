@@ -6,7 +6,7 @@ import { formatPrice } from '../../utils/formatPrice';
 import styles from './styles.module.css';
 
 export function ProductCartCard(props: ProductCartType) {
-  const { removeFromCart } = useContext(CartContext);
+  const { removeFromCart, increaseProductQuantity } = useContext(CartContext);
 
   return (
     <div className={`p-4 mb-4 ${styles['product-cart-card']}`}>
@@ -68,9 +68,12 @@ export function ProductCartCard(props: ProductCartType) {
               <img src="./icons/minus.svg" alt="Diminuir quantidade do produto" />
             </div>
             <div className={styles["qtd-product-info"]}>
-              1
+              {props.quantity}
             </div>
-            <div className={styles["qtd-button"]}>
+            <div
+              className={styles["qtd-button"]}
+              onClick={() => increaseProductQuantity(props.id)}
+            >
               <img src="./icons/plus.svg" alt="Aumentar quantidade do produto" />
             </div>
           </div>

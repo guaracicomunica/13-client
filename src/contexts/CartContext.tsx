@@ -51,7 +51,7 @@ export const CartProvider = ({ children }) => {
         let subtotal = 0;
 
         products.forEach(product => {
-            subtotal += product.unit_price
+            subtotal += product.unit_price * product.quantity
         });
 
         const amount = (subtotal - cart.discount) < 0 ? 0 : subtotal - cart.discount;
@@ -60,6 +60,27 @@ export const CartProvider = ({ children }) => {
             subtotal,
             amount
         };
+    }
+
+    function increaseProductQuantity(idProduct: number) {
+        const newCartProducts = cart.products.map(product => {
+            if (product.id === idProduct) {
+                return {
+                    ...product,
+                    quantity: product.quantity + 1
+                };
+            }
+            else {
+                return product;
+            }
+        });
+
+        setCart({
+            ...cart,
+            products: newCartProducts,
+            amount: calculatePurchase(newCartProducts).amount, 
+            subtotal: calculatePurchase(newCartProducts).subtotal
+        })
     }
 
     function addToCart(item: ProductCartType) {
@@ -100,7 +121,7 @@ export const CartProvider = ({ children }) => {
     }
 
     return (
-        <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart }}>
+        <CartContext.Provider value={{ cart, increaseProductQuantity, addToCart, removeFromCart, clearCart }}>
             {children}
         </CartContext.Provider>
     );
