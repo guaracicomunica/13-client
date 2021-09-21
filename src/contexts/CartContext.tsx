@@ -11,7 +11,7 @@ const initialState = {
             quantity: 1,
             title: "Produto 01",
             description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.",
-            unit_price: 50,
+            unit_price: 50.5,
             hex_code_color: "#118AB2",
             color: "Azul",
             size: "P",
@@ -22,7 +22,7 @@ const initialState = {
             quantity: 1,
             title: "Produto 02",
             description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.",
-            unit_price: 70,
+            unit_price: 70.99,
             hex_code_color: "#EF476F",
             color: "Vermelho",
             size: "M",
@@ -31,7 +31,7 @@ const initialState = {
     ], 
     amount: 0, 
     subtotal: 0, 
-    discount: 5
+    discount: 5.99
 } as CartType;
 
 export const CartContext = createContext({} as CartContextType);

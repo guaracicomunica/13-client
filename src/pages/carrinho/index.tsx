@@ -3,7 +3,7 @@ import { GetStaticProps } from 'next';
 import Head from 'next/head'
 import Link from 'next/link';
 import Router from 'next/router';
-import { ToastContainer, toast, ToastOptions } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import pagarme from 'pagarme';
 
 import { CartContext } from '../../contexts/CartContext';
@@ -29,8 +29,6 @@ export default function Carrinho(props: CarrinhoPageProps) {
   const { loading, setLoading } = useContext(LoadingContext);
 
   const [products, setProducts] = useState<ProductType[]>([]);
-  
-  const [encryption_key_pagarme, setEncryption_key_pagarme]  = useState("");
 
   useEffect(() => {
     setTimeout(() => setLoading(props.isLoading), 4500);
@@ -42,23 +40,23 @@ export default function Carrinho(props: CarrinhoPageProps) {
     }
   }, []);
 
+  //transforma o valor em real para centavos
+  function realToCentavos(valorEmReal: number) {
+    return Math.round(valorEmReal * 100);
+  }
+
   function getProductsFromCart(cart: CartType) {
     const cartProducts = cart.products.map(product => {
       return {
         id: product.id,
         title: product.title,
-        quantity: realToCentavos(product.quantity),
-        unit_price: product.unit_price,
+        quantity: product.quantity,
+        unit_price: realToCentavos(product.unit_price),
         tangible: true
       }
     });
 
     return cartProducts;
-  }
-
-  //transforma o valor em real para centavos
-  function realToCentavos(valorEmReal: number) {
-    return valorEmReal * 100;
   }
 
   let checkout;
@@ -71,7 +69,7 @@ export default function Carrinho(props: CarrinhoPageProps) {
       },
       error: function(err) {      
         checkout.close(); 
-        toast.error("Erro ao realizar essa compra. Por favor, aguarde alguns instantes, tente novamente ou entre em contato com o suporte." + JSON.stringify(err),options);
+        toast.error("Erro ao realizar essa compra. Por favor, aguarde alguns instantes, tente novamente ou entre em contato com o suporte.", options);
         console.log(err);
       }
     });
