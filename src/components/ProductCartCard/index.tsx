@@ -6,7 +6,11 @@ import { formatPrice } from '../../utils/formatPrice';
 import styles from './styles.module.css';
 
 export function ProductCartCard(props: ProductCartType) {
-  const { removeFromCart, increaseProductQuantity } = useContext(CartContext);
+  const {
+    removeFromCart,
+    increaseProductQuantity,
+    decreaseProductQuantity
+  } = useContext(CartContext);
 
   return (
     <div className={`p-4 mb-4 ${styles['product-cart-card']}`}>
@@ -64,7 +68,10 @@ export function ProductCartCard(props: ProductCartType) {
         <div className="d-flex align-items-center">
           <b>Quantidade:</b>
           <div className="d-flex">
-            <div className={styles["qtd-button"]}>
+            <div
+              className={styles["qtd-button"]}
+              onClick={() => decreaseProductQuantity(props.id)}
+            >
               <img src="./icons/minus.svg" alt="Diminuir quantidade do produto" />
             </div>
             <div className={styles["qtd-product-info"]}>

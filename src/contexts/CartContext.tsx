@@ -83,6 +83,27 @@ export const CartProvider = ({ children }) => {
         })
     }
 
+    function decreaseProductQuantity(idProduct: number) {
+        const newCartProducts = cart.products.map(product => {
+            if (product.id === idProduct) {
+                return {
+                    ...product,
+                    quantity: product.quantity == 1 ? 1 : product.quantity - 1
+                };
+            }
+            else {
+                return product;
+            }
+        });
+
+        setCart({
+            ...cart,
+            products: newCartProducts,
+            amount: calculatePurchase(newCartProducts).amount, 
+            subtotal: calculatePurchase(newCartProducts).subtotal
+        })
+    }
+
     function addToCart(item: ProductCartType) {
         const filteredItems = [...cart.products, item];
         setCart({
@@ -121,7 +142,14 @@ export const CartProvider = ({ children }) => {
     }
 
     return (
-        <CartContext.Provider value={{ cart, increaseProductQuantity, addToCart, removeFromCart, clearCart }}>
+        <CartContext.Provider value={{
+            cart,
+            increaseProductQuantity,
+            decreaseProductQuantity,
+            addToCart,
+            removeFromCart,
+            clearCart
+        }}>
             {children}
         </CartContext.Provider>
     );
