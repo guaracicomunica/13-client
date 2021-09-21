@@ -81,6 +81,8 @@ export default function Carrinho(props: CarrinhoPageProps) {
       createToken: "true",
       uiColor: '#7AE582',
       paymentMethods: "credit_card, boleto",
+      maxInstallments: 5,
+      minInstallments: 1,
       items: getProductsFromCart(cart),
      //postbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL_API}/preparando-produto`
     });
