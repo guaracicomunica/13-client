@@ -11,6 +11,7 @@ import { LoadingContext } from '../../contexts/LoadingContext';
 import { ProductCard } from '../../components/ProductCard';
 import { ProductCartCard } from '../../components/ProductCartCard';
 import { getAPIClient } from '../../services/apiClient';
+import { CartType } from '../../types/cart';
 import { ProductType } from '../../types/products';
 import { options } from '../../utils/defaultToastOptions';
 import { formatPrice } from '../../utils/formatPrice';
@@ -28,10 +29,6 @@ export default function Carrinho(props: CarrinhoPageProps) {
   const { loading, setLoading } = useContext(LoadingContext);
 
   const [products, setProducts] = useState<ProductType[]>([]);
-
-  const item = { id: 2, title: 'produto 02', price: 505 } as ProductType;
-
-  const itemToSend = { id: 2, title: 'produto 02', unit_price: 500, quantity: 1, tangible: true };
   
   const [encryption_key_pagarme, setEncryption_key_pagarme]  = useState("");
 
@@ -45,10 +42,23 @@ export default function Carrinho(props: CarrinhoPageProps) {
     }
   }, []);
 
+  function getProductsFromCart(cart: CartType) {
+    const cartProducts = cart.products.map(product => {
+      return {
+        id: product.id,
+        title: product.title,
+        quantity: realToCentavos(product.quantity),
+        unit_price: product.unit_price,
+        tangible: true
+      }
+    });
+
+    return cartProducts;
+  }
+
   //transforma o valor em real para centavos
-  function realToCentavos(valorEmReal: number = 0) {
-      //return valorEmReal*100;
-      toast.success("teste",options);
+  function realToCentavos(valorEmReal: number) {
+    return valorEmReal * 100;
   }
 
   let checkout;
@@ -67,13 +77,13 @@ export default function Carrinho(props: CarrinhoPageProps) {
     });
 
     checkout.open({
-      amount: cart.amount,
+      amount: realToCentavos(cart.amount),
       buttonText: "Pagar",
       customerData: "true",
       createToken: "true",
       uiColor: '#7AE582',
       paymentMethods: "credit_card, boleto",
-      items:[itemToSend],
+      items: getProductsFromCart(cart),
      //postbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL_API}/preparando-produto`
     });
   }
@@ -81,21 +91,19 @@ export default function Carrinho(props: CarrinhoPageProps) {
   //captura de uma transação
   function captureTransactions(tokenIdTransaction: String) {
     pagarme.client.connect({ api_key:'ak_test_6JIOewlI2n1O15fQgGgsE0poSDpsSd'})
-        .then( client => 
-          {
-              try {
-                let resp = client.transactions.capture( { id: tokenIdTransaction, amount: 8000} ) 
-                if(resp?.errors != null && resp?.errors != undefined) throw resp;
-                Router.push('/preparando-produto');    
-                
-              } catch (e) { 
-                client.transactions.refund({ id: tokenIdTransaction }) //estornando o valor
-                checkout.close();
-                toast.error("Ops! algo não saiu como o esperado", options)
-              }
-          })
-          
-
+      .then( client => 
+        {
+          try {
+            let resp = client.transactions.capture({ id: tokenIdTransaction, amount: realToCentavos(cart.amount) }) 
+            if(resp?.errors != null && resp?.errors != undefined) throw resp;
+            Router.push('/preparando-produto');    
+            
+          } catch (e) { 
+            client.transactions.refund({ id: tokenIdTransaction }) //estornando o valor
+            checkout.close();
+            toast.error("Ops! algo não saiu como o esperado", options)
+          }
+        })
   }
 
   return (
@@ -115,9 +123,10 @@ export default function Carrinho(props: CarrinhoPageProps) {
                   <ProductCartCard
                     key={product.id}
                     id={product.id}
+                    quantity={product.quantity}
                     title={product.title}
                     description={product.description}
-                    price={product.price}
+                    unit_price={product.unit_price}
                     hex_code_color={product.hex_code_color}
                     color={product.color}
                     size={product.size}
