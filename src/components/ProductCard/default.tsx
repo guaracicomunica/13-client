@@ -1,18 +1,10 @@
 import Link from "next/link";
 import { useState } from "react";
+
+import { ProductType } from '../../types/products/index';
 import { formatPrice } from '../../utils/formatPrice';
 
 import styles from "./styles.module.css";
-
-type ProductType = {
-    title: string;
-    price: number;
-    img: string;
-    favorite: boolean;
-    isLoading: boolean;
-    id: number;
-    stars: number;
-}
 
 type DefaultProductType = {
     item: ProductType;
