@@ -8,9 +8,10 @@ export type ProductType = {
 
 export type ProductCartType = {
     id: number;
+    quantity: number;
     title: string;
     description: string;
-    price: number;
+    unit_price: number;
     hex_code_color: string;
     color: string;
     size: string;

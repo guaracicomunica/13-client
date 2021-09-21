@@ -77,7 +77,7 @@ export function ProductCartCard(props: ProductCartType) {
         </div>
           
         <div className="big-text">
-          <b>R$ {formatPrice(props.price)}</b>
+          <b>R$ {formatPrice(props.unit_price)}</b>
         </div>
       </div>
     </div>

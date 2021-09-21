@@ -8,9 +8,10 @@ const initialState = {
     products: [
         {
             id: 1, 
+            quantity: 1,
             title: "Produto 01",
             description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.",
-            price: 50.5,
+            unit_price: 50,
             hex_code_color: "#118AB2",
             color: "Azul",
             size: "P",
@@ -18,9 +19,10 @@ const initialState = {
         },
         {
             id: 2, 
+            quantity: 1,
             title: "Produto 02",
             description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.",
-            price: 70.99,
+            unit_price: 70,
             hex_code_color: "#EF476F",
             color: "Vermelho",
             size: "M",
@@ -29,7 +31,7 @@ const initialState = {
     ], 
     amount: 0, 
     subtotal: 0, 
-    discount: 5.99
+    discount: 5
 } as CartType;
 
 export const CartContext = createContext({} as CartContextType);
@@ -49,7 +51,7 @@ export const CartProvider = ({ children }) => {
         let subtotal = 0;
 
         products.forEach(product => {
-            subtotal += product.price
+            subtotal += product.unit_price
         });
 
         const amount = (subtotal - cart.discount) < 0 ? 0 : subtotal - cart.discount;
