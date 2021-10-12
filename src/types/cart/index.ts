@@ -1,14 +1,32 @@
 import { ProductCartType } from '../products';
 
 export type CartType = {
-  products: ProductCartType[];
+  products: CartProductsListType[];
   amount: number;
   discount: number;
   subtotal: number;
+  user_id: number;
+  cart_id: number;
+  total_quantity: number;
+}
+
+export type CartProductsListType = {
+  id: number;
+  quantity: number;
+  price: number;
+  size_id: number;
 }
 
 export type CartContextType = {
-  cart: CartType;
+  cartProducts: CartProductsListType[];
+  amount: number;
+  discount: number;
+  subtotal: number;
+  userId: number;
+  cartId: number;
+  totalQuantity: number;
+  calculatePurchase: () => void;
+  calculateTotalProductQuantity: () => void;
   increaseProductQuantity: (idProduct: number) => void;
   decreaseProductQuantity: (idProduct: number) => void;
   addToCart: (item: ProductCartType) => void;

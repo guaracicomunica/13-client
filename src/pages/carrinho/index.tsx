@@ -11,8 +11,7 @@ import { LoadingContext } from '../../contexts/LoadingContext';
 import { ProductCard } from '../../components/ProductCard';
 import { ProductCartCard } from '../../components/ProductCartCard';
 import { getAPIClient } from '../../services/apiClient';
-import { CartType } from '../../types/cart';
-import { ProductType } from '../../types/products';
+import { ProductType, ProductCartType } from '../../types/products';
 import { options } from '../../utils/defaultToastOptions';
 import { formatPrice } from '../../utils/formatPrice';
 
@@ -24,8 +23,44 @@ type CarrinhoPageProps = {
   isLoading: boolean;
 }
 
+const productsList = [
+  {
+      id: 1,
+      title: "Produto 01",
+      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.",
+      unit_price: 50.5,
+      quantity: 1,
+      hex_code_color: "#118AB2",
+      color: "Azul",
+      size: "P",
+      size_id: 1
+  },
+  {
+      id: 2,
+      title: "Produto 02",
+      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.",
+      unit_price: 70.99,
+      quantity: 2,
+      hex_code_color: "#EF476F",
+      color: "Vermelho",
+      size: "M",
+      size_id: 2
+  }
+] as ProductCartType[];
+
 export default function Carrinho(props: CarrinhoPageProps) {
-  const { cart, addToCart, removeFromCart, clearCart } = useContext(CartContext);
+  const {
+    amount,
+    subtotal,
+    discount,
+    cartProducts,
+    totalQuantity,
+    calculatePurchase,
+    addToCart, 
+    removeFromCart, 
+    clearCart 
+  } = useContext(CartContext);
+
   const { loading, setLoading } = useContext(LoadingContext);
 
   const [products, setProducts] = useState<ProductType[]>([]);
@@ -38,6 +73,8 @@ export default function Carrinho(props: CarrinhoPageProps) {
     if (props) {
       setProducts(props.products);
     }
+
+    calculatePurchase();
   }, []);
 
   //transforma o valor em real para centavos
@@ -45,18 +82,27 @@ export default function Carrinho(props: CarrinhoPageProps) {
     return Math.round(valorEmReal * 100);
   }
 
-  function getProductsFromCart(cart: CartType) {
-    const cartProducts = cart.products.map(product => {
+  function getProductsInfo(idProduct: number) {
+    const product = productsList.find(product => product.size_id === idProduct);
+
+    return {
+      title: product.title,
+      price: realToCentavos(product["unit_price"])
+    }
+  }
+
+  function getProductsFromCart() {
+    const newCartProducts = cartProducts.map(product => {
       return {
-        id: product.id,
-        title: product.title,
+        id: product["size_id"],
+        title: getProductsInfo(product.id).title,
         quantity: product.quantity,
-        unit_price: realToCentavos(product.unit_price),
+        unit_price: getProductsInfo(product.id).price,
         tangible: true
-      }
+      } 
     });
 
-    return cartProducts;
+    return newCartProducts;
   }
 
   let checkout;
@@ -75,7 +121,7 @@ export default function Carrinho(props: CarrinhoPageProps) {
     });
 
     checkout.open({
-      amount: realToCentavos(cart.amount),
+      amount: realToCentavos(amount),
       buttonText: "Pagar",
       customerData: "true",
       createToken: "true",
@@ -83,7 +129,7 @@ export default function Carrinho(props: CarrinhoPageProps) {
       paymentMethods: "credit_card, boleto",
       maxInstallments: 5,
       minInstallments: 1,
-      items: getProductsFromCart(cart),
+      items: getProductsFromCart(),
      //postbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL_API}/preparando-produto`
     });
   }
@@ -94,7 +140,7 @@ export default function Carrinho(props: CarrinhoPageProps) {
       .then( client => 
         {
           try {
-            let resp = client.transactions.capture({ id: tokenIdTransaction, amount: realToCentavos(cart.amount) }) 
+            let resp = client.transactions.capture({ id: tokenIdTransaction, amount: realToCentavos(amount) }) 
             if(resp?.errors != null && resp?.errors != undefined) throw resp;
             Router.push('/preparando-produto');    
             
@@ -117,8 +163,8 @@ export default function Carrinho(props: CarrinhoPageProps) {
           <div className="col-lg-7 col-sm-12 mb-4 mr-sm-5">
             <h1 className="title-secondary mb-4">Meu Carrinho</h1>
             
-            {cart.products.length !== 0 ? (
-              cart.products.map(product => {
+            {totalQuantity !== 0 ? (
+              productsList.map(product => {
                 return (
                   <ProductCartCard
                     key={product.id}
@@ -147,11 +193,11 @@ export default function Carrinho(props: CarrinhoPageProps) {
             <div className={`p-4 ${styles['resume-card']}`}>
               <div className="d-flex justify-content-between">
                 <span className={styles['resume-title']}>
-                  Subtotal ({cart.products.length} {cart.products.length > 1 ? "itens" : "item"})
+                  Subtotal ({totalQuantity} {totalQuantity > 1 ? "itens" : "item"})
                 </span>
 
                 <span>
-                  <b>R$ {formatPrice(cart.subtotal)}</b>
+                  <b>R$ {formatPrice(subtotal)}</b>
                 </span>
               </div>
 
@@ -163,7 +209,7 @@ export default function Carrinho(props: CarrinhoPageProps) {
                 </span>
 
                 <span>
-                  <b>R$ {formatPrice(cart.discount)}</b>
+                  <b>R$ {formatPrice(discount)}</b>
                 </span>
               </div>  
 
@@ -175,13 +221,13 @@ export default function Carrinho(props: CarrinhoPageProps) {
                 </span>
 
                 <span>
-                  <b>R$ {formatPrice(cart.amount)}</b>
+                  <b>R$ {formatPrice(amount)}</b>
                 </span>
               </div>
 
               <div className="d-flex justify-content-end">
                 <small className={`${styles['small-info']} mt-2`}>
-                  Em até 5x de {formatPrice(cart.amount / 5)} sem juros
+                  Em até 5x de {formatPrice(amount / 5)} sem juros
                 </small>
               </div>
 

@@ -1,70 +1,64 @@
-import { useEffect } from 'react';
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
 
-import { CartType, CartContextType } from '../types/cart';
+import { CartContextType, CartProductsListType } from '../types/cart';
 import { ProductCartType } from '../types/products';
 
-const initialState = {
-    products: [
-        {
-            id: 1, 
-            quantity: 1,
-            title: "Produto 01",
-            description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.",
-            unit_price: 50.5,
-            hex_code_color: "#118AB2",
-            color: "Azul",
-            size: "P",
-            size_id: 1
-        },
-        {
-            id: 2, 
-            quantity: 1,
-            title: "Produto 02",
-            description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.",
-            unit_price: 70.99,
-            hex_code_color: "#EF476F",
-            color: "Vermelho",
-            size: "M",
-            size_id: 2
-        }
-    ], 
-    amount: 0, 
-    subtotal: 0, 
-    discount: 5.99
-} as CartType;
+const initialState = [
+    {
+        id: 1,
+        quantity: 1,
+        price: 50.5,
+        size_id: 1
+    },
+    {
+        id: 2,
+        quantity: 2,
+        price: 70.99,
+        size_id: 2
+    }
+] as CartProductsListType[];
 
 export const CartContext = createContext({} as CartContextType);
 
 export const CartProvider = ({ children }) => {
-    const [cart, setCart] = useState<CartType>(initialState);
+    const [cartProducts, setCartProducts] = useState<CartProductsListType[]>(initialState);
+    const [amount, setAmount] = useState(0);
+    const [subtotal, setSubtotal] = useState(0);
+    const [discount, setDiscount] = useState(5.65);
+    const [userId, setUserId] = useState(1);
+    const [cartId, setCartId] = useState(1);
+    const [totalQuantity, setTotalQuantity] = useState(0);
 
     useEffect(() => {
-        setCart({
-            ...cart,
-            amount: calculatePurchase(cart.products).amount,
-            subtotal: calculatePurchase(cart.products).subtotal
-        })
+        calculateTotalProductQuantity();
     }, []);
 
-    function calculatePurchase(products: ProductCartType[]) {
-        let subtotal = 0;
+    function calculateTotalProductQuantity() {
+        let quantity = 0;
 
-        products.forEach(product => {
-            subtotal += product.unit_price * product.quantity
+        cartProducts.forEach(product => {
+            quantity += product.quantity;
         });
 
-        const amount = (subtotal - cart.discount) < 0 ? 0 : subtotal - cart.discount;
+        setTotalQuantity(quantity);
+    }
 
-        return {
-            subtotal,
-            amount
-        };
+    function calculatePurchase() {
+        let newSubtotal = 0;
+
+        cartProducts.forEach(product => {
+            newSubtotal += product.price * product.quantity
+        });
+
+        const amount = (newSubtotal - discount) < 0 ? 0 : newSubtotal - discount;
+
+        setAmount(amount);
+        setSubtotal(newSubtotal);
     }
 
     function increaseProductQuantity(idProduct: number) {
-        const newCartProducts = cart.products.map(product => {
-            if (product.id === idProduct) {
+        const newCartProducts = cartProducts.map(product => {
+            if (product["size_id"] === idProduct) {
                 return {
                     ...product,
                     quantity: product.quantity + 1
@@ -75,16 +69,14 @@ export const CartProvider = ({ children }) => {
             }
         });
 
-        setCart({
-            ...cart,
-            products: newCartProducts,
-            amount: calculatePurchase(newCartProducts).amount, 
-            subtotal: calculatePurchase(newCartProducts).subtotal
-        })
+        setCartProducts(newCartProducts);
+
+        calculatePurchase();
+        calculateTotalProductQuantity();
     }
 
     function decreaseProductQuantity(idProduct: number) {
-        const newCartProducts = cart.products.map(product => {
+        const newCartProducts = cartProducts.map(product => {
             if (product.id === idProduct) {
                 return {
                     ...product,
@@ -96,54 +88,58 @@ export const CartProvider = ({ children }) => {
             }
         });
 
-        setCart({
-            ...cart,
-            products: newCartProducts,
-            amount: calculatePurchase(newCartProducts).amount, 
-            subtotal: calculatePurchase(newCartProducts).subtotal
-        })
+        setCartProducts(newCartProducts);
+
+        calculatePurchase();
+        calculateTotalProductQuantity();
     }
 
     function addToCart(item: ProductCartType) {
-        const filteredItems = [...cart.products, item];
-        setCart({
+        const filteredItems = [...cartProducts, item];
+        /*setCart({
             ...cart,
             products: [...filteredItems], 
             amount: calculatePurchase(filteredItems).amount, 
             subtotal: calculatePurchase(filteredItems).subtotal
-        });
-        console.log('add to cart:', cart);
+        });*/
     }
 
     function removeFromCart(idProduct: number) {
-        const filteredItems = cart.products.filter(
+        const filteredItems = cartProducts.filter(
             product => product.id !== idProduct
         );
 
-        const discount = filteredItems.length == 0 ? 0 : cart.discount;
+        const newDiscount = filteredItems.length == 0 ? 0 : discount;
 
-        setCart({
+        setDiscount(newDiscount);
+
+        /*setCart({
             products: [...filteredItems], 
             amount: calculatePurchase(filteredItems).amount, 
             subtotal: calculatePurchase(filteredItems).subtotal,
             discount: discount
-        });
-        console.log('remove from cart:', cart);
+        });*/
     }
 
     function clearCart() {
-        setCart({
-            products: [], 
-            amount: 0, 
-            subtotal: 0, 
-            discount: 0
-        });
-        console.log('clear cart:', cart);
+        setCartProducts([]);
+        setAmount(0);
+        setSubtotal(0);
+        setDiscount(0);
+        setTotalQuantity(0);
     }
 
     return (
         <CartContext.Provider value={{
-            cart,
+            cartProducts,
+            amount,
+            subtotal,
+            discount,
+            userId,
+            cartId,
+            totalQuantity,
+            calculatePurchase,
+            calculateTotalProductQuantity,
             increaseProductQuantity,
             decreaseProductQuantity,
             addToCart,
