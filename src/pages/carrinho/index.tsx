@@ -165,11 +165,17 @@ export default function Carrinho(props: CarrinhoPageProps) {
             
             {totalQuantity !== 0 ? (
               productsList.map(product => {
+                let { quantity } = cartProducts.find(cartProduct => {
+                  if (cartProduct.id === product.id) {
+                    return cartProduct.quantity
+                  }
+                });
+
                 return (
                   <ProductCartCard
                     key={product.id}
                     id={product.id}
-                    quantity={product.quantity}
+                    quantity={quantity}
                     title={product.title}
                     description={product.description}
                     unit_price={product.unit_price}

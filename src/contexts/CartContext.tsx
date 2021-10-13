@@ -31,7 +31,8 @@ export const CartProvider = ({ children }) => {
 
     useEffect(() => {
         calculateTotalProductQuantity();
-    }, []);
+        calculatePurchase();
+    }, [cartProducts]);
 
     function calculateTotalProductQuantity() {
         let quantity = 0;
@@ -70,9 +71,6 @@ export const CartProvider = ({ children }) => {
         });
 
         setCartProducts(newCartProducts);
-
-        calculatePurchase();
-        calculateTotalProductQuantity();
     }
 
     function decreaseProductQuantity(idProduct: number) {
@@ -89,9 +87,6 @@ export const CartProvider = ({ children }) => {
         });
 
         setCartProducts(newCartProducts);
-
-        calculatePurchase();
-        calculateTotalProductQuantity();
     }
 
     function addToCart(item: ProductCartType) {
