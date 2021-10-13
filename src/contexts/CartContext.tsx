@@ -50,7 +50,7 @@ export const CartProvider = ({ children }) => {
     const [productInfoList, setProductInfoList] = useState<ProductInfoCartType[]>(productInfoListInitialState);
     const [amount, setAmount] = useState(0);
     const [subtotal, setSubtotal] = useState(0);
-    const [discount, setDiscount] = useState(5.65);
+    const [discount, setDiscount] = useState(0);
     const [userId, setUserId] = useState(1);
     const [cartId, setCartId] = useState(1);
     const [totalQuantity, setTotalQuantity] = useState(0);
