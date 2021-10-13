@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useContext } from "react";
 
+import { CartContext } from '../../contexts/CartContext';
 import { ProductType } from '../../types/products/index';
 import { formatPrice } from '../../utils/formatPrice';
 
@@ -14,6 +15,8 @@ export function DefaultProductCard(props: DefaultProductType) {
     const { item } = props;
 
     const [isFavorite, setIsFavorite] = useState(item.favorite);
+
+    const { addToCart } = useContext(CartContext);
 
     function handleFavoriteProduct() {
         setIsFavorite(!isFavorite);
@@ -97,7 +100,15 @@ export function DefaultProductCard(props: DefaultProductType) {
                     <a className="button button-primary-outline">Conferir</a>
                 </Link>
                 <Link href="/carrinho">
-                    <a className="button button-secondary">
+                    <a
+                        className="button button-secondary"
+                        onClick={() => addToCart({
+                            id: 3,
+                            size_id: 3,
+                            quantity: 1,
+                            price: item.price
+                        })}
+                    >
                         Comprar agora
                     </a>
                 </Link>

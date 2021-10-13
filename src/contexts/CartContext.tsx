@@ -115,14 +115,12 @@ export const CartProvider = ({ children }) => {
         setCartProductList(newCartProducts);
     }
 
-    function addToCart(item: ProductInfoCartType) {
-        const filteredItems = [...cartProductList, item];
-        /*setCart({
-            ...cart,
-            products: [...filteredItems], 
-            amount: calculatePurchase(filteredItems).amount, 
-            subtotal: calculatePurchase(filteredItems).subtotal
-        });*/
+    function addToCart(newProduct: CartProductType) {
+        const newCartProductList = [...cartProductList, newProduct];
+        
+        setCartProductList(newCartProductList);
+
+        console.log(newCartProductList);
     }
 
     function removeFromCart(idProduct: number) {
