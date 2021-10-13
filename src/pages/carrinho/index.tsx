@@ -31,10 +31,7 @@ export default function Carrinho(props: CarrinhoPageProps) {
     cartProductList,
     productInfoList,
     totalQuantity,
-    calculatePurchase,
-    addToCart, 
-    removeFromCart, 
-    clearCart 
+    calculatePurchase
   } = useContext(CartContext);
 
   const { loading, setLoading } = useContext(LoadingContext);
