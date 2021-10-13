@@ -11,7 +11,7 @@ import { LoadingContext } from '../../contexts/LoadingContext';
 import { ProductCard } from '../../components/ProductCard';
 import { ProductCartCard } from '../../components/ProductCartCard';
 import { getAPIClient } from '../../services/apiClient';
-import { ProductType, ProductCartType } from '../../types/products';
+import { ProductType, ProductInfoCartType } from '../../types/products';
 import { options } from '../../utils/defaultToastOptions';
 import { formatPrice } from '../../utils/formatPrice';
 
@@ -29,7 +29,7 @@ export default function Carrinho(props: CarrinhoPageProps) {
     subtotal,
     discount,
     cartProducts,
-    productsList,
+    productInfoList,
     totalQuantity,
     calculatePurchase,
     addToCart, 
@@ -59,7 +59,7 @@ export default function Carrinho(props: CarrinhoPageProps) {
   }
 
   function getProductsInfo(idProduct: number) {
-    const product = productsList.find(product => product.size_id === idProduct);
+    const product = productInfoList.find(product => product.size_id === idProduct);
 
     return {
       title: product.title,
@@ -140,7 +140,7 @@ export default function Carrinho(props: CarrinhoPageProps) {
             <h1 className="title-secondary mb-4">Meu Carrinho</h1>
             
             {totalQuantity !== 0 ? (
-              productsList.map(product => {
+              productInfoList.map(product => {
                 let { quantity } = cartProducts.find(cartProduct => {
                   if (cartProduct.id === product.id) {
                     return cartProduct.quantity

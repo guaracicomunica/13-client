@@ -8,7 +8,7 @@ export type ProductType = {
     isLoading: boolean;
 }
 
-export type ProductCartType = {
+export type ProductInfoCartType = {
     id: number;
     quantity: number;
     title: string;

@@ -1,11 +1,11 @@
 import { useContext } from 'react';
 import { CartContext } from '../../contexts/CartContext';
-import { ProductCartType } from '../../types/products';
+import { ProductInfoCartType } from '../../types/products';
 import { formatPrice } from '../../utils/formatPrice';
 
 import styles from './styles.module.css';
 
-export function ProductCartCard(props: ProductCartType) {
+export function ProductCartCard(props: ProductInfoCartType) {
   const {
     removeFromCart,
     increaseProductQuantity,

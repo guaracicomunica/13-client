@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 
 import { CartContextType, CartProductsListType } from '../types/cart';
-import { ProductCartType } from '../types/products';
+import { ProductInfoCartType } from '../types/products';
 
 const cartInitialState = [
     {
@@ -18,7 +18,7 @@ const cartInitialState = [
     }
 ] as CartProductsListType[];
 
-const productsListInitialState = [
+const productInfoListInitialState = [
     {
         id: 1,
         title: "Produto 01",
@@ -41,13 +41,13 @@ const productsListInitialState = [
         size: "M",
         size_id: 2
     }
-] as ProductCartType[];
+] as ProductInfoCartType[];
 
 export const CartContext = createContext({} as CartContextType);
 
 export const CartProvider = ({ children }) => {
     const [cartProducts, setCartProducts] = useState<CartProductsListType[]>(cartInitialState);
-    const [productsList, setProductsList] = useState<ProductCartType[]>(productsListInitialState);
+    const [productInfoList, setProductInfoList] = useState<ProductInfoCartType[]>(productInfoListInitialState);
     const [amount, setAmount] = useState(0);
     const [subtotal, setSubtotal] = useState(0);
     const [discount, setDiscount] = useState(5.65);
@@ -115,7 +115,7 @@ export const CartProvider = ({ children }) => {
         setCartProducts(newCartProducts);
     }
 
-    function addToCart(item: ProductCartType) {
+    function addToCart(item: ProductInfoCartType) {
         const filteredItems = [...cartProducts, item];
         /*setCart({
             ...cart,
@@ -130,7 +130,7 @@ export const CartProvider = ({ children }) => {
             product => product.id !== idProduct
         );
 
-        const newProductsList = productsList.filter(
+        const newProductInfoList = productInfoList.filter(
             product => product.id !== idProduct
         );
 
@@ -138,7 +138,7 @@ export const CartProvider = ({ children }) => {
 
         setDiscount(newDiscount);
         setCartProducts(newCartProducts);
-        setProductsList(newProductsList);
+        setProductInfoList(newProductInfoList);
     }
 
     function clearCart() {
@@ -152,7 +152,7 @@ export const CartProvider = ({ children }) => {
     return (
         <CartContext.Provider value={{
             cartProducts,
-            productsList,
+            productInfoList,
             amount,
             subtotal,
             discount,
