@@ -3,7 +3,7 @@ import { createContext, useState, useEffect } from 'react';
 import { CartContextType, CartProductsListType } from '../types/cart';
 import { ProductCartType } from '../types/products';
 
-const initialState = [
+const cartInitialState = [
     {
         id: 1,
         quantity: 1,
@@ -18,10 +18,36 @@ const initialState = [
     }
 ] as CartProductsListType[];
 
+const productsListInitialState = [
+    {
+        id: 1,
+        title: "Produto 01",
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.",
+        unit_price: 50.5,
+        quantity: 1,
+        hex_code_color: "#118AB2",
+        color: "Azul",
+        size: "P",
+        size_id: 1
+    },
+    {
+        id: 2,
+        title: "Produto 02",
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.",
+        unit_price: 70.99,
+        quantity: 2,
+        hex_code_color: "#EF476F",
+        color: "Vermelho",
+        size: "M",
+        size_id: 2
+    }
+] as ProductCartType[];
+
 export const CartContext = createContext({} as CartContextType);
 
 export const CartProvider = ({ children }) => {
-    const [cartProducts, setCartProducts] = useState<CartProductsListType[]>(initialState);
+    const [cartProducts, setCartProducts] = useState<CartProductsListType[]>(cartInitialState);
+    const [productsList, setProductsList] = useState<ProductCartType[]>(productsListInitialState);
     const [amount, setAmount] = useState(0);
     const [subtotal, setSubtotal] = useState(0);
     const [discount, setDiscount] = useState(5.65);
@@ -100,20 +126,19 @@ export const CartProvider = ({ children }) => {
     }
 
     function removeFromCart(idProduct: number) {
-        const filteredItems = cartProducts.filter(
+        const newCartProducts = cartProducts.filter(
             product => product.id !== idProduct
         );
 
-        const newDiscount = filteredItems.length == 0 ? 0 : discount;
+        const newProductsList = productsList.filter(
+            product => product.id !== idProduct
+        );
+
+        const newDiscount = newCartProducts.length == 0 ? 0 : discount;
 
         setDiscount(newDiscount);
-
-        /*setCart({
-            products: [...filteredItems], 
-            amount: calculatePurchase(filteredItems).amount, 
-            subtotal: calculatePurchase(filteredItems).subtotal,
-            discount: discount
-        });*/
+        setCartProducts(newCartProducts);
+        setProductsList(newProductsList);
     }
 
     function clearCart() {
@@ -127,6 +152,7 @@ export const CartProvider = ({ children }) => {
     return (
         <CartContext.Provider value={{
             cartProducts,
+            productsList,
             amount,
             subtotal,
             discount,

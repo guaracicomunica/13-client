@@ -23,37 +23,13 @@ type CarrinhoPageProps = {
   isLoading: boolean;
 }
 
-const productsList = [
-  {
-      id: 1,
-      title: "Produto 01",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.",
-      unit_price: 50.5,
-      quantity: 1,
-      hex_code_color: "#118AB2",
-      color: "Azul",
-      size: "P",
-      size_id: 1
-  },
-  {
-      id: 2,
-      title: "Produto 02",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.",
-      unit_price: 70.99,
-      quantity: 2,
-      hex_code_color: "#EF476F",
-      color: "Vermelho",
-      size: "M",
-      size_id: 2
-  }
-] as ProductCartType[];
-
 export default function Carrinho(props: CarrinhoPageProps) {
   const {
     amount,
     subtotal,
     discount,
     cartProducts,
+    productsList,
     totalQuantity,
     calculatePurchase,
     addToCart, 

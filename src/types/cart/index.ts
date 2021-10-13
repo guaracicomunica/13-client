@@ -19,6 +19,7 @@ export type CartProductsListType = {
 
 export type CartContextType = {
   cartProducts: CartProductsListType[];
+  productsList: ProductCartType[];
   amount: number;
   discount: number;
   subtotal: number;
