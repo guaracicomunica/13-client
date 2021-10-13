@@ -1,6 +1,6 @@
 import { ProductInfoCartType } from '../products';
 
-export type CartProductListType = {
+export type CartProductType = {
   id: number;
   quantity: number;
   price: number;
@@ -8,7 +8,7 @@ export type CartProductListType = {
 }
 
 export type CartContextType = {
-  cartProductList: CartProductListType[];
+  cartProductList: CartProductType[];
   productInfoList: ProductInfoCartType[];
   amount: number;
   discount: number;
@@ -20,7 +20,7 @@ export type CartContextType = {
   calculateTotalProductQuantity: () => void;
   increaseProductQuantity: (idProduct: number) => void;
   decreaseProductQuantity: (idProduct: number) => void;
-  addToCart: (item: ProductInfoCartType) => void;
+  addToCart: (item: CartProductType) => void;
   removeFromCart: (idProduct: number) => void;
   clearCart: () => void;
 }

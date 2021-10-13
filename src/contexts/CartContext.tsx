@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from 'react';
 
-import { CartContextType, CartProductListType } from '../types/cart';
+import { CartContextType, CartProductType } from '../types/cart';
 import { ProductInfoCartType } from '../types/products';
 
 const cartProductListInitialState = [
@@ -16,7 +16,7 @@ const cartProductListInitialState = [
         price: 70.99,
         size_id: 2
     }
-] as CartProductListType[];
+] as CartProductType[];
 
 const productInfoListInitialState = [
     {
@@ -46,7 +46,7 @@ const productInfoListInitialState = [
 export const CartContext = createContext({} as CartContextType);
 
 export const CartProvider = ({ children }) => {
-    const [cartProductList, setCartProductList] = useState<CartProductListType[]>(cartProductListInitialState);
+    const [cartProductList, setCartProductList] = useState<CartProductType[]>(cartProductListInitialState);
     const [productInfoList, setProductInfoList] = useState<ProductInfoCartType[]>(productInfoListInitialState);
     const [amount, setAmount] = useState(0);
     const [subtotal, setSubtotal] = useState(0);
