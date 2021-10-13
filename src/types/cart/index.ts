@@ -1,16 +1,6 @@
 import { ProductInfoCartType } from '../products';
 
-export type CartType = {
-  products: CartProductsListType[];
-  amount: number;
-  discount: number;
-  subtotal: number;
-  user_id: number;
-  cart_id: number;
-  total_quantity: number;
-}
-
-export type CartProductsListType = {
+export type CartProductListType = {
   id: number;
   quantity: number;
   price: number;
@@ -18,7 +8,7 @@ export type CartProductsListType = {
 }
 
 export type CartContextType = {
-  cartProducts: CartProductsListType[];
+  cartProductList: CartProductListType[];
   productInfoList: ProductInfoCartType[];
   amount: number;
   discount: number;

@@ -1,9 +1,9 @@
 import { createContext, useState, useEffect } from 'react';
 
-import { CartContextType, CartProductsListType } from '../types/cart';
+import { CartContextType, CartProductListType } from '../types/cart';
 import { ProductInfoCartType } from '../types/products';
 
-const cartInitialState = [
+const cartProductListInitialState = [
     {
         id: 1,
         quantity: 1,
@@ -16,7 +16,7 @@ const cartInitialState = [
         price: 70.99,
         size_id: 2
     }
-] as CartProductsListType[];
+] as CartProductListType[];
 
 const productInfoListInitialState = [
     {
@@ -46,7 +46,7 @@ const productInfoListInitialState = [
 export const CartContext = createContext({} as CartContextType);
 
 export const CartProvider = ({ children }) => {
-    const [cartProducts, setCartProducts] = useState<CartProductsListType[]>(cartInitialState);
+    const [cartProductList, setCartProductList] = useState<CartProductListType[]>(cartProductListInitialState);
     const [productInfoList, setProductInfoList] = useState<ProductInfoCartType[]>(productInfoListInitialState);
     const [amount, setAmount] = useState(0);
     const [subtotal, setSubtotal] = useState(0);
@@ -58,12 +58,12 @@ export const CartProvider = ({ children }) => {
     useEffect(() => {
         calculateTotalProductQuantity();
         calculatePurchase();
-    }, [cartProducts]);
+    }, [cartProductList]);
 
     function calculateTotalProductQuantity() {
         let quantity = 0;
 
-        cartProducts.forEach(product => {
+        cartProductList.forEach(product => {
             quantity += product.quantity;
         });
 
@@ -73,7 +73,7 @@ export const CartProvider = ({ children }) => {
     function calculatePurchase() {
         let newSubtotal = 0;
 
-        cartProducts.forEach(product => {
+        cartProductList.forEach(product => {
             newSubtotal += product.price * product.quantity
         });
 
@@ -84,7 +84,7 @@ export const CartProvider = ({ children }) => {
     }
 
     function increaseProductQuantity(idProduct: number) {
-        const newCartProducts = cartProducts.map(product => {
+        const newCartProducts = cartProductList.map(product => {
             if (product["size_id"] === idProduct) {
                 return {
                     ...product,
@@ -96,11 +96,11 @@ export const CartProvider = ({ children }) => {
             }
         });
 
-        setCartProducts(newCartProducts);
+        setCartProductList(newCartProducts);
     }
 
     function decreaseProductQuantity(idProduct: number) {
-        const newCartProducts = cartProducts.map(product => {
+        const newCartProducts = cartProductList.map(product => {
             if (product.id === idProduct) {
                 return {
                     ...product,
@@ -112,11 +112,11 @@ export const CartProvider = ({ children }) => {
             }
         });
 
-        setCartProducts(newCartProducts);
+        setCartProductList(newCartProducts);
     }
 
     function addToCart(item: ProductInfoCartType) {
-        const filteredItems = [...cartProducts, item];
+        const filteredItems = [...cartProductList, item];
         /*setCart({
             ...cart,
             products: [...filteredItems], 
@@ -126,7 +126,7 @@ export const CartProvider = ({ children }) => {
     }
 
     function removeFromCart(idProduct: number) {
-        const newCartProducts = cartProducts.filter(
+        const newCartProducts = cartProductList.filter(
             product => product.id !== idProduct
         );
 
@@ -137,12 +137,12 @@ export const CartProvider = ({ children }) => {
         const newDiscount = newCartProducts.length == 0 ? 0 : discount;
 
         setDiscount(newDiscount);
-        setCartProducts(newCartProducts);
+        setCartProductList(newCartProducts);
         setProductInfoList(newProductInfoList);
     }
 
     function clearCart() {
-        setCartProducts([]);
+        setCartProductList([]);
         setAmount(0);
         setSubtotal(0);
         setDiscount(0);
@@ -151,7 +151,7 @@ export const CartProvider = ({ children }) => {
 
     return (
         <CartContext.Provider value={{
-            cartProducts,
+            cartProductList,
             productInfoList,
             amount,
             subtotal,
