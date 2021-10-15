@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from 'react';
 
+import { getAPIClient } from '../services/apiClient';
 import { CartContextType, CartProductType } from '../types/cart';
 import { ProductInfoCartType } from '../types/products';
 
@@ -52,13 +53,37 @@ export const CartProvider = ({ children }) => {
     const [subtotal, setSubtotal] = useState(0);
     const [discount, setDiscount] = useState(0);
     const [userId, setUserId] = useState(1);
-    const [cartId, setCartId] = useState(1);
+    const [cartId, setCartId] = useState(0);
     const [totalQuantity, setTotalQuantity] = useState(0);
+
+    const api = getAPIClient();
+
+    useEffect(() => {
+        getLastCart(userId);
+    }, [])
 
     useEffect(() => {
         calculateTotalProductQuantity();
         calculatePurchase();
     }, [cartProductList]);
+
+    async function getLastCart(userId: number) {
+        const { data } = await api.get(`carts/lastcart/${userId}`);
+
+        if (JSON.stringify(data) !== '{}') {
+            setCartId(data["user_id"]);
+        }
+        else {
+            createEmptyCart(userId);
+        }
+    }
+
+    async function createEmptyCart(userId: number) {
+        await api.post('carts', {
+            user_id: userId,
+            is_finished: 0
+        });
+    }
 
     function calculateTotalProductQuantity() {
         let quantity = 0;
