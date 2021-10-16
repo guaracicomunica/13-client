@@ -25,13 +25,14 @@ type CarrinhoPageProps = {
 
 export default function Carrinho(props: CarrinhoPageProps) {
   const {
+    cartId,
     amount,
     subtotal,
     discount,
     cartProductList,
     productInfoList,
     totalQuantity,
-    calculatePurchase
+    loadProductInformation
   } = useContext(CartContext);
 
   const { loading, setLoading } = useContext(LoadingContext);
@@ -46,9 +47,11 @@ export default function Carrinho(props: CarrinhoPageProps) {
     if (props) {
       setProducts(props.products);
     }
-
-    calculatePurchase();
   }, []);
+
+  useEffect(() => {
+    loadProductInformation(cartId)
+  }, [productInfoList]);
 
   //transforma o valor em real para centavos
   function realToCentavos(valorEmReal: number) {

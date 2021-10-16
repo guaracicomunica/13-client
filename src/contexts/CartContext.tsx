@@ -22,7 +22,7 @@ import 'react-toastify/dist/ReactToastify.css';
     }
 ] as CartProductType[];*/
 
-const productInfoListInitialState = [
+/* const productInfoListInitialState = [
     {
         id: 1,
         title: "Produto 01",
@@ -45,13 +45,13 @@ const productInfoListInitialState = [
         size: "M",
         size_id: 2
     }
-] as ProductInfoCartType[];
+] as ProductInfoCartType[]; */
 
 export const CartContext = createContext({} as CartContextType);
 
 export const CartProvider = ({ children }) => {
     const [cartProductList, setCartProductList] = useState<CartProductType[]>([]);
-    const [productInfoList, setProductInfoList] = useState<ProductInfoCartType[]>(productInfoListInitialState);
+    const [productInfoList, setProductInfoList] = useState<ProductInfoCartType[]>([]);
     const [amount, setAmount] = useState(0);
     const [subtotal, setSubtotal] = useState(0);
     const [discount, setDiscount] = useState(0);
@@ -86,6 +86,11 @@ export const CartProvider = ({ children }) => {
     async function loadCartProducts(cartId: number) {
         const { data } = await api.get(`carts/${cartId}`);
         setCartProductList(data);
+    }
+
+    async function loadProductInformation(cartId: number) {
+        const { data } = await api.get(`carts/productsinfo/${cartId}`);
+        setProductInfoList(data);
     }
 
     async function createEmptyCart(userId: number) {
@@ -195,6 +200,7 @@ export const CartProvider = ({ children }) => {
             userId,
             cartId,
             totalQuantity,
+            loadProductInformation,
             calculatePurchase,
             calculateTotalProductQuantity,
             increaseProductQuantity,

@@ -16,6 +16,7 @@ export type CartContextType = {
   userId: number;
   cartId: number;
   totalQuantity: number;
+  loadProductInformation: (cartId: number) => void;
   calculatePurchase: () => void;
   calculateTotalProductQuantity: () => void;
   increaseProductQuantity: (idProduct: number) => void;
