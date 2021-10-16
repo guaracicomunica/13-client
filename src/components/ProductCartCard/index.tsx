@@ -35,7 +35,7 @@ export function ProductCartCard(props: ProductInfoCartType) {
             <div className="mb-1 d-flex align-items-center">
               <b>Tamanho:</b>
               <div className={styles["product-size"]}>
-                {props.size}
+                {props.size.charAt(0)}
               </div>
             </div>
 
