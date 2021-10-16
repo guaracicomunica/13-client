@@ -50,8 +50,8 @@ export default function Carrinho(props: CarrinhoPageProps) {
   }, []);
 
   useEffect(() => {
-    loadProductInformation(cartId)
-  }, [productInfoList]);
+    loadProductInformation(cartId);
+  }, [cartId]);
 
   //transforma o valor em real para centavos
   function realToCentavos(valorEmReal: number) {
