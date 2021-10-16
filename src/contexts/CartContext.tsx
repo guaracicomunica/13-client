@@ -1,8 +1,11 @@
 import { createContext, useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 import { getAPIClient } from '../services/apiClient';
 import { CartContextType, CartProductType } from '../types/cart';
 import { ProductInfoCartType } from '../types/products';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const cartProductListInitialState = [
     {
@@ -82,6 +85,9 @@ export const CartProvider = ({ children }) => {
         await api.post('carts', {
             user_id: userId,
             is_finished: 0
+        })
+        .catch(function (error) {
+            toast.error("Houve um erro no carregamento do seu carrinho. Carregue novamente a página.");
         });
     }
 
