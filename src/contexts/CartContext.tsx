@@ -7,7 +7,7 @@ import { ProductInfoCartType } from '../types/products';
 
 import 'react-toastify/dist/ReactToastify.css';
 
-const cartProductListInitialState = [
+/*const cartProductListInitialState = [
     {
         id: 1,
         quantity: 1,
@@ -20,7 +20,7 @@ const cartProductListInitialState = [
         price: 70.99,
         size_id: 2
     }
-] as CartProductType[];
+] as CartProductType[];*/
 
 const productInfoListInitialState = [
     {
@@ -50,7 +50,7 @@ const productInfoListInitialState = [
 export const CartContext = createContext({} as CartContextType);
 
 export const CartProvider = ({ children }) => {
-    const [cartProductList, setCartProductList] = useState<CartProductType[]>(cartProductListInitialState);
+    const [cartProductList, setCartProductList] = useState<CartProductType[]>([]);
     const [productInfoList, setProductInfoList] = useState<ProductInfoCartType[]>(productInfoListInitialState);
     const [amount, setAmount] = useState(0);
     const [subtotal, setSubtotal] = useState(0);
@@ -63,7 +63,7 @@ export const CartProvider = ({ children }) => {
 
     useEffect(() => {
         getLastCart(userId);
-    }, [])
+    }, []);
 
     useEffect(() => {
         calculateTotalProductQuantity();
@@ -74,11 +74,18 @@ export const CartProvider = ({ children }) => {
         const { data } = await api.get(`carts/lastcart/${userId}`);
 
         if (JSON.stringify(data) !== '{}') {
-            setCartId(data["user_id"]);
+            setCartId(data.id);
+
+            loadCartProducts(data.id);
         }
         else {
             createEmptyCart(userId);
         }
+    }
+
+    async function loadCartProducts(cartId: number) {
+        const { data } = await api.get(`carts/${cartId}`);
+        setCartProductList(data);
     }
 
     async function createEmptyCart(userId: number) {
