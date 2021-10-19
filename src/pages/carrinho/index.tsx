@@ -159,6 +159,7 @@ export default function Carrinho(props: CarrinhoPageProps) {
                     color={product.color}
                     size={product.size}
                     size_id={product.size_id}
+                    isLoading={loading}
                   />
                 )
               })
@@ -281,7 +282,8 @@ export const getStaticProps: GetStaticProps = async () => {
       id: product.id,
       title: product.name,
       price: product.price,
-      stars: product.stars
+      stars: product.stars,
+      favorite: true
     }
   });
 

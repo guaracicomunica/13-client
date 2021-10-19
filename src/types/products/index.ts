@@ -18,4 +18,5 @@ export type ProductInfoCartType = {
     color: string;
     size: string;
     size_id: number;
+    isLoading: boolean;
 }
