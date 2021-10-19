@@ -7,46 +7,6 @@ import { ProductInfoCartType } from '../types/products';
 
 import 'react-toastify/dist/ReactToastify.css';
 
-/*const cartProductListInitialState = [
-    {
-        id: 1,
-        quantity: 1,
-        price: 50.5,
-        size_id: 1
-    },
-    {
-        id: 2,
-        quantity: 2,
-        price: 70.99,
-        size_id: 2
-    }
-] as CartProductType[];*/
-
-/* const productInfoListInitialState = [
-    {
-        id: 1,
-        title: "Produto 01",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.",
-        unit_price: 50.5,
-        quantity: 1,
-        hex_code_color: "#118AB2",
-        color: "Azul",
-        size: "P",
-        size_id: 1
-    },
-    {
-        id: 2,
-        title: "Produto 02",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.",
-        unit_price: 70.99,
-        quantity: 2,
-        hex_code_color: "#EF476F",
-        color: "Vermelho",
-        size: "M",
-        size_id: 2
-    }
-] as ProductInfoCartType[]; */
-
 export const CartContext = createContext({} as CartContextType);
 
 export const CartProvider = ({ children }) => {
@@ -126,12 +86,16 @@ export const CartProvider = ({ children }) => {
         setSubtotal(newSubtotal);
     }
 
-    function increaseProductQuantity(idProduct: number) {
+    function increaseProductQuantity(idProductCart: number) {
+        let quantity = 0;
+
         const newCartProducts = cartProductList.map(product => {
-            if (product["size_id"] === idProduct) {
+            if (product.id === idProductCart) {
+                quantity = product.quantity + 1;
+
                 return {
                     ...product,
-                    quantity: product.quantity + 1
+                    quantity: quantity
                 };
             }
             else {
@@ -140,14 +104,19 @@ export const CartProvider = ({ children }) => {
         });
 
         setCartProductList(newCartProducts);
+        updateProductQuantityInDatabase(idProductCart, quantity);
     }
 
-    function decreaseProductQuantity(idProduct: number) {
+    function decreaseProductQuantity(idProductCart: number) {
+        let quantity = 0;
+
         const newCartProducts = cartProductList.map(product => {
-            if (product.id === idProduct) {
+            if (product.id === idProductCart) {
+                quantity = product.quantity == 1 ? 1 : product.quantity - 1
+
                 return {
                     ...product,
-                    quantity: product.quantity == 1 ? 1 : product.quantity - 1
+                    quantity: quantity
                 };
             }
             else {
@@ -156,6 +125,16 @@ export const CartProvider = ({ children }) => {
         });
 
         setCartProductList(newCartProducts);
+        updateProductQuantityInDatabase(idProductCart, quantity);
+    }
+
+    async function updateProductQuantityInDatabase(idProductCart: number, quantity: number) {
+        await api.put(`carts/product/${idProductCart}`, {
+            quantity: quantity
+        })
+        .catch(function (error) {
+            toast.warning("Não foi possível alterar a quantidade do seu produto. Recarregue a página e tente novamente.");
+        });
     }
 
     function addToCart(newProduct: CartProductType) {
