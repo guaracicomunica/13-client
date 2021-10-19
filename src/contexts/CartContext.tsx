@@ -145,13 +145,13 @@ export const CartProvider = ({ children }) => {
         console.log(newCartProductList);
     }
 
-    function removeFromCart(idProduct: number) {
+    async function removeFromCart(idProductCart: number) {
         const newCartProducts = cartProductList.filter(
-            product => product.id !== idProduct
+            product => product.id !== idProductCart
         );
 
         const newProductInfoList = productInfoList.filter(
-            product => product.id !== idProduct
+            product => product.id !== idProductCart
         );
 
         const newDiscount = newCartProducts.length == 0 ? 0 : discount;
@@ -159,6 +159,11 @@ export const CartProvider = ({ children }) => {
         setDiscount(newDiscount);
         setCartProductList(newCartProducts);
         setProductInfoList(newProductInfoList);
+
+        await api.delete(`carts/product/${idProductCart}`)
+        .catch(function (error) {
+            toast.warning("Não foi possível remover o produto. Recarregue a página e tente novamente.");
+        });
     }
 
     function clearCart() {
