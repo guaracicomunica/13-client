@@ -71,7 +71,7 @@ export default function Home(props: HomePageProps) {
               id={product.id}
               title={product.title}
               price={product.price}
-              favorite={product.isFavorite}
+              favorite={product.favorite}
               isLoading={loading}
               img="camisa-barcelona"
               stars={product.stars}
@@ -98,7 +98,7 @@ export default function Home(props: HomePageProps) {
                 id={product.id}
                 title={product.title}
                 price={product.price}
-                favorite={product.isFavorite}
+                favorite={product.favorite}
                 isLoading={loading}
                 img="camisa-barcelona"
                 stars={product.stars}
@@ -165,7 +165,8 @@ function mapResponse(response: any) {
       id: product.id,
       title: product.name,
       price: product.price,
-      stars: product.stars
+      stars: product.stars,
+      favorite: true
     }
   });
 }
