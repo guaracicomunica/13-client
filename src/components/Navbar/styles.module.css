@@ -38,9 +38,9 @@
   top: 10%;
 
   border-radius: 50%;
-  width: 0.5rem;
-  height: 0.5rem;
-  background-color: var(--blue-dark);
+  width: 8px;
+  height: 8px;
+  background-color: var(--green-primary);
 }
 
 .search-bar {
