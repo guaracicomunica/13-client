@@ -135,7 +135,7 @@ export default function Carrinho(props: CarrinhoPageProps) {
       </Head>
 
       <main className="background-gray">
-        <section className="section row justify-content-between">
+        <section className="mx-0 section row justify-content-between">
           <div className="col-lg-7 col-sm-12 mb-4 mr-sm-5">
             <h1 className="title-secondary mb-4">Meu Carrinho</h1>
             
