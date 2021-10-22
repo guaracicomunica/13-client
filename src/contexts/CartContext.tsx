@@ -137,12 +137,18 @@ export const CartProvider = ({ children }) => {
         });
     }
 
-    function addToCart(newProduct: CartProductType) {
-        const newCartProductList = [...cartProductList, newProduct];
-        
-        setCartProductList(newCartProductList);
-
-        console.log(newCartProductList);
+    async function addToCart(cartId: number, idProduct: number) {
+        await api.post('carts/product/', {
+            cart_id: cartId,
+            product_id: idProduct,
+            quantity: 1
+        })
+        .then(function (response) {
+            loadCartProducts(cartId);
+        })
+        .catch(function (error) {
+            toast.warning("Não foi possível adicionar o produto ao carrinho. Recarregue a página e tente novamente.");
+        });
     }
 
     async function removeFromCart(idProductCart: number) {

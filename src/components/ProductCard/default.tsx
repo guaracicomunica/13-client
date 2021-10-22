@@ -16,7 +16,7 @@ export function DefaultProductCard(props: DefaultProductType) {
 
     const [isFavorite, setIsFavorite] = useState(item.favorite);
 
-    const { addToCart } = useContext(CartContext);
+    const { cartId, addToCart } = useContext(CartContext);
 
     function handleFavoriteProduct() {
         setIsFavorite(!isFavorite);
@@ -102,12 +102,7 @@ export function DefaultProductCard(props: DefaultProductType) {
                 <Link href="/carrinho">
                     <a
                         className="button button-secondary"
-                        onClick={() => addToCart({
-                            id: 3,
-                            size_id: 3,
-                            quantity: 1,
-                            price: item.price
-                        })}
+                        /*onClick={() => addToCart(cartId, item.productSizeId)}*/
                     >
                         Comprar agora
                     </a>
