@@ -31,32 +31,48 @@ export const CartProvider = ({ children }) => {
     }, [cartProductList]);
 
     async function getLastCart(userId: number) {
-        const { data } = await api.get(`carts/lastcart/${userId}`);
-
-        if (JSON.stringify(data) !== '{}') {
-            setCartId(data.id);
-
-            loadCartProducts(data.id);
-        }
-        else {
-            createEmptyCart(userId);
-        }
+        await api.get(`carts/lastcart/${userId}`)
+        .then(function (response) {
+            if (JSON.stringify(response.data) !== '{}') {
+                setCartId(response.data.id);
+                loadCartProducts(response.data.id);
+            }
+            else {
+                createEmptyCart(userId);
+            }
+        })
+        .catch(function (error) {
+            toast.error("Não foi possível recuperar seu carrinho.");
+        });
     }
 
     async function loadCartProducts(cartId: number) {
-        const { data } = await api.get(`carts/${cartId}`);
-        setCartProductList(data);
+        await api.get(`carts/${cartId}`)
+        .then(function (response) {
+            setCartProductList(response.data);
+        })
+        .catch(function (error) {
+            toast.error("Não foi possível carregar seu carrinho.");
+        });
     }
 
     async function loadProductInformation(cartId: number) {
-        const { data } = await api.get(`carts/productsinfo/${cartId}`);
-        setProductInfoList(data);
+        await api.get(`carts/productsinfo/${cartId}`)
+        .then(function (response) {
+            setProductInfoList(response.data);
+        })
+        .catch(function (error) {
+            toast.error("Não foi possível carregar as informações dos produtos do seu carrinho.");
+        });
     }
 
     async function createEmptyCart(userId: number) {
         await api.post('carts', {
             user_id: userId,
             is_finished: 0
+        })
+        .then(function (response) {
+            setCartId(response.data.id);
         })
         .catch(function (error) {
             toast.error("Houve um erro no carregamento do seu carrinho. Carregue novamente a página.");
