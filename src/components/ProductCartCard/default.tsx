@@ -41,8 +41,52 @@ export function DefaultProductCartCard(props: DefaultProductCartCard) {
 
             <div className="mb-1 d-flex align-items-center">
               <b>Tamanho:</b>
-              <div className={styles["product-size"]}>
-                {item.size.charAt(0)}
+              <div className={styles["available-sizes"]}>
+                <div className={styles.size} key="size-pp">
+                  <input
+                    type="radio"
+                    name="size"
+                    id="size-pp"
+                  />
+                  <label htmlFor="size-pp">PP</label>
+                </div>
+
+                <div className={styles.size} key="size-p">
+                  <input
+                    type="radio"
+                    name="size"
+                    id="size-p"
+                  />
+                  <label htmlFor="size-p">P</label>
+                </div>
+
+                <div className={styles.size} key="size-m">
+                  <input
+                    type="radio"
+                    name="size"
+                    id="size-m"
+                  />
+                  <label htmlFor="size-m">M</label>
+                </div>
+
+                <div className={styles.size} key="size-g">
+                  <input
+                    type="radio"
+                    name="size"
+                    id="size-g"
+                  />
+                  <label htmlFor="size-g">G</label>
+                </div>
+
+                <div className={styles.size} key="size-gg">
+                  <input
+                    type="radio"
+                    name="size"
+                    id="size-gg"
+                    disabled={true}
+                  />
+                  <label htmlFor="size-gg">GG</label>
+                </div>
               </div>
             </div>
 
