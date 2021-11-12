@@ -35,7 +35,7 @@ export function ProductCartCard(props: ProductInfoCartType) {
           <img
             src="/images/camisa-barcelona.svg"
             alt="camisa do barcelona"
-            className="img-fluid align-itens-center"
+            className="img-fluid align-items-center"
           />
         </div>
 
@@ -48,62 +48,62 @@ export function ProductCartCard(props: ProductInfoCartType) {
               {props.description}
             </div>
 
-            <div className="mb-1 d-flex align-itens-center">
+            <div className="mb-1 d-flex align-items-center">
               <b>Tamanho:</b>
               <div className={styles["available-sizes"]}>
-                <div className={styles.size} key="size-pp">
+                <div className={styles.size}>
                   <input
                     type="radio"
-                    name="size"
-                    id="size-pp"
+                    name={`size-${props.id}`}
+                    id={`size-pp-${props.id}`}
                     disabled={!productSizes.includes('PP')}
                   />
-                  <label htmlFor="size-pp">PP</label>
+                  <label htmlFor={`size-pp-${props.id}`}>PP</label>
                 </div>
 
-                <div className={styles.size} key="size-p">
+                <div className={styles.size}>
                   <input
                     type="radio"
-                    name="size"
-                    id="size-p"
+                    name={`size-${props.id}`}
+                    id={`size-p-${props.id}`}
                     disabled={!productSizes.includes('P')}
                   />
-                  <label htmlFor="size-p">P</label>
+                  <label htmlFor={`size-p-${props.id}`}>P</label>
                 </div>
 
-                <div className={styles.size} key="size-m">
+                <div className={styles.size}>
                   <input
                     type="radio"
-                    name="size"
-                    id="size-m"
+                    name={`size-${props.id}`}
+                    id={`size-m-${props.id}`}
                     disabled={!productSizes.includes('M')}
                   />
-                  <label htmlFor="size-m">M</label>
+                  <label htmlFor={`size-m-${props.id}`}>M</label>
                 </div>
 
-                <div className={styles.size} key="size-g">
+                <div className={styles.size}>
                   <input
                     type="radio"
-                    name="size"
-                    id="size-g"
+                    name={`size-${props.id}`}
+                    id={`size-g-${props.id}`}
                     disabled={!productSizes.includes('G')}
                   />
-                  <label htmlFor="size-g">G</label>
+                  <label htmlFor={`size-g-${props.id}`}>G</label>
                 </div>
 
-                <div className={styles.size} key="size-gg">
+                <div className={styles.size}>
                   <input
                     type="radio"
-                    name="size"
-                    id="size-gg"
+                    name={`size-${props.id}`}
+                    id={`size-gg-${props.id}`}
                     disabled={!productSizes.includes('GG')}
                   />
-                  <label htmlFor="size-gg">GG</label>
+                  <label htmlFor={`size-gg-${props.id}`}>GG</label>
                 </div>
               </div>
             </div>
 
-            <div className="mb-1 d-flex align-itens-center">
+            <div className="mb-1 d-flex align-items-center">
               <b>Cor:</b>
               <div
                 className={styles["product-color"]}
@@ -129,7 +129,7 @@ export function ProductCartCard(props: ProductInfoCartType) {
       <hr className="my-4" />
 
       <div className="d-flex justify-content-between">
-        <div className="d-flex align-itens-center">
+        <div className="d-flex align-items-center">
           <b>Quantidade:</b>
           <div className="d-flex">
             <div
