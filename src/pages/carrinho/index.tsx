@@ -9,6 +9,7 @@ import pagarme from 'pagarme';
 import { CartContext } from '../../contexts/CartContext';
 import { LoadingContext } from '../../contexts/LoadingContext';
 import { ShimmerProductCartCard } from '../../components/ProductCartCard/shimmer';
+import { ShimmerProductCard } from '../../components/ProductCard/shimmer';
 import { ProductCard } from '../../components/ProductCard';
 import { ProductCartCard } from '../../components/ProductCartCard';
 import { getAPIClient } from '../../services/apiClient';
@@ -249,22 +250,31 @@ export default function Carrinho(props: CarrinhoPageProps) {
           </h1>
 
           <div className={styles["products-list"]}>
-            {products.length !== 0 ? (
-              products.map(product => {
-                return (
-                  <ProductCard
-                    key={product.id}
-                    id={product.id}
-                    title={product.title}
-                    price={product.price}
-                    favorite={true}
-                    img="camisa-barcelona"
-                    isLoading={loading}
-                    stars={product.stars}
-                  />
-                )
-              })
-            ) : ""}
+            {loading ? (
+              <>
+                <ShimmerProductCard />
+                <ShimmerProductCard />
+                <ShimmerProductCard />
+                <ShimmerProductCard />
+              </>
+            ) : (
+              products.length !== 0 ? (
+                products.map(product => {
+                  return (
+                    <ProductCard
+                      key={product.id}
+                      id={product.id}
+                      title={product.title}
+                      price={product.price}
+                      favorite={true}
+                      img="camisa-barcelona"
+                      isLoading={loading}
+                      stars={product.stars}
+                    />
+                  )
+                })
+              ) : ""
+            )}
           </div>
         </section>
       </main>
