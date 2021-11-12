@@ -8,6 +8,7 @@ import pagarme from 'pagarme';
 
 import { CartContext } from '../../contexts/CartContext';
 import { LoadingContext } from '../../contexts/LoadingContext';
+import { ShimmerProductCartCard } from '../../components/ProductCartCard/shimmer';
 import { ProductCard } from '../../components/ProductCard';
 import { ProductCartCard } from '../../components/ProductCartCard';
 import { getAPIClient } from '../../services/apiClient';
@@ -139,34 +140,38 @@ export default function Carrinho(props: CarrinhoPageProps) {
           <div className="col-lg-7 col-sm-12 mb-4 mr-sm-5">
             <h1 className="title-secondary mb-4">Meu Carrinho</h1>
             
-            {totalQuantity !== 0 ? (
-              productInfoList.map(product => {
-                let { quantity } = cartProductList.find(cartProduct => {
-                  if (cartProduct.id === product.id) {
-                    return cartProduct.quantity
-                  }
-                });
-
-                return (
-                  <ProductCartCard
-                    key={product.id}
-                    id={product.id}
-                    quantity={quantity}
-                    title={product.title}
-                    description={product.description}
-                    unit_price={product.unit_price}
-                    hex_code_color={product.hex_code_color}
-                    color={product.color}
-                    size={product.size}
-                    size_id={product.size_id}
-                    isLoading={loading}
-                  />
-                )
-              })
+            {loading ? (
+              <ShimmerProductCartCard />
             ) : (
-              <div className="big-text text-center">
-                <b>Carrinho vazio</b>
-              </div>
+              totalQuantity !== 0 ? (
+                productInfoList.map(product => {
+                  let { quantity } = cartProductList.find(cartProduct => {
+                    if (cartProduct.id === product.id) {
+                      return cartProduct.quantity
+                    }
+                  });
+  
+                  return (
+                    <ProductCartCard
+                      key={product.id}
+                      id={product.id}
+                      quantity={quantity}
+                      title={product.title}
+                      description={product.description}
+                      unit_price={product.unit_price}
+                      hex_code_color={product.hex_code_color}
+                      color={product.color}
+                      size={product.size}
+                      size_id={product.size_id}
+                      isLoading={loading}
+                    />
+                  )
+                })
+              ) : (
+                <div className="big-text text-center">
+                  <b>Carrinho vazio</b>
+                </div>
+              )
             )}
           </div>
 
