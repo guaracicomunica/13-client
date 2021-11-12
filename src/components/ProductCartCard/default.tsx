@@ -1,6 +1,7 @@
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 
 import { CartContext } from '../../contexts/CartContext';
+import { getAPIClient } from '../../services/apiClient';
 import { ProductInfoCartType } from '../../types/products';
 import { formatPrice } from '../../utils/formatPrice';
 
@@ -18,6 +19,20 @@ export function DefaultProductCartCard(props: DefaultProductCartCard) {
     increaseProductQuantity,
     decreaseProductQuantity
   } = useContext(CartContext);
+
+  const [productSizes, setProductSizes] = useState<string[]>([]);
+
+  const api = getAPIClient();
+
+  useEffect(() => {
+    getAllProductSizes(item["size_id"]);
+  }, [props]);
+
+  async function getAllProductSizes(idProduct: number) {
+    const { data: productsSizesData } = await api.get(`product-sizes/${idProduct}`);
+
+    setProductSizes(productsSizesData);
+  }
 
   return (
     <div className={`p-4 mb-4 ${styles['product-cart-card']}`}>
@@ -47,6 +62,7 @@ export function DefaultProductCartCard(props: DefaultProductCartCard) {
                     type="radio"
                     name="size"
                     id="size-pp"
+                    disabled={!productSizes.includes('PP')}
                   />
                   <label htmlFor="size-pp">PP</label>
                 </div>
@@ -56,6 +72,7 @@ export function DefaultProductCartCard(props: DefaultProductCartCard) {
                     type="radio"
                     name="size"
                     id="size-p"
+                    disabled={!productSizes.includes('P')}
                   />
                   <label htmlFor="size-p">P</label>
                 </div>
@@ -65,6 +82,7 @@ export function DefaultProductCartCard(props: DefaultProductCartCard) {
                     type="radio"
                     name="size"
                     id="size-m"
+                    disabled={!productSizes.includes('M')}
                   />
                   <label htmlFor="size-m">M</label>
                 </div>
@@ -74,6 +92,7 @@ export function DefaultProductCartCard(props: DefaultProductCartCard) {
                     type="radio"
                     name="size"
                     id="size-g"
+                    disabled={!productSizes.includes('G')}
                   />
                   <label htmlFor="size-g">G</label>
                 </div>
@@ -83,7 +102,7 @@ export function DefaultProductCartCard(props: DefaultProductCartCard) {
                     type="radio"
                     name="size"
                     id="size-gg"
-                    disabled={true}
+                    disabled={!productSizes.includes('GG')}
                   />
                   <label htmlFor="size-gg">GG</label>
                 </div>
