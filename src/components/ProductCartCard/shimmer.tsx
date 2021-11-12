@@ -22,12 +22,16 @@ export function ShimmerProductCartCard() {
 
             <div className="mb-2 d-flex align-items-center">
               <Skeleton width={100} />
-              <Skeleton className="ml-2" width={24} height={24} />
+              <Skeleton circle={true} className="ml-2" width={24} height={24} />
+              <Skeleton circle={true} className="ml-2" width={24} height={24} />
+              <Skeleton circle={true} className="ml-2" width={24} height={24} />
+              <Skeleton circle={true} className="ml-2" width={24} height={24} />
+              <Skeleton circle={true} className="ml-2" width={24} height={24} />
             </div>
 
             <div className="mb-2 d-flex align-items-center">
               <Skeleton width={100} />
-              <Skeleton className="ml-2" width={24} height={24} />
+              <Skeleton circle={true} className="ml-2" width={24} height={24} />
             </div>
           </div>
         </div>
