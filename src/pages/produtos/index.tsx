@@ -8,6 +8,7 @@ import { getAPIClient } from '../../services/apiClient';
 
 import Carousel from '../../components/Carousel';
 import { Filter } from '../../components/Filter';
+import { ShimmerProductCard } from '../../components/ProductCard/shimmer';
 import { ProductCard } from '../../components/ProductCard';
 import WhatsappIcon from '../../components/WhatsappIcon';
 
@@ -336,25 +337,33 @@ export default function Produtos(props: ProdutosPageProps) {
           />          
 
           <div className={styles["products-list"]}>
-            {loading === false && products.length === 0 ? (
-              <div className={styles["products-not-found"]}>
-                Nenhum produto encontrado.
-              </div>
+            {loading ? (
+              <>
+                <ShimmerProductCard />
+                <ShimmerProductCard />
+                <ShimmerProductCard />
+              </>
             ) : (
-              products.map(product => {
-                return (
-                  <ProductCard
-                    key={product.id}
-                    id={product.id}
-                    title={product.title}
-                    price={product.price}
-                    favorite={true}
-                    img="camisa-barcelona"
-                    isLoading={loading}
-                    stars={product.stars}
-                  />
-                )
-              })
+              products.length !== 0 ? (
+                products.map(product => {
+                  return (
+                    <ProductCard
+                      key={product.id}
+                      id={product.id}
+                      title={product.title}
+                      price={product.price}
+                      favorite={true}
+                      img="camisa-barcelona"
+                      isLoading={loading}
+                      stars={product.stars}
+                    />
+                  )
+                })
+              ) : (
+                <div className={styles["products-not-found"]}>
+                  Nenhum produto encontrado.
+                </div>
+              )
             )}
           </div>
         </section>
