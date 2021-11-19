@@ -105,7 +105,7 @@ export default function Carrinho(props: CarrinhoPageProps) {
             var email = user.email.trim();
 
             let resp =  client.transactions
-                    .capture({ id: 'sasfasf', amount: realToCentavos(cart.amount) })
+                    .capture({ id: tokenIdTransaction, amount: realToCentavos(cart.amount) })
                     .then(
                       trans => {
 
