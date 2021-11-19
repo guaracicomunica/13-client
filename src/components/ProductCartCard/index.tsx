@@ -19,7 +19,7 @@ export function ProductCartCard(props: ProductInfoCartType) {
   const api = getAPIClient();
 
   useEffect(() => {
-    getAllProductSizes(props["size_id"]);
+    getAllProductSizes(props.id);
   }, [props]);
 
   async function getAllProductSizes(idProduct: number) {
@@ -57,6 +57,7 @@ export function ProductCartCard(props: ProductInfoCartType) {
                     name={`size-${props.id}`}
                     id={`size-pp-${props.id}`}
                     disabled={!productSizes.includes('PP')}
+                    defaultChecked={props["size_id"] == 1 ? true : false}
                   />
                   <label htmlFor={`size-pp-${props.id}`}>PP</label>
                 </div>
@@ -67,6 +68,7 @@ export function ProductCartCard(props: ProductInfoCartType) {
                     name={`size-${props.id}`}
                     id={`size-p-${props.id}`}
                     disabled={!productSizes.includes('P')}
+                    defaultChecked={props["size_id"] == 2 ? true : false}
                   />
                   <label htmlFor={`size-p-${props.id}`}>P</label>
                 </div>
@@ -77,6 +79,7 @@ export function ProductCartCard(props: ProductInfoCartType) {
                     name={`size-${props.id}`}
                     id={`size-m-${props.id}`}
                     disabled={!productSizes.includes('M')}
+                    defaultChecked={props["size_id"] == 3 ? true : false}
                   />
                   <label htmlFor={`size-m-${props.id}`}>M</label>
                 </div>
@@ -87,6 +90,7 @@ export function ProductCartCard(props: ProductInfoCartType) {
                     name={`size-${props.id}`}
                     id={`size-g-${props.id}`}
                     disabled={!productSizes.includes('G')}
+                    defaultChecked={props["size_id"] == 4 ? true : false}
                   />
                   <label htmlFor={`size-g-${props.id}`}>G</label>
                 </div>
@@ -97,6 +101,7 @@ export function ProductCartCard(props: ProductInfoCartType) {
                     name={`size-${props.id}`}
                     id={`size-gg-${props.id}`}
                     disabled={!productSizes.includes('GG')}
+                    defaultChecked={props["size_id"] == 5 ? true : false}
                   />
                   <label htmlFor={`size-gg-${props.id}`}>GG</label>
                 </div>

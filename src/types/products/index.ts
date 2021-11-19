@@ -16,7 +16,6 @@ export type ProductInfoCartType = {
     unit_price: number;
     hex_code_color: string;
     color: string;
-    size: string;
     size_id: number;
     isLoading: boolean;
 }

@@ -162,7 +162,6 @@ export default function Carrinho(props: CarrinhoPageProps) {
                       unit_price={product.unit_price}
                       hex_code_color={product.hex_code_color}
                       color={product.color}
-                      size={product.size}
                       size_id={product.size_id}
                       isLoading={loading}
                     />
