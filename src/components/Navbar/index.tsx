@@ -1,8 +1,12 @@
+import { useContext } from 'react';
 import Link from 'next/link';
 
 import styles from "./styles.module.css";
+import { CartContext } from '../../contexts/CartContext';
 
 export function Navbar() {
+  const { totalQuantity } = useContext(CartContext);
+
   return (
     <header>
       <nav className={`navbar navbar-expand-lg py-4 border-bottom ${styles["navbar-padding"]}`}>
@@ -72,13 +76,16 @@ export function Navbar() {
 
               <li className="nav-item">
                 <Link href="/carrinho">
-                  <a className="nav-link">
+                  <a className="nav-link position-relative">
                     <img
                       src="/icons/cart.svg"
                       alt="Carrinho de compras"
                       aria-label="Carrinho de compras"
                       className={styles["nav-icon"]}
                     />
+                    { totalQuantity > 0 ? (
+                      <div className={styles["cart-indicator"]} />
+                    ) : "" }
                   </a>
                 </Link>
               </li>

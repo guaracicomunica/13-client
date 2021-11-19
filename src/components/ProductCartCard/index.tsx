@@ -1,16 +1,32 @@
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
+
 import { CartContext } from '../../contexts/CartContext';
-import { ProductCartType } from '../../types/products';
+import { getAPIClient } from '../../services/apiClient';
+import { ProductInfoCartType } from '../../types/products';
 import { formatPrice } from '../../utils/formatPrice';
 
 import styles from './styles.module.css';
 
-export function ProductCartCard(props: ProductCartType) {
+export function ProductCartCard(props: ProductInfoCartType) {
   const {
     removeFromCart,
     increaseProductQuantity,
     decreaseProductQuantity
   } = useContext(CartContext);
+
+  const [productSizes, setProductSizes] = useState<string[]>([]);
+
+  const api = getAPIClient();
+
+  useEffect(() => {
+    getAllProductSizes(props["size_id"]);
+  }, [props]);
+
+  async function getAllProductSizes(idProduct: number) {
+    const { data: productsSizesData } = await api.get(`product-sizes/${idProduct}`);
+
+    setProductSizes(productsSizesData);
+  }
 
   return (
     <div className={`p-4 mb-4 ${styles['product-cart-card']}`}>
@@ -19,7 +35,7 @@ export function ProductCartCard(props: ProductCartType) {
           <img
             src="/images/camisa-barcelona.svg"
             alt="camisa do barcelona"
-            className="img-fluid align-items-center"
+            className="img-fluid align-itens-center"
           />
         </div>
 
@@ -32,14 +48,62 @@ export function ProductCartCard(props: ProductCartType) {
               {props.description}
             </div>
 
-            <div className="mb-1 d-flex align-items-center">
+            <div className="mb-1 d-flex align-itens-center">
               <b>Tamanho:</b>
-              <div className={styles["product-size"]}>
-                {props.size}
+              <div className={styles["available-sizes"]}>
+                <div className={styles.size} key="size-pp">
+                  <input
+                    type="radio"
+                    name="size"
+                    id="size-pp"
+                    disabled={!productSizes.includes('PP')}
+                  />
+                  <label htmlFor="size-pp">PP</label>
+                </div>
+
+                <div className={styles.size} key="size-p">
+                  <input
+                    type="radio"
+                    name="size"
+                    id="size-p"
+                    disabled={!productSizes.includes('P')}
+                  />
+                  <label htmlFor="size-p">P</label>
+                </div>
+
+                <div className={styles.size} key="size-m">
+                  <input
+                    type="radio"
+                    name="size"
+                    id="size-m"
+                    disabled={!productSizes.includes('M')}
+                  />
+                  <label htmlFor="size-m">M</label>
+                </div>
+
+                <div className={styles.size} key="size-g">
+                  <input
+                    type="radio"
+                    name="size"
+                    id="size-g"
+                    disabled={!productSizes.includes('G')}
+                  />
+                  <label htmlFor="size-g">G</label>
+                </div>
+
+                <div className={styles.size} key="size-gg">
+                  <input
+                    type="radio"
+                    name="size"
+                    id="size-gg"
+                    disabled={!productSizes.includes('GG')}
+                  />
+                  <label htmlFor="size-gg">GG</label>
+                </div>
               </div>
             </div>
 
-            <div className="mb-1 d-flex align-items-center">
+            <div className="mb-1 d-flex align-itens-center">
               <b>Cor:</b>
               <div
                 className={styles["product-color"]}
@@ -56,8 +120,8 @@ export function ProductCartCard(props: ProductCartType) {
         >
           <img
             src="/icons/garbage.svg"
-            alt="Remova item do carrinho"
-            aria-label="Remova item do carrinho"
+            alt="Remova props do carrinho"
+            aria-label="Remova props do carrinho"
           />
         </div>
       </div>
@@ -65,7 +129,7 @@ export function ProductCartCard(props: ProductCartType) {
       <hr className="my-4" />
 
       <div className="d-flex justify-content-between">
-        <div className="d-flex align-items-center">
+        <div className="d-flex align-itens-center">
           <b>Quantidade:</b>
           <div className="d-flex">
             <div

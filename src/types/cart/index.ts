@@ -1,17 +1,27 @@
-import { ProductCartType } from '../products';
+import { ProductInfoCartType } from '../products';
 
-export type CartType = {
-  products: ProductCartType[];
-  amount: number;
-  discount: number;
-  subtotal: number;
+export type CartProductType = {
+  id: number;
+  quantity: number;
+  price: number;
+  size_id: number;
 }
 
 export type CartContextType = {
-  cart: CartType;
+  cartProductList: CartProductType[];
+  productInfoList: ProductInfoCartType[];
+  amount: number;
+  discount: number;
+  subtotal: number;
+  userId: number;
+  cartId: number;
+  totalQuantity: number;
+  loadProductInformation: (cartId: number) => void;
+  calculatePurchase: () => void;
+  calculateTotalProductQuantity: () => void;
   increaseProductQuantity: (idProduct: number) => void;
   decreaseProductQuantity: (idProduct: number) => void;
-  addToCart: (item: ProductCartType) => void;
+  addToCart: (cartId: number, idProduct: number) => void;
   removeFromCart: (idProduct: number) => void;
   clearCart: () => void;
 }

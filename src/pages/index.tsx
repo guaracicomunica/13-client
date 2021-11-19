@@ -5,7 +5,10 @@ import { useEffect, useContext } from 'react';
 import { GetStaticProps } from 'next';
 
 import Carousel from '../components/Carousel';
+import { ShimmerProductCard } from '../components/ProductCard/shimmer';
 import { ProductCard } from '../components/ProductCard';
+import WhatsappIcon from '../components/WhatsappIcon';
+import Newsletter from '../components/Newsletter';
 
 import { getAPIClient } from '../services/apiClient';
 
@@ -14,8 +17,7 @@ import { LoadingContext } from '../contexts/LoadingContext';
 import { CategoryContext } from '../contexts/CategoryContext';
 
 import { ProductType } from "../types/products/index";
-import WhatsappIcon from '../components/WhatsappIcon';
-import Newsletter from '../components/Newsletter';
+
 
 type HomePageProps = {
   lastProducts: ProductType[];
@@ -65,18 +67,35 @@ export default function Home(props: HomePageProps) {
         </section>
 
         <section className={`section ${styles["products-list"]}`}>
-          {props.lastProducts?.map(product => (
-            <ProductCard
-              key={product.id}
-              id={product.id}
-              title={product.title}
-              price={product.price}
-              favorite={product.isFavorite}
-              isLoading={loading}
-              img="camisa-barcelona"
-              stars={product.stars}
-            />
-          ))}
+            {loading ? (
+              <>
+                <ShimmerProductCard />
+                <ShimmerProductCard />
+                <ShimmerProductCard />
+                <ShimmerProductCard />
+              </>
+            ) : (
+              props.lastProducts.length !== 0 ? (
+                props.lastProducts?.map(product => {
+                  return (
+                    <ProductCard
+                      key={product.id}
+                      id={product.id}
+                      title={product.title}
+                      price={product.price}
+                      favorite={true}
+                      img="camisa-barcelona"
+                      isLoading={loading}
+                      stars={product.stars}
+                    />
+                  )
+                })
+              ) : (
+                <div className={styles["products-not-found"]}>
+                  Nenhum produto encontrado.
+                </div>
+              )
+            )}
         </section>
 
         <section className="mx-3 mx-md-5 my-3">
@@ -92,18 +111,35 @@ export default function Home(props: HomePageProps) {
           {props.trendProducts.length > 0 && <h1 className="mb-5 title-section">Mais popular</h1>}
 
           <div className={styles["products-list"]}>
-            {props.trendProducts?.map(product => (
-              <ProductCard
-                key={product.id}
-                id={product.id}
-                title={product.title}
-                price={product.price}
-                favorite={product.isFavorite}
-                isLoading={loading}
-                img="camisa-barcelona"
-                stars={product.stars}
-              />
-            ))}
+            {loading ? (
+              <>
+                <ShimmerProductCard />
+                <ShimmerProductCard />
+                <ShimmerProductCard />
+                <ShimmerProductCard />
+              </>
+            ) : (
+              props.trendProducts.length !== 0 ? (
+                props.trendProducts?.map(product => {
+                  return (
+                    <ProductCard
+                      key={product.id}
+                      id={product.id}
+                      title={product.title}
+                      price={product.price}
+                      favorite={true}
+                      img="camisa-barcelona"
+                      isLoading={loading}
+                      stars={product.stars}
+                    />
+                  )
+                })
+              ) : (
+                <div className={styles["products-not-found"]}>
+                  Nenhum produto encontrado.
+                </div>
+              )
+            )}
           </div>
         </section>
 
@@ -165,7 +201,8 @@ function mapResponse(response: any) {
       id: product.id,
       title: product.name,
       price: product.price,
-      stars: product.stars
+      stars: product.stars,
+      favorite: true
     }
   });
 }

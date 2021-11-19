@@ -8,10 +8,11 @@ import pagarme from 'pagarme';
 
 import { CartContext } from '../../contexts/CartContext';
 import { LoadingContext } from '../../contexts/LoadingContext';
+import { ShimmerProductCartCard } from '../../components/ProductCartCard/shimmer';
+import { ShimmerProductCard } from '../../components/ProductCard/shimmer';
 import { ProductCard } from '../../components/ProductCard';
 import { ProductCartCard } from '../../components/ProductCartCard';
 import { getAPIClient } from '../../services/apiClient';
-import { CartType } from '../../types/cart';
 import { ProductType } from '../../types/products';
 import { options } from '../../utils/defaultToastOptions';
 import { formatPrice } from '../../utils/formatPrice';
@@ -28,7 +29,17 @@ type CarrinhoPageProps = {
 }
 
 export default function Carrinho(props: CarrinhoPageProps) {
-  const { cart, addToCart, removeFromCart, clearCart } = useContext(CartContext);
+  const {
+    cartId,
+    amount,
+    subtotal,
+    discount,
+    cartProductList,
+    productInfoList,
+    totalQuantity,
+    loadProductInformation
+  } = useContext(CartContext);
+
   const { loading, setLoading } = useContext(LoadingContext);
   const { user } = useContext(AuthContext);
 
@@ -45,23 +56,36 @@ export default function Carrinho(props: CarrinhoPageProps) {
     }
   }, []);
 
+  useEffect(() => {
+    loadProductInformation(cartId);
+  }, [cartId]);
+
   //transforma o valor em real para centavos
   function realToCentavos(valorEmReal: number) {
     return Math.round(valorEmReal * 100);
   }
 
-  function getProductsFromCart(cart: CartType) {
-    const cartProducts = cart.products.map(product => {
+  function getProductsInfo(idProduct: number) {
+    const product = productInfoList.find(product => product.size_id === idProduct);
+
+    return {
+      title: product.title,
+      price: realToCentavos(product["unit_price"])
+    }
+  }
+
+  function getProductsFromCart() {
+    const newCartProducts = cartProductList.map(product => {
       return {
-        id: product.id,
-        title: product.title,
+        id: product["size_id"],
+        title: getProductsInfo(product.id).title,
         quantity: product.quantity,
-        unit_price: realToCentavos(product.unit_price),
+        unit_price: getProductsInfo(product.id).price,
         tangible: true
-      }
+      } 
     });
 
-    return cartProducts;
+    return newCartProducts;
   }
 
   let checkout;
@@ -80,7 +104,7 @@ export default function Carrinho(props: CarrinhoPageProps) {
     });
 
     checkout.open({
-      amount: realToCentavos(cart.amount),
+      amount: realToCentavos(amount),
       buttonText: "Pagar",
       customerData: "true",
       createToken: "true",
@@ -88,7 +112,7 @@ export default function Carrinho(props: CarrinhoPageProps) {
       paymentMethods: "credit_card, boleto",
       maxInstallments: 5,
       minInstallments: 1,
-      items: getProductsFromCart(cart),
+      items: getProductsFromCart(),
      //postbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL_API}/preparando-produto`
     });
   }
@@ -157,31 +181,42 @@ export default function Carrinho(props: CarrinhoPageProps) {
       </Head>
 
       <main className="background-gray">
-        <section className="section row justify-content-between">
+        <section className="mx-0 section row justify-content-between">
           <div className="col-lg-7 col-sm-12 mb-4 mr-sm-5">
             <h1 className="title-secondary mb-4">Meu Carrinho</h1>
             
-            {cart.products.length !== 0 ? (
-              cart.products.map(product => {
-                return (
-                  <ProductCartCard
-                    key={product.id}
-                    id={product.id}
-                    quantity={product.quantity}
-                    title={product.title}
-                    description={product.description}
-                    unit_price={product.unit_price}
-                    hex_code_color={product.hex_code_color}
-                    color={product.color}
-                    size={product.size}
-                    size_id={product.size_id}
-                  />
-                )
-              })
+            {loading ? (
+              <ShimmerProductCartCard />
             ) : (
-              <div className="big-text text-center">
-                <b>Carrinho vazio</b>
-              </div>
+              totalQuantity !== 0 ? (
+                productInfoList.map(product => {
+                  let { quantity } = cartProductList.find(cartProduct => {
+                    if (cartProduct.id === product.id) {
+                      return cartProduct.quantity
+                    }
+                  });
+  
+                  return (
+                    <ProductCartCard
+                      key={product.id}
+                      id={product.id}
+                      quantity={quantity}
+                      title={product.title}
+                      description={product.description}
+                      unit_price={product.unit_price}
+                      hex_code_color={product.hex_code_color}
+                      color={product.color}
+                      size={product.size}
+                      size_id={product.size_id}
+                      isLoading={loading}
+                    />
+                  )
+                })
+              ) : (
+                <div className="big-text text-center">
+                  <b>Carrinho vazio</b>
+                </div>
+              )
             )}
           </div>
 
@@ -191,11 +226,11 @@ export default function Carrinho(props: CarrinhoPageProps) {
             <div className={`p-4 ${styles['resume-card']}`}>
               <div className="d-flex justify-content-between">
                 <span className={styles['resume-title']}>
-                  Subtotal ({cart.products.length} {cart.products.length > 1 ? "itens" : "item"})
+                  Subtotal ({totalQuantity} {totalQuantity > 1 ? "itens" : "item"})
                 </span>
 
                 <span>
-                  <b>R$ {formatPrice(cart.subtotal)}</b>
+                  <b>R$ {formatPrice(subtotal)}</b>
                 </span>
               </div>
 
@@ -207,7 +242,7 @@ export default function Carrinho(props: CarrinhoPageProps) {
                 </span>
 
                 <span>
-                  <b>R$ {formatPrice(cart.discount)}</b>
+                  <b>R$ {formatPrice(discount)}</b>
                 </span>
               </div>  
 
@@ -219,13 +254,13 @@ export default function Carrinho(props: CarrinhoPageProps) {
                 </span>
 
                 <span>
-                  <b>R$ {formatPrice(cart.amount)}</b>
+                  <b>R$ {formatPrice(amount)}</b>
                 </span>
               </div>
 
               <div className="d-flex justify-content-end">
                 <small className={`${styles['small-info']} mt-2`}>
-                  Em até 5x de {formatPrice(cart.amount / 5)} sem juros
+                  Em até 5x de {formatPrice(amount / 5)} sem juros
                 </small>
               </div>
 
@@ -259,22 +294,31 @@ export default function Carrinho(props: CarrinhoPageProps) {
           </h1>
 
           <div className={styles["products-list"]}>
-            {products.length !== 0 ? (
-              products.map(product => {
-                return (
-                  <ProductCard
-                    key={product.id}
-                    id={product.id}
-                    title={product.title}
-                    price={product.price}
-                    favorite={true}
-                    img="camisa-barcelona"
-                    isLoading={loading}
-                    stars={product.stars}
-                  />
-                )
-              })
-            ) : ""}
+            {loading ? (
+              <>
+                <ShimmerProductCard />
+                <ShimmerProductCard />
+                <ShimmerProductCard />
+                <ShimmerProductCard />
+              </>
+            ) : (
+              products.length !== 0 ? (
+                products.map(product => {
+                  return (
+                    <ProductCard
+                      key={product.id}
+                      id={product.id}
+                      title={product.title}
+                      price={product.price}
+                      favorite={true}
+                      img="camisa-barcelona"
+                      isLoading={loading}
+                      stars={product.stars}
+                    />
+                  )
+                })
+              ) : ""
+            )}
           </div>
         </section>
       </main>
@@ -297,7 +341,8 @@ export const getStaticProps: GetStaticProps = async () => {
       id: product.id,
       title: product.name,
       price: product.price,
-      stars: product.stars
+      stars: product.stars,
+      favorite: true
     }
   });
 

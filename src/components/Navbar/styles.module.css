@@ -32,6 +32,17 @@
   filter: brightness(0.9);
 }
 
+.cart-indicator {
+  position: absolute;
+  right: 15%;
+  top: 10%;
+
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  background-color: var(--green-primary);
+}
+
 .search-bar {
   display: flex;
 }

@@ -2,11 +2,13 @@ export type ProductType = {
     id: number;
     title: string;
     price: number;
-    isFavorite: boolean;
     stars: number;
+    img: string;
+    favorite: boolean;
+    isLoading: boolean;
 }
 
-export type ProductCartType = {
+export type ProductInfoCartType = {
     id: number;
     quantity: number;
     title: string;
@@ -16,4 +18,5 @@ export type ProductCartType = {
     color: string;
     size: string;
     size_id: number;
+    isLoading: boolean;
 }

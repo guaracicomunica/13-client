@@ -1,17 +1,8 @@
-import Head from 'next/head'
-import { useContext } from 'react';
-import Image from 'next/image'
-
-import { CartContext } from '../../contexts/CartContext';
-import { ProductType } from '../../types/products';
+import Head from 'next/head';
 
 import styles from './styles.module.css';
 
 export default function PreparandoProduto() {
-    const { cart, addToCart, removeFromCart, clearCart } = useContext(CartContext);
-
-    const item = { id: 2, title: 'produto 02', price: 50.5 } as ProductType;
-
     return (
         <>
             <Head>

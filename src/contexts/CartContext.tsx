@@ -1,73 +1,117 @@
-import { useEffect } from 'react';
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
-import { CartType, CartContextType } from '../types/cart';
-import { ProductCartType } from '../types/products';
+import { getAPIClient } from '../services/apiClient';
+import { CartContextType, CartProductType } from '../types/cart';
+import { ProductInfoCartType } from '../types/products';
 
-const initialState = {
-    products: [
-        {
-            id: 1, 
-            quantity: 1,
-            title: "Produto 01",
-            description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.",
-            unit_price: 50.5,
-            hex_code_color: "#118AB2",
-            color: "Azul",
-            size: "P",
-            size_id: 1
-        },
-        {
-            id: 2, 
-            quantity: 1,
-            title: "Produto 02",
-            description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.",
-            unit_price: 70.99,
-            hex_code_color: "#EF476F",
-            color: "Vermelho",
-            size: "M",
-            size_id: 2
-        }
-    ], 
-    amount: 0, 
-    subtotal: 0, 
-    discount: 5.99
-} as CartType;
+import 'react-toastify/dist/ReactToastify.css';
 
 export const CartContext = createContext({} as CartContextType);
 
 export const CartProvider = ({ children }) => {
-    const [cart, setCart] = useState<CartType>(initialState);
+    const [cartProductList, setCartProductList] = useState<CartProductType[]>([]);
+    const [productInfoList, setProductInfoList] = useState<ProductInfoCartType[]>([]);
+    const [amount, setAmount] = useState(0);
+    const [subtotal, setSubtotal] = useState(0);
+    const [discount, setDiscount] = useState(0);
+    const [userId, setUserId] = useState(1);
+    const [cartId, setCartId] = useState(0);
+    const [totalQuantity, setTotalQuantity] = useState(0);
+
+    const api = getAPIClient();
 
     useEffect(() => {
-        setCart({
-            ...cart,
-            amount: calculatePurchase(cart.products).amount,
-            subtotal: calculatePurchase(cart.products).subtotal
-        })
+        getLastCart(userId);
     }, []);
 
-    function calculatePurchase(products: ProductCartType[]) {
-        let subtotal = 0;
+    useEffect(() => {
+        calculateTotalProductQuantity();
+        calculatePurchase();
+    }, [cartProductList]);
 
-        products.forEach(product => {
-            subtotal += product.unit_price * product.quantity
+    async function getLastCart(userId: number) {
+        await api.get(`carts/lastcart/${userId}`)
+        .then(function (response) {
+            if (JSON.stringify(response.data) !== '{}') {
+                setCartId(response.data.id);
+                loadCartProducts(response.data.id);
+            }
+            else {
+                createEmptyCart(userId);
+            }
+        })
+        .catch(function (error) {
+            toast.error("Não foi possível recuperar seu carrinho.");
         });
-
-        const amount = (subtotal - cart.discount) < 0 ? 0 : subtotal - cart.discount;
-
-        return {
-            subtotal,
-            amount
-        };
     }
 
-    function increaseProductQuantity(idProduct: number) {
-        const newCartProducts = cart.products.map(product => {
-            if (product.id === idProduct) {
+    async function loadCartProducts(cartId: number) {
+        await api.get(`carts/${cartId}`)
+        .then(function (response) {
+            setCartProductList(response.data);
+        })
+        .catch(function (error) {
+            toast.error("Não foi possível carregar seu carrinho.");
+        });
+    }
+
+    async function loadProductInformation(cartId: number) {
+        await api.get(`carts/productsinfo/${cartId}`)
+        .then(function (response) {
+            setProductInfoList(response.data);
+        })
+        .catch(function (error) {
+            toast.error("Não foi possível carregar as informações dos produtos do seu carrinho.");
+        });
+    }
+
+    async function createEmptyCart(userId: number) {
+        await api.post('carts', {
+            user_id: userId,
+            is_finished: 0
+        })
+        .then(function (response) {
+            setCartId(response.data.id);
+        })
+        .catch(function (error) {
+            toast.error("Houve um erro no carregamento do seu carrinho. Carregue novamente a página.");
+        });
+    }
+
+    function calculateTotalProductQuantity() {
+        let quantity = 0;
+
+        cartProductList.forEach(product => {
+            quantity += product.quantity;
+        });
+
+        setTotalQuantity(quantity);
+    }
+
+    function calculatePurchase() {
+        let newSubtotal = 0;
+
+        cartProductList.forEach(product => {
+            newSubtotal += product.price * product.quantity
+        });
+
+        const amount = (newSubtotal - discount) < 0 ? 0 : newSubtotal - discount;
+
+        setAmount(amount);
+        setSubtotal(newSubtotal);
+    }
+
+    function increaseProductQuantity(idProductCart: number) {
+        let quantity = 0;
+
+        const newCartProducts = cartProductList.map(product => {
+            if (product.id === idProductCart) {
+                quantity = product.quantity + 1;
+
                 return {
                     ...product,
-                    quantity: product.quantity + 1
+                    quantity: quantity
                 };
             }
             else {
@@ -75,20 +119,20 @@ export const CartProvider = ({ children }) => {
             }
         });
 
-        setCart({
-            ...cart,
-            products: newCartProducts,
-            amount: calculatePurchase(newCartProducts).amount, 
-            subtotal: calculatePurchase(newCartProducts).subtotal
-        })
+        setCartProductList(newCartProducts);
+        updateProductQuantityInDatabase(idProductCart, quantity);
     }
 
-    function decreaseProductQuantity(idProduct: number) {
-        const newCartProducts = cart.products.map(product => {
-            if (product.id === idProduct) {
+    function decreaseProductQuantity(idProductCart: number) {
+        let quantity = 0;
+
+        const newCartProducts = cartProductList.map(product => {
+            if (product.id === idProductCart) {
+                quantity = product.quantity == 1 ? 1 : product.quantity - 1
+
                 return {
                     ...product,
-                    quantity: product.quantity == 1 ? 1 : product.quantity - 1
+                    quantity: quantity
                 };
             }
             else {
@@ -96,54 +140,75 @@ export const CartProvider = ({ children }) => {
             }
         });
 
-        setCart({
-            ...cart,
-            products: newCartProducts,
-            amount: calculatePurchase(newCartProducts).amount, 
-            subtotal: calculatePurchase(newCartProducts).subtotal
+        setCartProductList(newCartProducts);
+        updateProductQuantityInDatabase(idProductCart, quantity);
+    }
+
+    async function updateProductQuantityInDatabase(idProductCart: number, quantity: number) {
+        await api.put(`carts/product/${idProductCart}`, {
+            quantity: quantity
         })
-    }
-
-    function addToCart(item: ProductCartType) {
-        const filteredItems = [...cart.products, item];
-        setCart({
-            ...cart,
-            products: [...filteredItems], 
-            amount: calculatePurchase(filteredItems).amount, 
-            subtotal: calculatePurchase(filteredItems).subtotal
+        .catch(function (error) {
+            toast.warning("Não foi possível alterar a quantidade do seu produto. Recarregue a página e tente novamente.");
         });
-        console.log('add to cart:', cart);
     }
 
-    function removeFromCart(idProduct: number) {
-        const filteredItems = cart.products.filter(
-            product => product.id !== idProduct
+    async function addToCart(cartId: number, idProduct: number) {
+        await api.post('carts/product/', {
+            cart_id: cartId,
+            product_id: idProduct,
+            quantity: 1
+        })
+        .then(function (response) {
+            loadCartProducts(cartId);
+        })
+        .catch(function (error) {
+            toast.warning("Não foi possível adicionar o produto ao carrinho. Recarregue a página e tente novamente.");
+        });
+    }
+
+    async function removeFromCart(idProductCart: number) {
+        const newCartProducts = cartProductList.filter(
+            product => product.id !== idProductCart
         );
 
-        const discount = filteredItems.length == 0 ? 0 : cart.discount;
+        const newProductInfoList = productInfoList.filter(
+            product => product.id !== idProductCart
+        );
 
-        setCart({
-            products: [...filteredItems], 
-            amount: calculatePurchase(filteredItems).amount, 
-            subtotal: calculatePurchase(filteredItems).subtotal,
-            discount: discount
+        const newDiscount = newCartProducts.length == 0 ? 0 : discount;
+
+        setDiscount(newDiscount);
+        setCartProductList(newCartProducts);
+        setProductInfoList(newProductInfoList);
+
+        await api.delete(`carts/product/${idProductCart}`)
+        .catch(function (error) {
+            toast.warning("Não foi possível remover o produto. Recarregue a página e tente novamente.");
         });
-        console.log('remove from cart:', cart);
     }
 
     function clearCart() {
-        setCart({
-            products: [], 
-            amount: 0, 
-            subtotal: 0, 
-            discount: 0
-        });
-        console.log('clear cart:', cart);
+        setCartProductList([]);
+        setAmount(0);
+        setSubtotal(0);
+        setDiscount(0);
+        setTotalQuantity(0);
     }
 
     return (
         <CartContext.Provider value={{
-            cart,
+            cartProductList,
+            productInfoList,
+            amount,
+            subtotal,
+            discount,
+            userId,
+            cartId,
+            totalQuantity,
+            loadProductInformation,
+            calculatePurchase,
+            calculateTotalProductQuantity,
             increaseProductQuantity,
             decreaseProductQuantity,
             addToCart,
