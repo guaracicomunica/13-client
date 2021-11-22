@@ -72,7 +72,7 @@ export default function Carrinho(props: CarrinhoPageProps) {
   function getProductsFromCart() {
     const newCartProducts = cartProductList.map(product => {
       return {
-        id: product["size_id"],
+        id: product["product_size_id"],
         title: getProductsInfo(product.id).title,
         quantity: product.quantity,
         unit_price: getProductsInfo(product.id).price,

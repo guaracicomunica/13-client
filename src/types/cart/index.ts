@@ -4,7 +4,7 @@ export type CartProductType = {
   id: number;
   quantity: number;
   price: number;
-  size_id: number;
+  product_size_id: number;
 }
 
 export type CartContextType = {
@@ -21,6 +21,7 @@ export type CartContextType = {
   calculateTotalProductQuantity: () => void;
   increaseProductQuantity: (idProduct: number) => void;
   decreaseProductQuantity: (idProduct: number) => void;
+  selectProductSize: (idProduct: number, idSize: number, idCart: number) => void;
   addToCart: (cartId: number, idProduct: number) => void;
   removeFromCart: (idProduct: number) => void;
   clearCart: () => void;
