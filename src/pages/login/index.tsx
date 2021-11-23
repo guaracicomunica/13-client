@@ -62,7 +62,7 @@ export default function Login() {
               </h1>
             </div>
             <div className="col-sm-12">
-              <form action="javascript:void(0)"  onSubmit={handleSubmit(onSubmit)} className={`${styles['w-sm-100']} ${styles['w-md-75']}`}>
+              <form onSubmit={() => handleSubmit(onSubmit)} className={`${styles['w-sm-100']} ${styles['w-md-75']}`}>
                 <div className="form-group">
                   <label htmlFor="email" className={`${styles['label']}`}>E-mail</label>
                   <input type="email" className={`${styles['bg-input']} form-control`} 
