@@ -19,6 +19,9 @@ import { formatPrice } from '../../utils/formatPrice';
 
 import styles from './styles.module.css';
 import 'react-toastify/dist/ReactToastify.css';
+import { api } from '../../services/api';
+import { AuthContext } from '../../contexts/AuthContext';
+import { redirect } from 'next/dist/next-server/server/api-utils';
 
 type CarrinhoPageProps = {
   products: ProductType[];
@@ -38,6 +41,8 @@ export default function Carrinho(props: CarrinhoPageProps) {
   } = useContext(CartContext);
 
   const { loading, setLoading } = useContext(LoadingContext);
+  const { user } = useContext(AuthContext);
+
 
   const [products, setProducts] = useState<ProductType[]>([]);
 
@@ -113,21 +118,60 @@ export default function Carrinho(props: CarrinhoPageProps) {
   }
   
   //captura de uma transação
-  function captureTransactions(tokenIdTransaction: String) {
-    pagarme.client.connect({ api_key:'ak_test_6JIOewlI2n1O15fQgGgsE0poSDpsSd'})
+  async function captureTransactions(tokenIdTransaction: String) {
+    await pagarme.client.connect({ api_key:'ak_test_6JIOewlI2n1O15fQgGgsE0poSDpsSd'})
       .then( client => 
         {
           try {
-            let resp = client.transactions.capture({ id: tokenIdTransaction, amount: realToCentavos(amount) }) 
-            if(resp?.errors != null && resp?.errors != undefined) throw resp;
-            Router.push('/preparando-produto');    
+
+            let tokenIdTransaction;
+
+            var email = user.email.trim();
+
+            let resp =  client.transactions
+                    .capture({ id: tokenIdTransaction, amount: realToCentavos(cart.amount) })
+                    .then(
+                      trans => {
+
+                      tokenIdTransaction = trans?.tid;
+
+                      var success = true;
+
+                      api.post<any, any>('transaction/sendEmail', {  email, tokenIdTransaction, success  } ); // enviar e-mail
+                      Router.push('/preparando-produto');  
+                      //console.log(trans);
+                    }).catch( 
+                      resp => 
+                    {
+                      var success = false;
+
+                      api.post<any, any>('transaction/sendEmail', {  email, tokenIdTransaction, success } );
+                      
+                      //client.transactions.refund({ id: tokenIdTransaction }) //estornando o valor
+
+                      checkout.close();
+                      
+                      toast.error("Ops! sua compra não foi aprovada.", options)
+                      return;
+                    });
+
+            //if(resp?.errors != null && resp?.errors != undefined) throw resp;
             
           } catch (e) { 
+
             client.transactions.refund({ id: tokenIdTransaction }) //estornando o valor
+
             checkout.close();
+            
             toast.error("Ops! algo não saiu como o esperado", options)
           }
         })
+  }
+
+
+  function tryContinuar(){
+    if(!user)  Router.push('/login');  
+    else openCheckout();
   }
 
   return (
@@ -223,7 +267,7 @@ export default function Carrinho(props: CarrinhoPageProps) {
               <div className={`${styles["buttons-cart"]} mt-5`}>
                 <button
                   className="button button-primary"
-                  onClick={openCheckout}
+                  onClick={tryContinuar}
                 >
                   Continuar
                 </button>
