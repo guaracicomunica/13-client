@@ -7,25 +7,48 @@ import { formatPrice } from '../../utils/formatPrice';
 
 import styles from './styles.module.css';
 
+type AvailableProductSizes = {
+  product_size_id: number;
+  size_id: number;
+}
+
 export function ProductCartCard(props: ProductInfoCartType) {
   const {
+    cartId,
     removeFromCart,
     increaseProductQuantity,
-    decreaseProductQuantity
+    decreaseProductQuantity,
+    selectProductSize
   } = useContext(CartContext);
 
   const [productSizes, setProductSizes] = useState<string[]>([]);
+  const [availableProductSizes, setAvailableProductSizes] = useState<AvailableProductSizes[]>([]);
 
   const api = getAPIClient();
 
   useEffect(() => {
-    getAllProductSizes(props.id);
+    getAllProductSizes(props.product_id);
+    getAvailableProductSizes(props.product_id);
   }, [props]);
 
   async function getAllProductSizes(idProduct: number) {
     const { data: productsSizesData } = await api.get(`product-sizes/${idProduct}`);
 
     setProductSizes(productsSizesData);
+  }
+
+  async function getAvailableProductSizes(idProduct: number) {
+    const { data: productsSizesData } = await api.get(`product-sizes/available-products/${idProduct}`);
+
+    setAvailableProductSizes(productsSizesData);
+  }
+
+  function selectSize(sizeId: number) {
+    availableProductSizes.forEach(productSize => {
+      if (productSize["size_id"] == sizeId) {
+        selectProductSize(props.id, productSize["product_size_id"], sizeId);
+      }
+    });
   }
 
   return (
@@ -57,7 +80,8 @@ export function ProductCartCard(props: ProductInfoCartType) {
                     name={`size-${props.id}`}
                     id={`size-pp-${props.id}`}
                     disabled={!productSizes.includes('PP')}
-                    defaultChecked={props["size_id"] == 1 ? true : false}
+                    defaultChecked={props["size_id"] == 1}
+                    onChange={() => selectSize(1)}
                   />
                   <label htmlFor={`size-pp-${props.id}`}>PP</label>
                 </div>
@@ -68,7 +92,8 @@ export function ProductCartCard(props: ProductInfoCartType) {
                     name={`size-${props.id}`}
                     id={`size-p-${props.id}`}
                     disabled={!productSizes.includes('P')}
-                    defaultChecked={props["size_id"] == 2 ? true : false}
+                    defaultChecked={props["size_id"] == 2}
+                    onChange={() => selectSize(2)}
                   />
                   <label htmlFor={`size-p-${props.id}`}>P</label>
                 </div>
@@ -79,7 +104,8 @@ export function ProductCartCard(props: ProductInfoCartType) {
                     name={`size-${props.id}`}
                     id={`size-m-${props.id}`}
                     disabled={!productSizes.includes('M')}
-                    defaultChecked={props["size_id"] == 3 ? true : false}
+                    defaultChecked={props["size_id"] == 3}
+                    onChange={() => selectSize(3)}
                   />
                   <label htmlFor={`size-m-${props.id}`}>M</label>
                 </div>
@@ -90,7 +116,8 @@ export function ProductCartCard(props: ProductInfoCartType) {
                     name={`size-${props.id}`}
                     id={`size-g-${props.id}`}
                     disabled={!productSizes.includes('G')}
-                    defaultChecked={props["size_id"] == 4 ? true : false}
+                    defaultChecked={props["size_id"] == 4}
+                    onChange={() => selectSize(4)}
                   />
                   <label htmlFor={`size-g-${props.id}`}>G</label>
                 </div>
@@ -101,7 +128,8 @@ export function ProductCartCard(props: ProductInfoCartType) {
                     name={`size-${props.id}`}
                     id={`size-gg-${props.id}`}
                     disabled={!productSizes.includes('GG')}
-                    defaultChecked={props["size_id"] == 5 ? true : false}
+                    defaultChecked={props["size_id"] == 5}
+                    onChange={() => selectSize(5)}
                   />
                   <label htmlFor={`size-gg-${props.id}`}>GG</label>
                 </div>

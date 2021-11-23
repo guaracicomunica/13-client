@@ -102,6 +102,46 @@ export const CartProvider = ({ children }) => {
         setSubtotal(newSubtotal);
     }
 
+    function selectProductSize(idProductCart: number, idProductSize: number, idSize: number) {
+        const newCartProducts = cartProductList.map(product => {
+            if (product.id == idProductCart) {
+                return {
+                    ...product,
+                    product_size_id: idProductSize
+                }
+            }
+            else {
+                return product;
+            }
+        });
+
+        const newProductInfoList = productInfoList.map(product => {
+            if (product.id == idProductCart) {
+                return {
+                    ...product,
+                    size_id: idSize
+                }
+            }
+            else {
+                return product;
+            }
+        });
+
+        setCartProductList(newCartProducts);
+        setProductInfoList(newProductInfoList);
+
+        updateProductSizeInDatabase(idProductCart, idProductSize);
+    }
+
+    async function updateProductSizeInDatabase(idProductCart: number, idProductSize: number) {
+        await api.put(`carts/product/update-size/${idProductCart}`, {
+            product_size: idProductSize
+        })
+        .catch(function (error) {
+            toast.warning("Não foi possível alterar o tamanho do seu produto. Recarregue a página e tente novamente.");
+        });
+    }
+
     function increaseProductQuantity(idProductCart: number) {
         let quantity = 0;
 
@@ -145,7 +185,7 @@ export const CartProvider = ({ children }) => {
     }
 
     async function updateProductQuantityInDatabase(idProductCart: number, quantity: number) {
-        await api.put(`carts/product/${idProductCart}`, {
+        await api.put(`carts/product/update-quantity/${idProductCart}`, {
             quantity: quantity
         })
         .catch(function (error) {
@@ -209,6 +249,7 @@ export const CartProvider = ({ children }) => {
             loadProductInformation,
             calculatePurchase,
             calculateTotalProductQuantity,
+            selectProductSize,
             increaseProductQuantity,
             decreaseProductQuantity,
             addToCart,
