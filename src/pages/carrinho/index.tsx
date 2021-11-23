@@ -156,6 +156,7 @@ export default function Carrinho(props: CarrinhoPageProps) {
                     <ProductCartCard
                       key={product.id}
                       id={product.id}
+                      product_id={product.product_id}
                       quantity={quantity}
                       title={product.title}
                       description={product.description}

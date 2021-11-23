@@ -10,6 +10,7 @@ export type ProductType = {
 
 export type ProductInfoCartType = {
     id: number;
+    product_id: number;
     quantity: number;
     title: string;
     description: string;
