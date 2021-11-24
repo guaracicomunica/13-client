@@ -4,6 +4,7 @@ export type CartProductType = {
   id: number;
   quantity: number;
   price: number;
+  product_id: number;
   product_size_id: number;
 }
 
