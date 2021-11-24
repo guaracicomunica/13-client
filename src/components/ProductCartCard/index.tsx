@@ -27,9 +27,11 @@ export function ProductCartCard(props: ProductInfoCartType) {
   const api = getAPIClient();
 
   useEffect(() => {
-    getAllProductSizes(props.product_id);
-    getAvailableProductSizes(props.product_id);
-  }, [props]);
+    if (props) {
+      getAllProductSizes(props.product_id);
+      getAvailableProductSizes(props.product_id);
+    }
+  }, []);
 
   async function getAllProductSizes(idProduct: number) {
     const { data: productsSizesData } = await api.get(`product-sizes/${idProduct}`);
