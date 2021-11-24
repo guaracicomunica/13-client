@@ -43,7 +43,6 @@ export default function Carrinho(props: CarrinhoPageProps) {
   const { loading, setLoading } = useContext(LoadingContext);
   const { user } = useContext(AuthContext);
 
-
   const [products, setProducts] = useState<ProductType[]>([]);
 
   useEffect(() => {
@@ -118,61 +117,62 @@ export default function Carrinho(props: CarrinhoPageProps) {
   }
   
   //captura de uma transação
-  async function captureTransactions(tokenIdTransaction: String) {
+  async function captureTransactions(tokenIdTransaction: string) {
     await pagarme.client.connect({ api_key:'ak_test_6JIOewlI2n1O15fQgGgsE0poSDpsSd'})
-      .then( client => 
-        {
-          try {
+      .then(client => {
+        try {
+          let email = user.email.trim();
 
-            var email = user.email.trim();
+          let resp =  client.transactions
+            .capture({ 
+              id: tokenIdTransaction, 
+              amount: realToCentavos(amount)
+            })
+            .then(trans => {
+              let tokenOrIdTransaction = `${trans?.tid}`;
+              let success = true;
 
-            let resp =  client.transactions
-                    .capture({ id: tokenIdTransaction, amount: realToCentavos(amount) })
-                    .then(
-                      trans => {
+              api.post('transaction/sendEmail', { 
+                email, 
+                tokenOrIdTransaction, 
+                success
+              }); // enviar e-mail
 
-                      let tokenOrIdTransaction = `${trans?.tid}`;
+              Router.push('/preparando-produto');
+            })
+            .catch(resp => {
+              let success = false;
+              let tokenOrIdTransaction = tokenIdTransaction;
+              
+              checkout.close();
+              
+              toast.error("Ops! sua compra não foi aprovada.", options);
 
-                      var success = true;
+              client.transactions.refund({ id: tokenIdTransaction });
 
-                      api.post<any, any>('transaction/sendEmail', {  email, tokenOrIdTransaction, success  } ); // enviar e-mail
-                      Router.push('/preparando-produto');  
-                      //console.log(trans);
-                    }).catch( 
-                      resp => 
-                    {
-                      var success = false;
-                      
-                      let tokenOrIdTransaction = tokenIdTransaction;
-                      
-                      checkout.close();
-                      
-                      toast.error("Ops! sua compra não foi aprovada.", options)
+              api.post('transaction/sendEmail', {
+                email, 
+                tokenOrIdTransaction, 
+                success
+              });
+              
+              //client.transactions.refund({ id: tokenIdTransaction }) //estornando o valor
+              return;
+            });
 
-                      client.transactions.refund({ id: tokenIdTransaction })
+          //if(resp?.errors != null && resp?.errors != undefined) throw resp; //lançar erro para o catch
+        } catch (e) { 
+          client.transactions.refund({ id: tokenIdTransaction }) //estornando o valor
 
-                      api.post<any, any>('transaction/sendEmail', {  email, tokenOrIdTransaction, success } );
-                      
-                      //client.transactions.refund({ id: tokenIdTransaction }) //estornando o valor
-                      return;
-                    });
-
-            //if(resp?.errors != null && resp?.errors != undefined) throw resp; //lançar erro para o catch
-            
-          } catch (e) { 
-
-            client.transactions.refund({ id: tokenIdTransaction }) //estornando o valor
-
-            checkout.close();
-            
-            toast.error("Ops! algo não saiu como o esperado", options)
-          }
-        })
+          checkout.close();
+          
+          toast.error("Ops! Algo não saiu como o esperado", options);
+        }
+      });
   }
 
-
   function tryContinuar(){
-    if(!user)  Router.push('/login');  
+    if(!user) Router.push('/login');  
     else openCheckout();
   }
 
