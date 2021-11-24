@@ -66,7 +66,7 @@ export default function Carrinho(props: CarrinhoPageProps) {
   }
 
   function getProductsInfo(idProduct: number) {
-    const product = productInfoList.find(product => product.size_id === idProduct);
+    const product = productInfoList.find(product => product.id === idProduct);
 
     return {
       title: product.title,
