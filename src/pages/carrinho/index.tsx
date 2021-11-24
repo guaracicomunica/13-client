@@ -171,9 +171,31 @@ export default function Carrinho(props: CarrinhoPageProps) {
       });
   }
 
-  function tryContinuar(){
-    if(!user) Router.push('/login');  
-    else openCheckout();
+  function checkProductSizesAreSelected() {
+    const sizelessProducts = cartProductList.filter(product => {
+      if (product["product_size_id"] === null) {
+        return product;
+      }
+    });
+
+    if (sizelessProducts.length > 0) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+
+  function tryContinuar() {
+    if (!user) {
+      Router.push('/login');
+    }
+    else if (!checkProductSizesAreSelected()) {
+      toast.warning("Antes de continuar, selecione o tamanho de todos os produtos.", options);
+    }
+    else {
+      openCheckout();
+    }
   }
 
   return (
