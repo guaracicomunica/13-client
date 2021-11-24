@@ -268,6 +268,7 @@ export default function Carrinho(props: CarrinhoPageProps) {
 
               <div className={`${styles["buttons-cart"]} mt-5`}>
                 <button
+                  disabled={totalQuantity == 0}
                   className="button button-primary"
                   onClick={tryContinuar}
                 >
