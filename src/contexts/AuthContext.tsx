@@ -73,7 +73,9 @@ export function AuthProvider({ children }) {
     api.defaults.headers['Authorization'] = `Bearer ${response.data.access_token}`;
 
     setUser(response.data.user);
-    setCookie(null, 'ecommerce.user', userJson);
+    setCookie(null, 'ecommerce.user', userJson, {
+      maxAge: 60 * 60, // 1 hour
+    });
 
     Router.push('/dashboard');
   }
