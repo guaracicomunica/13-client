@@ -62,7 +62,12 @@ export default function Login() {
               </h1>
             </div>
             <div className="col-sm-12">
-              <form onSubmit={() => handleSubmit(onSubmit)} className={`${styles['w-sm-100']} ${styles['w-md-75']}`}>
+              <form
+                id="login"
+                onSubmit={handleSubmit(onSubmit)}
+                className={`${styles['w-sm-100']} ${styles['w-md-75']}`}
+                method="post"
+              >
                 <div className="form-group">
                   <label htmlFor="email" className={`${styles['label']}`}>E-mail</label>
                   <input type="email" className={`${styles['bg-input']} form-control`} 
@@ -76,7 +81,9 @@ export default function Login() {
                   name="password" placeholder="Digite sua senha" />
                 </div>
                 <div className="form-group d-flex justify-content-center pt-3">
-                  <button type="submit" className="button button-primary">Acessar conta</button>
+                  <button form="login" type="submit" className="button button-primary">
+                    Acessar conta
+                  </button>
                 </div>
               </form>
             </div>
