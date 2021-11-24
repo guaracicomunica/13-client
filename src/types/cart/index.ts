@@ -23,7 +23,7 @@ export type CartContextType = {
   increaseProductQuantity: (idProduct: number) => void;
   decreaseProductQuantity: (idProduct: number) => void;
   selectProductSize: (idProductCart: number, idProductSize: number, idSize: number) => void;
-  addToCart: (cartId: number, idProduct: number) => void;
+  addToCart: (cartId: number, idProduct: number, idProductSize?: number) => void;
   removeFromCart: (idProduct: number) => void;
   clearCart: () => void;
 }

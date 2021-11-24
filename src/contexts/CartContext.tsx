@@ -193,10 +193,11 @@ export const CartProvider = ({ children }) => {
         });
     }
 
-    async function addToCart(cartId: number, idProduct: number) {
+    async function addToCart(cartId: number, idProduct: number, idProductSize?: number) {
         await api.post('carts/product/', {
             cart_id: cartId,
             product_id: idProduct,
+            product_size_id: idProductSize,
             quantity: 1
         })
         .then(function (response) {
