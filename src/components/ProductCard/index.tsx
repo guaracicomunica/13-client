@@ -96,7 +96,7 @@ export function ProductCard(props: ProductType) {
                 <Link href="/carrinho">
                     <a
                         className="button button-secondary"
-                        /*onClick={() => addToCart(cartId, props.productSizeId)}*/
+                        onClick={() => addToCart(cartId, props.id)}
                     >
                         Comprar agora
                     </a>
