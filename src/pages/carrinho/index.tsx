@@ -124,8 +124,6 @@ export default function Carrinho(props: CarrinhoPageProps) {
         {
           try {
 
-            let tokenIdTransaction;
-
             var email = user.email.trim();
 
             let resp =  client.transactions
@@ -133,29 +131,33 @@ export default function Carrinho(props: CarrinhoPageProps) {
                     .then(
                       trans => {
 
-                      tokenIdTransaction = trans?.tid;
+                      let tokenOrIdTransaction = `${trans?.tid}`;
 
                       var success = true;
 
-                      api.post<any, any>('transaction/sendEmail', {  email, tokenIdTransaction, success  } ); // enviar e-mail
+                      api.post<any, any>('transaction/sendEmail', {  email, tokenOrIdTransaction, success  } ); // enviar e-mail
                       Router.push('/preparando-produto');  
                       //console.log(trans);
                     }).catch( 
                       resp => 
                     {
                       var success = false;
-
-                      api.post<any, any>('transaction/sendEmail', {  email, tokenIdTransaction, success } );
                       
-                      //client.transactions.refund({ id: tokenIdTransaction }) //estornando o valor
-
+                      let tokenOrIdTransaction = tokenIdTransaction;
+                      
                       checkout.close();
                       
                       toast.error("Ops! sua compra não foi aprovada.", options)
+
+                      client.transactions.refund({ id: tokenIdTransaction })
+
+                      api.post<any, any>('transaction/sendEmail', {  email, tokenOrIdTransaction, success } );
+                      
+                      //client.transactions.refund({ id: tokenIdTransaction }) //estornando o valor
                       return;
                     });
 
-            //if(resp?.errors != null && resp?.errors != undefined) throw resp;
+            //if(resp?.errors != null && resp?.errors != undefined) throw resp; //lançar erro para o catch
             
           } catch (e) { 
 
@@ -266,7 +268,6 @@ export default function Carrinho(props: CarrinhoPageProps) {
 
               <div className={`${styles["buttons-cart"]} mt-5`}>
                 <button
-                  disabled={totalQuantity == 0}
                   className="button button-primary"
                   onClick={tryContinuar}
                 >
